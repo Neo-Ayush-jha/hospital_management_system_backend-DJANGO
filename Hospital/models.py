@@ -142,7 +142,7 @@ class Doctor(models.Model):
     pin_code=models.IntegerField()
     nationality=models.CharField(max_length=150,choices=(("Indian","Indian"),("Other","Other")))
     address=models.TextField(default=None,blank=True,null=True,)
-    p_image=models.ImageField(upload_to="photo/",null=True,blank=True)
+    d_image=models.ImageField(upload_to="photo/",null=True,blank=True)
     isApproved=models.BooleanField(default=False)
     spacility=models.CharField(max_length=120,choices=DISEASES)
     qualification=models.CharField(max_length=200)

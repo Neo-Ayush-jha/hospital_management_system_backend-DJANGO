@@ -35,7 +35,7 @@
                         {% if request.user.is_authenticated%}
                         <a href="{% url 'about' %}" class="nav-item nav-link text-light active">About</a>
                         <a href="{% url 'newPatient' %}" class="nav-item nav-link text-light active">New patient</a>
-                        <a href="" class="nav-item nav-link text-light active">Admin</a>
+                        <a href="{%url 'dashboard'%}" class="nav-item nav-link text-light active">Admin</a>
                         <a href="{% url 'newDoctor' %}" class="nav-item nav-link text-light active">New doctor</a>
                         <a href="{%url 'logout'%}" class="btn px-4 font-weight-bold text-white mx-2"
                 style="background-color: #17a2b8;font-family: Handlee, cursive;">Logout</a>

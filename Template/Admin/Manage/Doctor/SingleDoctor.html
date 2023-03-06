@@ -1,0 +1,86 @@
+{% extends 'admin/adminBase.html'%}
+{% block 'admin-content' %}
+    <div class="contaner">
+        <div class="row">
+            <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
+                <div class="row border-bottom border-3 border-dark ">
+                    <div class="col-8 border-end "><h1 class="fs-1">View Doctor</h1></div>
+                    <div class="col-4">
+                        {%if doctor.isApproved == False %}
+                        <a href="{%url 'approveDoctor' doctor.id%}" class="btn btn-success">Approve</a>
+                        {%endif%}
+                        <a href="{%url 'deleteDoctor' doctor.id%}" class="btn btn-danger">Delete</a>
+                        <a href="{%url 'editDoctor' doctor.id%}" class="btn btn-info">Edit</a>
+                    </div>
+                </div>
+                
+                <table class="table mt-3">
+                    <tr class="border border-dark">
+                        <th>Full name</th>
+                        <td class="border border-dark">{{doctor.first_name}}{{doctor.last_name}}</td>
+                        <td colspan="2" class="border border-dark" rowspan="4"><img src="{{doctor.d_image.url}}" height="215px"  class="rounded-circle" alt=""></td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Father name</th>
+                        <td class="border border-dark">{{doctor.father_name}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Mother name</th>
+                        <td class="border border-dark">{{doctor.mother_name}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Cabil number</th>
+                        <td class="border border-dark">{{doctor.cabil}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Gender</th>
+                        <td class="border border-dark">{{doctor.gender}}</td>
+                        <th>Pin Code</th>
+                        <td class="border border-dark">{{doctor.pin_code}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>DOB</th>
+                        <td class="border border-dark">{{doctor.dob}}</td>
+                        <th>Contact</th>
+                        <td class="border border-dark">{{doctor.contact}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>City</th>
+                        <td class="border border-dark">{{doctor.city}}</td>
+                        <th>State</th>
+                        <td class="border border-dark">{{doctor.state}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Address</th>
+                        <td class="border border-dark">{{doctor.address}}</td>
+                    
+                        <th>Approve</th>
+                        <td class="border border-dark">{{doctor.isApproved}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Payment</th>
+                        <td class="border border-dark"><input type="submit" id="pay_btn" value="Payment" class="btn btn-outline-danger"></td>
+                        <th>Resume</th>
+                        <td class="border border-dark"><input type="submit" id="pay_btn" value="Resume" class="btn btn-outline-primary"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
+                <h1>My Payments </h1>
+                <table class="table mt-3">
+                    <tr>
+                        <th>id</th>
+                        <th>month</th>
+                        <th>amount</th>
+                        <th>status</th>
+                        <th>date of payment</th>
+                        <th>action</th>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>
+    </div>
+
+   
+{% endblock 'admin-content' %}
