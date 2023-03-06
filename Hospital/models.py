@@ -118,7 +118,7 @@ class Patient(models.Model):
     pin_code=models.IntegerField()
     nationality=models.CharField(max_length=150,choices=(("Indian","Indian"),("Other","Other")))
     address=models.TextField(default=None,blank=True,null=True,)
-    room_no=models.ForeignKey("Room",on_delete=models.CASCADE)
+    room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
     p_image=models.ImageField(upload_to="photo/",null=True,blank=True)
     isApproved=models.BooleanField(default=False)
     problem=models.CharField(max_length=120,choices=DISEASES)
@@ -147,7 +147,7 @@ class Doctor(models.Model):
     spacility=models.CharField(max_length=120,choices=DISEASES)
     qualification=models.CharField(max_length=200)
     dateOfJoin=models.DateField(default=None,blank=True,null=True)
-    salary = models.IntegerField(max_length=100, default=None,blank=True,null=True,)
+    salary = models.IntegerField(default=None,blank=True,null=True,)
     cableNumber=models.CharField(max_length=12,choices=CABIL_NUMBER,default=None,null=True,blank=True)
     def __str__(self):
         return self.first_name + " - " + self.last_name
