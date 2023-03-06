@@ -1,0 +1,85 @@
+{% extends 'admin/adminBase.html'%}
+{% block 'admin-content' %}
+    <div class="contaner">
+        <div class="row">
+            <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
+                <div class="row border-bottom border-3 border-dark ">
+                    <div class="col-8 border-end "><h1 class="fs-1">View patient</h1></div>
+                    <div class="col-4">
+                        {%if patient.isApproved == True %}
+                        <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
+                        {%endif%}
+                        <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
+                    </div>
+                </div>
+                
+                <table class="table mt-3">
+                    <tr class="border border-dark">
+                        <th>Full name</th>
+                        <td class="border border-dark">{{patient.first_name}}{{patient.last_name}}</td>
+                        <td colspan="2" class="border border-dark" rowspan="4"><img src="{{patient.p_image.url}}" height="215px"  class="rounded-circle" alt=""></td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Father name</th>
+                        <td class="border border-dark">{{patient.father_name}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Mother name</th>
+                        <td class="border border-dark">{{patient.mother_name}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Blood group</th>
+                        <td class="border border-dark">{{patient.blood_group}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Gender</th>
+                        <td class="border border-dark">{{patient.gender}}</td>
+                        <th>Pin Code</th>
+                        <td class="border border-dark">{{patient.pin_code}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>DOB</th>
+                        <td class="border border-dark">{{patient.dob}}</td>
+                        <th>Contact</th>
+                        <td class="border border-dark">{{patient.contact}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>City</th>
+                        <td class="border border-dark">{{patient.city}}</td>
+                        <th>State</th>
+                        <td class="border border-dark">{{patient.state}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Address</th>
+                        <td class="border border-dark">{{patient.address}}</td>
+                    
+                        <th>Room number</th>
+                        <td class="border border-dark">{{patient.room_no}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Bill</th>
+                        <td class="border border-dark"><input type="submit" id="pay_btn" value="Payment" class="btn btn-outline-danger"></td>
+                        <th>Report</th>
+                        <td class="border border-dark"><input type="submit" id="pay_btn" value="Report" class="btn btn-outline-primary"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
+                <h1>My Payments </h1>
+                <table class="table mt-3">
+                    <tr>
+                        <th>id</th>
+                        <th>month</th>
+                        <th>amount</th>
+                        <th>status</th>
+                        <th>date of payment</th>
+                        <th>action</th>
+                    </tr>
+                   
+                </table>
+            </div>
+        </div>
+    </div>
+
+   
+{% endblock 'admin-content' %}

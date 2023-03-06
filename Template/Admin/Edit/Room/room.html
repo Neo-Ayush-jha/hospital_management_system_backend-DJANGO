@@ -1,0 +1,15 @@
+{% extends 'admin/adminBase.html'%}
+{% block 'admin-content' %}
+    <div class="contaner">
+        <div class="row">
+            <div class="col-10 border mt-2 border-3 p-3 border-dark mx-auto">
+                <h1 class="fs-1">Update data: {{form.room_no}}</h1>
+                <form action="" enctype="multipart/form-data" method="post">
+                    {%csrf_token%}
+                    {{form.as_p}}
+                    <input type="submit" value="Update" class="btn btn-warning w-100">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

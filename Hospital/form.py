@@ -27,4 +27,16 @@ class ReportForm(ModelForm):
 class RoomForm(ModelForm):
     class Meta:
         model=Room
+        exclude=("isAvailable",)
+class EditRoomForm(ModelForm):
+    class Meta:
+        model=Room
+        fields="__all__"
+class CabilForm(ModelForm):
+    class Meta:
+        model=CABIL
+        exclude=("isAvailable",)
+class EditCabilForm(ModelForm):
+    class Meta:
+        model=CABIL
         fields="__all__"

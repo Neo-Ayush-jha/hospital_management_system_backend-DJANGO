@@ -100,6 +100,12 @@ CITY = (
 )
 class Room(models.Model):
     room_no=models.CharField(max_length=12,choices=ROOM_NO)
+    isAvailable=models.BooleanField(default=True)
+    def __str__(self):
+        return self.room_no    
+class CABIL(models.Model):
+    CABIL_NUMBER=models.CharField(max_length=12,choices=CABIL_NUMBER)
+    isAvailable=models.BooleanField(default=True)
     def __str__(self):
         return self.room_no    
 
@@ -120,7 +126,7 @@ class Patient(models.Model):
     address=models.TextField(default=None,blank=True,null=True,)
     room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
     p_image=models.ImageField(upload_to="photo/",null=True,blank=True)
-    isApproved=models.BooleanField(default=False)
+    isApproved=models.BooleanField(default=True)
     problem=models.CharField(max_length=120,choices=DISEASES)
     dateOfAdmission=models.DateTimeField(auto_now_add=True)
     dateOfDischarge=models.DateField(help_text="use MM/DD/YYYY format",default=None,blank=True,null=True)
@@ -148,7 +154,7 @@ class Doctor(models.Model):
     qualification=models.CharField(max_length=200)
     dateOfJoin=models.DateField(default=None,blank=True,null=True)
     salary = models.IntegerField(default=None,blank=True,null=True,)
-    cableNumber=models.CharField(max_length=12,choices=CABIL_NUMBER,default=None,null=True,blank=True)
+    cableNumber=models.ForeignKey("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
     def __str__(self):
         return self.first_name + " - " + self.last_name
 

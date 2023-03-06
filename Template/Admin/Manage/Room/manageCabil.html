@@ -1,0 +1,42 @@
+{% extends 'admin/adminBase.html'%}
+{% block 'admin-content' %}
+    <div class="contaner">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-title fs-1">Add Cabil</div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {%csrf_token%}
+                            {{form.as_p}}
+                            <input type="submit" value="Add cabil" class="btn btn-success w-100">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    {%for room in cabinDetail%}
+                        {%if room.isAvailable == True %}
+                            <div class="col-3 mt-2">
+                                <div class="card border border-success">
+                                    <div class="card-body">
+                                        <a href="{%url 'editCabilDetails' room.id%}" class="btn fs-1">{{room.CABIL_NUMBER}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {%else%}
+                            <div class="col-3 mt-2">
+                                <div class="card border border-danger">
+                                    <div class="card-body">
+                                        <a href="{%url 'editCabilDetails' room.id%}" class="btn fs-1">{{room.CABIL_NUMBER}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {%endif%}
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

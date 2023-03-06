@@ -78,4 +78,62 @@ def editDoctor(req,id):
             form.save()
             return redirect(manageOldDoctor)
     return render(req,"Admin/Edit/Doctor/doctor.html",{'form':form})
-    
+def managePation(req):
+    data={}
+    data['title']="Patient"
+    data['patient']=Patient.objects.filter(isApproved=True)
+    return render(req,"Admin/Manage/Patient/managePatient.html",data)
+def manageOldPation(req):
+    data={}
+    data['title']="Patient old"
+    data['patient']=Patient.objects.filter(isApproved=False)
+    return render(req,"Admin/Manage/Patient/managePatient.html",data)
+def viewPation(req,id):
+    patient=Patient.objects.get(pk=id)
+    return render(req,"Admin/Manage/Patient/SinglePatient.html",{"patient":patient})
+def editPation(req,id):
+    patient=Patient.objects.get(pk=id)
+    form=EditPatientForm(req.POST or None,req.FILES or None,instance=patient)
+    if req.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect(managePation)
+    return render(req,"Admin/Edit/Patient/patient.html",{'form':form})
+def roomDetails(req):
+    form = RoomForm(req.POST or None)
+    data={}
+    data['title']="Room Details"
+    data['form']=form
+    if req.method=="POST":
+        if form.is_valid():
+            form.save()
+            return redirect(roomDetails)
+    data['roomDetail']=Room.objects.all()
+    return render(req,"Admin/Manage/Room/manageRoom.html",data)
+def editRoomDetails(req,id):
+    roomDetail=Room.objects.get(pk=id)
+    form=EditRoomForm(req.POST or None,instance=roomDetail)
+    if req.method=="POST":
+        if form.is_valid():
+            form.save()
+            return redirect(roomDetails)
+    return render(req,"Admin/Edit/Room/room.html",{"form":form})
+def cabilDetails(req):
+    form = CabilForm(req.POST or None)
+    data={}
+    data['title']="Room Details"
+    data['form']=form
+    if req.method=="POST":
+        if form.is_valid():
+            form.save()
+            return redirect(cabilDetails)
+    data['cabinDetail']=CABIL.objects.all()
+    return render(req,"Admin/Manage/Room/manageCabil.html",data)
+def editCabilDetails(req,id):
+    roomDetail=CABIL.objects.get(pk=id)
+    form=EditCabilForm(req.POST or None,instance=roomDetail)
+    if req.method=="POST":
+        if form.is_valid():
+            form.save()
+            return redirect(cabilDetails)
+    return render(req,"Admin/Edit/Room/cabil.html",{"form":form})
