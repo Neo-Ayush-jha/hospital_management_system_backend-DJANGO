@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate,login as loginfunction , logout as 
 # ---------------------------------->>>HOME<<<-----------------------------------------#
 def home(req):
     return render(req,"Patient/baseHome.html")
-def about(req):
-    return render(req,"Patient/about.html")
+def health(req):
+    return render(req,"Patient/health.html")
 # ---------------------------------->>>PATIENT<<<-----------------------------------------#
 def newPatient(req):
     form = PatientForm(req.POST or None, req.FILES or None)
@@ -43,7 +43,7 @@ def login(req):
                 return redirect(adminHome)
             else:
                 return redirect(login)
-    return render(req,"Admin/Form/loginForm.html",{"form":LoginForm})
+    return render(req,"Patient/login.html",{"form":LoginForm})
 @login_required
 def logout(req):
     logoutfunction(req)
