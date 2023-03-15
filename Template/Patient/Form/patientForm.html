@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{%load crispy_forms_tags%}
 {% block 'content' %}
 {% load static%}
 <div
@@ -27,7 +28,8 @@
           <div class="contact_box">
             <h1 class="book_text">Book Appoinment</h1>
             <form action=""  class="py-0" enctype="multipart/form-data" method="post">
-              {%csrf_token%} {{form.as_p}}
+              {%csrf_token%}
+              {{form|crispy}}
               <input
                 type="submit"
                 value="Login admin"

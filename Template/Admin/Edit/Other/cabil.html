@@ -1,12 +1,13 @@
 {% extends 'admin/adminBase.html'%}
+{%load crispy_forms_tags%}
 {% block 'admin-content' %}
     <div class="contaner">
         <div class="row">
             <div class="col-10 border mt-2 border-3 p-3 border-dark mx-auto">
-                <h1 class="fs-1">Update data: {{form.room_no}}</h1>
+                <h1 class="fs-1">Update data: {{form.CABIL_NUMBER}}</h1>
                 <form action="" enctype="multipart/form-data" method="post">
                     {%csrf_token%}
-                    {{form.as_p}}
+                    {{form|crispy}}
                     <input type="submit" value="Update" class="btn btn-warning w-100">
                 </form>
             </div>

@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
 from .form import * 
 from .models import *
+from datetime import datetime
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login as loginfunction , logout as logoutfunction
 
@@ -22,9 +25,34 @@ def newPatient(req):
 def newDoctor(req):
     form = DoctorForm(req.POST or None, req.FILES or None)
     if req.method == "POST":
-        if form.is_valid():
-            form.save()
-            return redirect(home)
+        u = User()
+        u.email=req.POST.get('email')
+        u.username=req.POST.get('username')
+        u.set_password(req.POST.get('password'))
+        u.is_active =True
+        u.is_staff=True
+        u.save()
+
+        a=Doctor()
+        a.user=u
+        a.father_name=req.POST.get('father_name')
+        a.mother_name=req.POST.get('mother_name')
+        a.age=req.POST.get('age')
+        a.dob=req.POST.get('dob')
+        a.blood_group=req.POST.get('blood_group')
+        a.contact=req.POST.get('contact')
+        a.city=req.POST.get('city')
+        a.state=req.POST.get('state')
+        a.gender=req.POST.get('gender')
+        a.pin_code=req.POST.get('pin_code')
+        a.nationality=req.POST.get('nationality')
+        a.address=req.POST.get('address')
+        a.d_image=req.FILES.get("d_image")
+        a.spacility=req.POST.get('spacility')
+        a.qualification=req.POST.get('qualification')
+        a.qualification=req.POST.get('qualification')
+        a.save()
+        return redirect(home)
     return render(req,"Doctor/Form/doctorForm.html",{'form':form})
 # ---------------------------------->>>ADMIN<<<-----------------------------------------#
 @login_required
@@ -64,6 +92,7 @@ def viewDoctor(req,id):
 def approveDoctor(req,id):
     doctor=Doctor.objects.get(id=id,isApproved=False)
     doctor.isApproved=True
+    doctor.dateOfJoin=datetime.now()
     doctor.save()
     return redirect(manageOldDoctor)
 def deleteDoctor(r,id):
@@ -88,9 +117,24 @@ def manageOldPation(req):
     data['title']="Patient old"
     data['patient']=Patient.objects.filter(isApproved=False)
     return render(req,"Admin/Manage/Patient/managePatient.html",data)
+@login_required
 def viewPation(req,id):
     patient=Patient.objects.get(pk=id)
-    return render(req,"Admin/Manage/Patient/SinglePatient.html",{"patient":patient})
+    test=Test.objects.all()
+    doctor=Doctor.objects.get(pk=req.user.id)
+    form = ReportForm(req.POST or None,instance=doctor)
+    if req.method=="POST":
+        if form.is_valid():
+            form=Report()
+            form.test_name=req.POST.get('test_name')
+            form.patient=patient
+            form.doctor=doctor
+            form.report=req.POST.get('report')
+            form.test_price=req.POST.get('test_price')
+            form.save()
+            return redirect(managePation)
+    report=Report.objects.all()
+    return render(req,"Admin/Manage/Patient/SinglePatient.html",{"patient":patient,"form":form,"report":report,'test':test})
 def editPation(req,id):
     patient=Patient.objects.get(pk=id)
     form=EditPatientForm(req.POST or None,req.FILES or None,instance=patient)
@@ -109,7 +153,7 @@ def roomDetails(req):
             form.save()
             return redirect(roomDetails)
     data['roomDetail']=Room.objects.all()
-    return render(req,"Admin/Manage/Room/manageRoom.html",data)
+    return render(req,"Admin/Manage/Other/manageRoom.html",data)
 def editRoomDetails(req,id):
     roomDetail=Room.objects.get(pk=id)
     form=EditRoomForm(req.POST or None,instance=roomDetail)
@@ -117,18 +161,18 @@ def editRoomDetails(req,id):
         if form.is_valid():
             form.save()
             return redirect(roomDetails)
-    return render(req,"Admin/Edit/Room/room.html",{"form":form})
+    return render(req,"Admin/Edit/Other/room.html",{"form":form})
 def cabilDetails(req):
     form = CabilForm(req.POST or None)
     data={}
-    data['title']="Room Details"
+    data['title']="Cabil Details"
     data['form']=form
     if req.method=="POST":
         if form.is_valid():
             form.save()
             return redirect(cabilDetails)
     data['cabinDetail']=CABIL.objects.all()
-    return render(req,"Admin/Manage/Room/manageCabil.html",data)
+    return render(req,"Admin/Manage/Other/manageCabil.html",data)
 def editCabilDetails(req,id):
     roomDetail=CABIL.objects.get(pk=id)
     form=EditCabilForm(req.POST or None,instance=roomDetail)
@@ -136,4 +180,39 @@ def editCabilDetails(req,id):
         if form.is_valid():
             form.save()
             return redirect(cabilDetails)
-    return render(req,"Admin/Edit/Room/cabil.html",{"form":form})
+    return render(req,"Admin/Edit/Other/cabil.html",{"form":form})
+
+def tests(req):
+    form=TestForm(req.POST or None)
+    data={}
+    data['title']="All test's"
+    data['form']=form
+    if req.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect(tests)
+    data['test']=Test.objects.all()
+    return render(req,"Admin/Manage/other/manageTest.html",data)
+
+# def patientReport(req,id):
+#     form = ReportForm(req.POST or None)
+#     data={}
+#     data['form']=form
+#     data['test']=Test.objects.all()
+#     data['patient']=Patient.objects.get(pk=id)
+#     data['doctor']=Doctor.objects.get(user=req.user.id)
+#     if req.method=="POST":
+#         if form.is_valid():
+#             form.save()
+#         t=Report()
+#         test=Test.objects.all()
+#         patient=Patient.objects.get(pk=id)
+#         doctor=Doctor.objects.get(user=req.user.id)
+#         t.test_name=test
+#         t.patient=patient
+#         t.doctor=doctor
+#         t.report=req.POST.get('report')
+#         t.test_price=req.POST.get('test_price')
+#         t.save()
+#         return redirect(managePation)
+#     return render(req,"Admin/Manage/Patient/SinglePatient.html",data)

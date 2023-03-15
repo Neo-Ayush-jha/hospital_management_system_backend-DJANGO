@@ -28,14 +28,14 @@
                     {% for stu in doctor %}
                         <tr>
                             <td>{{stu.id}}</td>
-                            <td>{{stu.first_name}} {{stu.last_name}}</td>
+                            <td>{{stu.user.username}}</td>
                             <td>{{stu.father_name}}</td>
                             <td>{{stu.mother_name}}</td>
                             <td>{{stu.dob}} </td>
-                            <td>{%if stu.isApproved %}
-                                    <a href="" class="text-dark">{{stu.cabil }}</a>
+                            <td>{%if stu.cableNumber == None%}
+                                    <a href="" class="text-dark">{{stu.cableNumber }}</a>
                                 {%else%}    
-                                    {{stu.cabil}}
+                                    {{stu.cableNumber}}
                                 {%endif%}
                             </td>
                             <td>{{stu.contact}}</td>

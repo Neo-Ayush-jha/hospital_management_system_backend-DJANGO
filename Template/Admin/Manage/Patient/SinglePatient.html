@@ -1,85 +1,136 @@
-{% extends 'admin/adminBase.html'%}
-{% block 'admin-content' %}
-    <div class="contaner">
-        <div class="row">
-            <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
-                <div class="row border-bottom border-3 border-dark ">
-                    <div class="col-8 border-end "><h1 class="fs-1">View patient</h1></div>
-                    <div class="col-4">
-                        {%if patient.isApproved == True %}
-                        <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
-                        {%endif%}
-                        <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
-                    </div>
+{% extends 'admin/adminBase.html'%}{%load crispy_forms_tags%} {% block 'admin-content' %}
+<div class="contaner">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 border mt-2 border-3 p-3 border-dark mx-auto">
+            <div class="row border-bottom border-3 border-dark">
+                <div class="col-8 border-end">
+                    <h1 class="fs-1">View patient</h1>
                 </div>
-                
-                <table class="table mt-3">
-                    <tr class="border border-dark">
-                        <th>Full name</th>
-                        <td class="border border-dark">{{patient.first_name}}{{patient.last_name}}</td>
-                        <td colspan="2" class="border border-dark" rowspan="4"><img src="{{patient.p_image.url}}" height="215px"  class="rounded-circle" alt=""></td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>Father name</th>
-                        <td class="border border-dark">{{patient.father_name}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>Mother name</th>
-                        <td class="border border-dark">{{patient.mother_name}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>Blood group</th>
-                        <td class="border border-dark">{{patient.blood_group}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>Gender</th>
-                        <td class="border border-dark">{{patient.gender}}</td>
-                        <th>Pin Code</th>
-                        <td class="border border-dark">{{patient.pin_code}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>DOB</th>
-                        <td class="border border-dark">{{patient.dob}}</td>
-                        <th>Contact</th>
-                        <td class="border border-dark">{{patient.contact}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>City</th>
-                        <td class="border border-dark">{{patient.city}}</td>
-                        <th>State</th>
-                        <td class="border border-dark">{{patient.state}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>Address</th>
-                        <td class="border border-dark">{{patient.address}}</td>
-                    
-                        <th>Room number</th>
-                        <td class="border border-dark">{{patient.room_no}}</td>
-                    </tr>
-                    <tr class="border border-dark">
-                        <th>Bill</th>
-                        <td class="border border-dark"><input type="submit" id="pay_btn" value="Payment" class="btn btn-outline-danger"></td>
-                        <th>Report</th>
-                        <td class="border border-dark"><input type="submit" id="pay_btn" value="Report" class="btn btn-outline-primary"></td>
-                    </tr>
-                </table>
+                <div class="col-4">
+                    {%if patient.isApproved == True %}
+                    <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
+                    {%endif%}
+                    <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
+                </div>
             </div>
-            <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
-                <h1>My Payments </h1>
-                <table class="table mt-3">
-                    <tr>
-                        <th>id</th>
-                        <th>month</th>
-                        <th>amount</th>
-                        <th>status</th>
-                        <th>date of payment</th>
-                        <th>action</th>
-                    </tr>
-                   
-                </table>
+
+            <table class="table mt-3">
+                <tr class="border border-dark">
+                    <th>Full name</th>
+                    <td class="border border-dark">
+                        {{patient.first_name}}{{patient.last_name}}
+                    </td>
+                    <td colspan="2" class="border border-dark text-center" rowspan="4">
+                        <img src="{{patient.p_image.url}}" style="height: 215px" class="rounded-circle" alt="" />
+                    </td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Father name</th>
+                    <td class="border border-dark">{{patient.father_name}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Mother name</th>
+                    <td class="border border-dark">{{patient.mother_name}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Blood group</th>
+                    <td class="border border-dark">{{patient.blood_group}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Gender</th>
+                    <td class="border border-dark">{{patient.gender}}</td>
+                    <th>Pin Code</th>
+                    <td class="border border-dark">{{patient.pin_code}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>DOB</th>
+                    <td class="border border-dark">{{patient.dob}}</td>
+                    <th>Contact</th>
+                    <td class="border border-dark">{{patient.contact}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>City</th>
+                    <td class="border border-dark">{{patient.city}}</td>
+                    <th>State</th>
+                    <td class="border border-dark">{{patient.state}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Address</th>
+                    <td class="border border-dark">{{patient.address}}</td>
+
+                    <th>Room number</th>
+                    <td class="border border-dark">{{patient.room_no}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Problem</th>
+                    <td class="border border-dark text-danger fs-4">
+                        {{patient.problem}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-12 col-sm-12 mx-auto">
+            <div class="row gap-1">
+                <div class="col-lg-6 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+                    <h1>Patient test's list</h1>
+                    <form action="" method="post">
+                        {%csrf_token%}
+                        {{form|crispy}}
+                        <!-- <div id="div_id_test_name" class="mb-3">
+                            <label for="id_test_name" class="form-label"> Test name </label>
+                            <select name="test_name" class="select form-select" id="id_test_name">
+                                <option value="" selected="">---------</option>
+                                {%for test in test%}
+                                <option value="{{test.id}}">{{test.test_name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div id="div_id_report" class="mb-3">
+                            <label for="id_report" class="form-label"> Report </label>
+                            <textarea name="report" cols="20" rows="10" class="textarea form-control"
+                                id="id_report"></textarea>
+                        </div>
+                        <div id="div_id_test_price" class="mb-3">
+                            <label for="id_test_price" class="form-label requiredField">Test price<span class="asteriskField">*</span></label>
+                            <input type="number" name="test_price" class="numberinput form-control" required=""
+                                id="id_test_price" />
+                        </div>
+                        <div id="div_id_action" class="mb-3">
+                            <label for="id_action" class="form-label"> Action </label>
+                            <select name="action" class="nullbooleanselect form-select" id="id_action">
+                                <option value="unknown" selected="">Unknown</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div> -->
+
+                        <input type="submit" value="submit" class="btn btn-success" />
+                    </form>
+                </div>
+                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+                    <h1>Patient Reports list</h1>
+                    <table class="table mt-3 table-sm">
+                        <tr>
+                            <th>id</th>
+                            <th>Test name</th>
+                            <th>Test fee</th>
+                            <th>Reports</th>
+                            <th>action</th>
+                        </tr>
+                        {% for report in report %}
+                        <tr>
+                            <td>1</td>
+                            <td>{{report.test_name.test_name}}</td>
+                            <td>{{report.test_price}}</td>
+                            <td>{{report.report}}</td>
+                            <td>{{report.doctor}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-   
 {% endblock 'admin-content' %}

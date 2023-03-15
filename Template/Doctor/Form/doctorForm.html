@@ -1,8 +1,5 @@
-{% extends 'base.html' %} {% block 'content' %} {% load static%}
-<div
-  class="contact_section layout_padding py-0"
-  style="background-image: url('{% static 'contact-bg.png'%}')"
->
+{% extends 'base.html' %}{%load crispy_forms_tags%}{% block 'content' %} {% load static%}
+<div class="contact_section layout_padding py-0" style="background-image: url('{% static 'contact-bg.png'%}')">
   <div class="container">
     <h1 class="contact_taital">What we do</h1>
     <div class="news_section_2">
@@ -25,12 +22,138 @@
           <div class="contact_box">
             <h1 class="book_text">Apply for Doctor jobe</h1>
             <form action="" enctype="multipart/form-data" method="post">
-              {%csrf_token%} {{form.as_p}}
-              <input
-                type="submit"
-                value="Login admin"
-                class="btn btn-success w-100"
-              />
+              {%csrf_token%}
+              
+              <div id="div_id_username" class="mb-3"> <label for="id_username" class="form-label requiredField">
+                  Doctor name </label> <input type="text" name="username" maxlength="150" class="textinput form-control"
+                  required="" id="id_username"> </div>
+              <div id="div_id_email" class="mb-3"> <label for="id_email" class="form-label requiredField">
+                  Email </label> <input type="email" name="email" maxlength="150" class="textinput form-control"
+                  required="" id="id_email"> </div>
+              <div id="div_id_father_name" class="mb-3"> <label for="id_father_name" class="form-label requiredField">
+                  Father name </label> <input type="text" name="father_name" maxlength="150"
+                  class="textinput form-control" required="" id="id_father_name"> </div>
+              <div id="div_id_mother_name" class="mb-3"> <label for="id_mother_name" class="form-label requiredField">
+                  Mother name </label> <input type="text" name="mother_name" maxlength="150"
+                  class="textinput form-control" required="" id="id_mother_name"> </div>
+              <div id="div_id_age" class="mb-3"> <label for="id_age" class="form-label requiredField">
+                  Age </label> <input type="number" name="age" class="numberinput form-control" required="" id="id_age">
+              </div>
+              <div id="div_id_gender" class="mb-3"> <label for="id_gender" class="form-label requiredField">
+                  Gender </label> <select name="gender" class="select form-select" required="" id="id_gender">
+                  <option value="" selected="">---------</option>
+                  <option value="Mail">Mail</option>
+                  <option value="Femail">Femail</option>
+                  <option value="Other">Other</option>
+
+                </select> </div>
+              <div id="div_id_dob" class="mb-3"> <label for="id_dob" class="form-label requiredField">
+                  Dob </label> <input type="date" name="dob" class="dateinput form-control" required="" id="id_dob">
+                <div id="hint_id_dob" class="form-text">use MM/DD/YYYY format</div>
+              </div>
+              <div id="div_id_blood_group" class="mb-3"> <label for="id_blood_group" class="form-label requiredField">
+                  Blood group </label> <select name="blood_group" class="select form-select" required=""
+                  id="id_blood_group">
+                  <option value="" selected="">---------</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+
+                </select> </div>
+              <div id="div_id_contact" class="mb-3"> <label for="id_contact" class="form-label requiredField">
+                  Contact </label> <input type="number" name="contact" class="numberinput form-control" required=""
+                  id="id_contact"> </div>
+              <div id="div_id_city" class="mb-3"> <label for="id_city" class="form-label requiredField">
+                  City </label> <select name="city" class="select form-select" required="" id="id_city">
+                  <option value="" selected="">---------</option>
+                  <option value="Purnea">Purnea</option>
+                  <option value="Patna">Patna</option>
+                  <option value="Bhagalpur">Bhagalpur</option>
+                  <option value="Bhopal">Bhopal</option>
+                  <option value="indore">indore</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Jalandher">Jalandher</option>
+                  <option value="Dharbhanga">Dharbhanga</option>
+                  <option value="Rachi">Rachi</option>
+
+                </select> </div>
+              <div id="div_id_state" class="mb-3"> <label for="id_state" class="form-label requiredField">
+                  State </label> <select name="state" class="select form-select" required="" id="id_state">
+                  <option value="" selected="">---------</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Punjab">Punjab</option>
+
+                </select> </div>
+              <div id="div_id_pin_code" class="mb-3"> <label for="id_pin_code" class="form-label requiredField">
+                  Pin code </label> <input type="number" name="pin_code" class="numberinput form-control" required=""
+                  id="id_pin_code"> </div>
+              <div id="div_id_nationality" class="mb-3"> <label for="id_nationality" class="form-label requiredField">
+                  Nationality </label> <select name="nationality" class="select form-select" required=""
+                  id="id_nationality">
+                  <option value="" selected="">---------</option>
+                  <option value="Indian">Indian</option>
+                  <option value="Other">Other</option>
+
+                </select> </div>
+              <div id="div_id_address" class="mb-3"> <label for="id_address" class="form-label">
+                  Address
+                </label> <textarea name="address" cols="40" rows="10" class="textarea form-control"
+                  id="id_address"></textarea>
+              </div>
+              <div id="div_id_d_image" class="mb-3"> <label for="id_d_image" class="form-label">
+                  D image
+                </label>
+                <div> <input type="file" name="d_image" class="form-control" accept="image/*" id="id_d_image"> </div>
+              </div>
+              <div id="div_id_spacility" class="mb-3"> <label for="id_spacility" class="form-label requiredField">
+                  Spacility </label> <select name="spacility" class="select form-select" required="" id="id_spacility">
+                  <option value="" selected="">---------</option>
+                  <option value="Heart disease">Heart disease</option>
+                  <option value="Liver disease">Liver disease</option>
+                  <option value="Kidney disease">Kidney disease</option>
+                  <option value="Brain disease">Brain disease</option>
+                  <option value="Neurological problem">Neurological problem</option>
+                  <option value="Acidity">Acidity</option>
+                  <option value="Appendicitis">Appendicitis</option>
+                  <option value="Dyspepsia">Dyspepsia</option>
+                  <option value="Food poisoning">Food poisoning</option>
+                  <option value="Food Gastritis">Food Gastritis</option>
+                  <option value="Food IBS">Food IBS</option>
+                  <option value="Peptic ulcer">Peptic ulcer</option>
+                  <option value="Food allergy">Food allergy</option>
+                  <option value="Respiratory disease">Respiratory disease</option>
+                  <option value="Eye conditions">Eye conditions</option>
+                  <option value="Endocrin diseases">Endocrin diseases</option>
+                  <option value="Nerve disorders">Nerve disorders</option>
+                  <option value="Blood diseases">Blood diseases</option>
+                  <option value="Bone or joint diseases">Bone or joint diseases</option>
+                  <option value="Skin diseases">Skin diseases</option>
+                  <option value="Cancer">Cancer</option>
+                  <option value="Autoimmune diseases">Autoimmune diseases</option>
+                  <option value="Other diseases">Other diseases</option>
+
+                </select> </div>
+              <div id="div_id_qualification" class="mb-3"> <label for="id_qualification"
+                  class="form-label requiredField">
+                  Qualification </label> <input type="text" name="qualification" maxlength="200"
+                  class="textinput form-control" required="" id="id_qualification"> </div>
+              <div id="div_id_password" class="mb-3"> <label for="id_qualification"
+                  class="form-label requiredField">
+                  Password </label><input type="password" name="password" placeholder="Enter Password" class="form-control my-2">
+                  </div>
+              <div id="div_id_cnf_password" class="mb-3"> <label for="id_qualification"
+                  class="form-label requiredField">
+                  Confirm Password </label> <input type="password" name="cnf_password" placeholder="Confirm Password" class="form-control"></div>
+
+              <input type="submit" value="Login admin" class="btn btn-success w-100">
             </form>
           </div>
         </div>

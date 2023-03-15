@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 GENDER=(
     ("Mail","Mail"),
@@ -98,6 +99,20 @@ CITY = (
     ("Dharbhanga", "Dharbhanga"),
     ("Rachi", "Rachi"),
 )
+TEST=(
+    ("blood count","blood count"),
+    ("blood typing","blood typing"),
+    ("glucose tolerance test","glucose tolerance test"),
+    ("thymol turbidity","thymol turbidity"),
+    ("liver function test","liver function test"),
+    ("kidney function test","kidney function test"),
+    ("lumbar puncture","lumbar puncture"),
+    ("toxicology test","toxicology test"),
+    ("angiocardiography","angiocardiography"),
+    ("cholecystography","cholecystography"),
+    ("ECG","ECG"),
+    ("X-ray","X-ray"),
+)
 class Room(models.Model):
     room_no=models.CharField(max_length=12,choices=ROOM_NO)
     isAvailable=models.BooleanField(default=True)
@@ -107,35 +122,15 @@ class CABIL(models.Model):
     CABIL_NUMBER=models.CharField(max_length=12,choices=CABIL_NUMBER)
     isAvailable=models.BooleanField(default=True)
     def __str__(self):
-        return self.room_no    
+        return self.CABIL_NUMBER    
 
-class Patient(models.Model):
-    first_name=models.CharField(max_length=150)
-    last_name=models.CharField(max_length=150)
-    father_name=models.CharField(max_length=150)
-    mother_name=models.CharField(max_length=150)
-    age=models.IntegerField()
-    gender=models.CharField(max_length=10,choices=GENDER)
-    dob=models.DateField(help_text="use MM/DD/YYYY format")
-    blood_group=models.CharField(max_length=10,choices=BLOOD)
-    contact=models.IntegerField()
-    city=models.CharField(max_length=150,choices=CITY)
-    state=models.CharField(max_length=150,choices=(("Bihar","Bihar"),("Punjab","Punjab")))
-    pin_code=models.IntegerField()
-    nationality=models.CharField(max_length=150,choices=(("Indian","Indian"),("Other","Other")))
-    address=models.TextField(default=None,blank=True,null=True,)
-    room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
-    p_image=models.ImageField(upload_to="photo/",null=True,blank=True)
-    isApproved=models.BooleanField(default=True)
-    problem=models.CharField(max_length=120,choices=DISEASES)
-    dateOfAdmission=models.DateTimeField(auto_now_add=True)
-    dateOfDischarge=models.DateField(help_text="use MM/DD/YYYY format",default=None,blank=True,null=True)
+class Test(models.Model):
+    test_name=models.CharField(max_length=150,choices=TEST)
     def __str__(self):
-        return self.first_name + " - " + self.last_name
+        return self.test_name
 
 class Doctor(models.Model):
-    first_name=models.CharField(max_length=150)
-    last_name=models.CharField(max_length=150)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
     father_name=models.CharField(max_length=150)
     mother_name=models.CharField(max_length=150)
     age=models.IntegerField()
@@ -156,8 +151,34 @@ class Doctor(models.Model):
     salary = models.IntegerField(default=None,blank=True,null=True,)
     cableNumber=models.ForeignKey("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
     def __str__(self):
+        return self.user.username
+    
+class Patient(models.Model):
+    first_name=models.CharField(max_length=150)
+    last_name=models.CharField(max_length=150)
+    father_name=models.CharField(max_length=150)
+    mother_name=models.CharField(max_length=150)
+    age=models.IntegerField()
+    gender=models.CharField(max_length=10,choices=GENDER)
+    dob=models.DateField(help_text="use MM/DD/YYYY format")
+    blood_group=models.CharField(max_length=10,choices=BLOOD)
+    contact=models.IntegerField()
+    city=models.CharField(max_length=150,choices=CITY)
+    state=models.CharField(max_length=150,choices=(("Bihar","Bihar"),("Punjab","Punjab")))
+    pin_code=models.IntegerField()
+    nationality=models.CharField(max_length=150,choices=(("Indian","Indian"),("Other","Other")))
+    address=models.TextField(default=None,blank=True,null=True,)
+    room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    p_image=models.ImageField(upload_to="photo/",null=True,blank=True)
+    isApproved=models.BooleanField(default=True)
+    problem=models.CharField(max_length=120,choices=DISEASES)
+    dateOfAdmission=models.DateTimeField(auto_now_add=True)
+    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    dateOfDischarge=models.DateField(help_text="use MM/DD/YYYY format",default=None,blank=True,null=True)
+    tests=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    def __str__(self):
         return self.first_name + " - " + self.last_name
-
+    
 class Bill(models.Model):
     date=models.DateTimeField(auto_now_add=True)
     payment_id=models.CharField(max_length=120)
@@ -169,10 +190,14 @@ class Bill(models.Model):
     tax=models.CharField(max_length=150)
     def __str__(self):
         return self.patient.first_name
+
     
 class Report(models.Model):
-    patient=models.ForeignKey("Patient",on_delete=models.CASCADE)
-    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE)
-    report=models.TextField()
+    test_name=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    patient=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    report=models.TextField(default=None,blank=True,null=True)
+    test_price=models.IntegerField()
+    action=models.BooleanField(default=None,blank=True,null=True)
     def __str__(self):
         return self.patient.first_name

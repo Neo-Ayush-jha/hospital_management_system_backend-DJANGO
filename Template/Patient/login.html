@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block 'content' %} {% load static%}
+{% extends 'base.html' %} {%load crispy_forms_tags%} {% block 'content' %} {% load static%}
 <div
   class="contact_section layout_padding"
   style="background-image: url('{% static 'contact-bg.png'%}')"
@@ -25,7 +25,7 @@
           <div class="contact_box">
             <h1 class="book_text">Login Admin</h1>
             <form action="" enctype="multipart/form-data" method="post">
-              {%csrf_token%} {{form.as_p}}
+              {%csrf_token%} {{form|crispy}}
               <input
                 type="submit"
                 value="Login admin"

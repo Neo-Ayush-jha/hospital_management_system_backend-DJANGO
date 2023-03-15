@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Hospital',
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # -----------------------login or logout --------------------------->
 LOGIN_URL= "/login"
+
+
+CRISPY_ALLOWD_TEMPLATE_PACKS= "bootstrap5"
+CRISPY_TEMPLATE_PACK="bootstrap5"
