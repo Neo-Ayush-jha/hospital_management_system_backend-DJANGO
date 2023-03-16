@@ -57,7 +57,18 @@ def newDoctor(req):
 # ---------------------------------->>>ADMIN<<<-----------------------------------------#
 @login_required
 def adminHome(req):
-    return render(req,"Admin/dashboard.html")
+    data={}
+    data['patient']=Patient.objects.all().count()
+    data['doctor']=Doctor.objects.filter(isApproved=True).count()
+    data['newDoctor']=Doctor.objects.filter(isApproved=False).count()
+    data['totalTest']=Report.objects.filter(action=True).count()
+    data['test']=Report.objects.filter(action=None).count()
+    data['room']=Room.objects.filter(isAvailable=False).count()
+    data['roomAvailable']=Room.objects.filter(isAvailable=True).count()
+    data['cabil']=CABIL.objects.filter(isAvailable=False).count()
+    data['cabilAvailable']=CABIL.objects.filter(isAvailable=True).count()
+    return render(req,"Admin/dashboard.html",data)
+
 def login(req):
     LoginForm = AuthenticationForm(data=req.POST or None)
     if req.method =="POST":
@@ -76,6 +87,8 @@ def login(req):
 def logout(req):
     logoutfunction(req)
     return redirect(login)
+
+
 @login_required
 def manageNewDoctor(req):
     data={}
@@ -113,6 +126,8 @@ def editDoctor(req,id):
             form.save()
             return redirect(manageOldDoctor)
     return render(req,"Admin/Edit/Doctor/doctor.html",{'form':form})
+
+
 @login_required
 def managePation(req):
     data={}
@@ -162,6 +177,8 @@ def editPation(req,id):
             form.save()
             return redirect(managePation)
     return render(req,"Admin/Edit/Patient/patient.html",{'form':form})
+
+    
 @login_required
 def roomDetails(req):
     form = RoomForm(req.POST or None)
@@ -183,6 +200,8 @@ def editRoomDetails(req,id):
             form.save()
             return redirect(roomDetails)
     return render(req,"Admin/Edit/Other/room.html",{"form":form})
+
+    
 @login_required
 def cabilDetails(req):
     form = CabilForm(req.POST or None)
@@ -204,6 +223,8 @@ def editCabilDetails(req,id):
             form.save()
             return redirect(cabilDetails)
     return render(req,"Admin/Edit/Other/cabil.html",{"form":form})
+
+    
 @login_required
 def tests(req):
     form=TestForm(req.POST or None)
