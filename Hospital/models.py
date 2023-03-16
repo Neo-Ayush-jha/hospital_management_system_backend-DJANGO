@@ -126,7 +126,11 @@ class CABIL(models.Model):
 
 class Test(models.Model):
     test_name=models.CharField(max_length=150,choices=TEST)
+    test_price=models.IntegerField()
     def __str__(self):
+        return self.test_name
+    
+    def __unicode__(self):
         return self.test_name
 
 class Doctor(models.Model):
@@ -197,7 +201,7 @@ class Report(models.Model):
     patient=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
     doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
     report=models.TextField(default=None,blank=True,null=True)
-    test_price=models.IntegerField()
+    report_image=models.ImageField(upload_to="report/",null=True,blank=True)
     action=models.BooleanField(default=None,blank=True,null=True)
-    def __str__(self):
-        return self.patient.first_name
+    # def __str__(self):
+    #     return self.patient

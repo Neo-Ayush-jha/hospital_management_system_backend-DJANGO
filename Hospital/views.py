@@ -76,29 +76,35 @@ def login(req):
 def logout(req):
     logoutfunction(req)
     return redirect(login)
+@login_required
 def manageNewDoctor(req):
     data={}
     data['title']="New Appyly Doctor's"
     data['doctor']= Doctor.objects.filter(isApproved=False)
     return render(req,"Admin/Manage/Doctor/manageDoctor.html",data)
+@login_required
 def manageOldDoctor(req):
     data={}
     data['title']="Old Doctor's"
     data['doctor']= Doctor.objects.filter(isApproved=True)
     return render(req,"Admin/Manage/Doctor/manageDoctor.html",data)
+@login_required
 def viewDoctor(req,id):
     doctor=Doctor.objects.get(pk=id)
     return render(req,"Admin/Manage/Doctor/SingleDoctor.html",{"doctor":doctor})
+@login_required
 def approveDoctor(req,id):
     doctor=Doctor.objects.get(id=id,isApproved=False)
     doctor.isApproved=True
     doctor.dateOfJoin=datetime.now()
     doctor.save()
     return redirect(manageOldDoctor)
+@login_required
 def deleteDoctor(r,id):
     doctor=Doctor.objects.get(id=id)
     doctor.delete()
     return redirect(manageNewDoctor)
+@login_required
 def editDoctor(req,id):
     doctor=Doctor.objects.get(pk=id)
     form=EditDoctorForm(req.POST or None,req.FILES or None,instance=doctor)
@@ -107,11 +113,13 @@ def editDoctor(req,id):
             form.save()
             return redirect(manageOldDoctor)
     return render(req,"Admin/Edit/Doctor/doctor.html",{'form':form})
+@login_required
 def managePation(req):
     data={}
     data['title']="Patient"
     data['patient']=Patient.objects.filter(isApproved=True)
     return render(req,"Admin/Manage/Patient/managePatient.html",data)
+@login_required
 def manageOldPation(req):
     data={}
     data['title']="Patient old"
@@ -121,20 +129,31 @@ def manageOldPation(req):
 def viewPation(req,id):
     patient=Patient.objects.get(pk=id)
     test=Test.objects.all()
-    doctor=Doctor.objects.get(pk=req.user.id)
+    doctor=Doctor.objects.get(user=req.user.id)
     form = ReportForm(req.POST or None,instance=doctor)
     if req.method=="POST":
+        print(req.POST.get('test_name'))
         if form.is_valid():
+            test_name = req.POST.get('test_name')
             form=Report()
-            form.test_name=req.POST.get('test_name')
+            form.test_name= Test.objects.get(pk=test_name)
             form.patient=patient
             form.doctor=doctor
-            form.report=req.POST.get('report')
-            form.test_price=req.POST.get('test_price')
+            # form.report=req.POST.get('report')
             form.save()
-            return redirect(managePation)
+            return redirect(viewPation,id)
     report=Report.objects.all()
     return render(req,"Admin/Manage/Patient/SinglePatient.html",{"patient":patient,"form":form,"report":report,'test':test})
+@login_required
+def viewReport(req,id):
+    report=Report.objects.get(pk=id)
+    form = EditReportForm(req.POST or None,req.FILES or None,instance=report)
+    if req.method=="POST":
+        if form.is_valid():
+            form.save()
+            return redirect(viewReport,id)
+    return render(req,"Admin/Manage/Patient/report.html",{"form":form,"report":report})
+@login_required
 def editPation(req,id):
     patient=Patient.objects.get(pk=id)
     form=EditPatientForm(req.POST or None,req.FILES or None,instance=patient)
@@ -143,6 +162,7 @@ def editPation(req,id):
             form.save()
             return redirect(managePation)
     return render(req,"Admin/Edit/Patient/patient.html",{'form':form})
+@login_required
 def roomDetails(req):
     form = RoomForm(req.POST or None)
     data={}
@@ -154,6 +174,7 @@ def roomDetails(req):
             return redirect(roomDetails)
     data['roomDetail']=Room.objects.all()
     return render(req,"Admin/Manage/Other/manageRoom.html",data)
+@login_required
 def editRoomDetails(req,id):
     roomDetail=Room.objects.get(pk=id)
     form=EditRoomForm(req.POST or None,instance=roomDetail)
@@ -162,6 +183,7 @@ def editRoomDetails(req,id):
             form.save()
             return redirect(roomDetails)
     return render(req,"Admin/Edit/Other/room.html",{"form":form})
+@login_required
 def cabilDetails(req):
     form = CabilForm(req.POST or None)
     data={}
@@ -173,6 +195,7 @@ def cabilDetails(req):
             return redirect(cabilDetails)
     data['cabinDetail']=CABIL.objects.all()
     return render(req,"Admin/Manage/Other/manageCabil.html",data)
+@login_required
 def editCabilDetails(req,id):
     roomDetail=CABIL.objects.get(pk=id)
     form=EditCabilForm(req.POST or None,instance=roomDetail)
@@ -181,7 +204,7 @@ def editCabilDetails(req,id):
             form.save()
             return redirect(cabilDetails)
     return render(req,"Admin/Edit/Other/cabil.html",{"form":form})
-
+@login_required
 def tests(req):
     form=TestForm(req.POST or None)
     data={}
@@ -192,6 +215,7 @@ def tests(req):
             form.save()
             return redirect(tests)
     data['test']=Test.objects.all()
+    data['report']=Report.objects.all()
     return render(req,"Admin/Manage/other/manageTest.html",data)
 
 # def patientReport(req,id):

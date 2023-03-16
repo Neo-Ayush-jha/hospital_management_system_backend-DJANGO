@@ -23,7 +23,11 @@ class BillForm(ModelForm):
 class ReportForm(ModelForm):
     class Meta:
         model=Report
-        exclude=("patient","doctor",)
+        exclude=("patient","doctor","report","action","report_image")
+class EditReportForm(ModelForm):
+    class Meta:
+        model=Report
+        exclude=("patient","doctor","test_name")
 class RoomForm(ModelForm):
     class Meta:
         model=Room

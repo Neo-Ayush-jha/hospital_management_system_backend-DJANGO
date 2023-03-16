@@ -71,41 +71,23 @@
         </div>
         <div class="col-lg-12 col-sm-12 mx-auto">
             <div class="row gap-1">
-                <div class="col-lg-6 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
-                    <h1>Patient test's list</h1>
-                    <form action="" method="post">
-                        {%csrf_token%}
-                        {{form|crispy}}
-                        <!-- <div id="div_id_test_name" class="mb-3">
-                            <label for="id_test_name" class="form-label"> Test name </label>
-                            <select name="test_name" class="select form-select" id="id_test_name">
-                                <option value="" selected="">---------</option>
-                                {%for test in test%}
-                                <option value="{{test.id}}">{{test.test_name}}</option>
-                                {%endfor%}
-                            </select>
+                <div class="col-lg-6 col-sm-8 ">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+                            <h1>Patient test's list</h1>
+                            <form action="" method="post">
+                                {%csrf_token%}
+                                <div class="d-flex gap-5">
+                                    {{form|crispy}}
+                                    <input type="submit" value="submit" class="btn btn-success mt-4" style="height: 40px;" />
+                                </div>
+                            </form>
                         </div>
-                        <div id="div_id_report" class="mb-3">
-                            <label for="id_report" class="form-label"> Report </label>
-                            <textarea name="report" cols="20" rows="10" class="textarea form-control"
-                                id="id_report"></textarea>
+                        <div class="col-lg-12 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+                            <h1>Patient test's list</h1>
+                            
                         </div>
-                        <div id="div_id_test_price" class="mb-3">
-                            <label for="id_test_price" class="form-label requiredField">Test price<span class="asteriskField">*</span></label>
-                            <input type="number" name="test_price" class="numberinput form-control" required=""
-                                id="id_test_price" />
-                        </div>
-                        <div id="div_id_action" class="mb-3">
-                            <label for="id_action" class="form-label"> Action </label>
-                            <select name="action" class="nullbooleanselect form-select" id="id_action">
-                                <option value="unknown" selected="">Unknown</option>
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div> -->
-
-                        <input type="submit" value="submit" class="btn btn-success" />
-                    </form>
+                    </div>
                 </div>
                 <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
                     <h1>Patient Reports list</h1>
@@ -113,17 +95,17 @@
                         <tr>
                             <th>id</th>
                             <th>Test name</th>
+                            <th>Doctor</th>
                             <th>Test fee</th>
-                            <th>Reports</th>
                             <th>action</th>
                         </tr>
                         {% for report in report %}
                         <tr>
-                            <td>1</td>
+                            <td>{{report.id}}</td>
                             <td>{{report.test_name.test_name}}</td>
-                            <td>{{report.test_price}}</td>
-                            <td>{{report.report}}</td>
                             <td>{{report.doctor}}</td>
+                            <td>{{report.test_name.test_price}}</td>
+                            <td><a href="{%url 'viewReport' report.id%}" class="btn btn-danger">{{report.action}}</a></td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -134,3 +116,4 @@
 </div>
 
 {% endblock 'admin-content' %}
+                           
