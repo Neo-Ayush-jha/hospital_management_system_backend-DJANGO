@@ -1,8 +1,8 @@
-{% extends 'admin/adminBase.html'%}{%load crispy_forms_tags%}
-{% block 'admin-content' %}
+{% extends 'doctor/doctorBase.html'%}{%load crispy_forms_tags%}
+{% block 'doctor-content' %}
 <div class="contaner">
     <div class="row">
-        <div class="col border mt-2 border-3 p-3 border-dark mx-auto">
+        <div class="col-12 border mt-2 border-3 p-3 border-dark mx-auto">
             <div class="row border-bottom border-3 border-dark ">
                 <div class="col-8 border-end ">
                     <h1 class="fs-1">View Doctor</h1>
@@ -20,8 +20,9 @@
                 <tr class="border border-dark">
                     <th>Full name</th>
                     <td class="border border-dark">{{doctor.user.username}}</td>
-                    <td colspan="2" class="border border-dark" rowspan="4"><img src="{{doctor.d_image.url}}"
-                            height="215px" class="rounded-circle" alt=""></td>
+                    <td colspan="2" class="border border-dark text-center" rowspan="4">
+                        <img src="{{doctor.d_image.url}}" style="height: 215px" class="rounded-circle" alt="" />
+                    </td>
                 </tr>
                 <tr class="border border-dark">
                     <th>Father name</th>
@@ -104,4 +105,4 @@
 </div>
 
 
-{% endblock 'admin-content' %}
+{% endblock 'doctor-content' %}

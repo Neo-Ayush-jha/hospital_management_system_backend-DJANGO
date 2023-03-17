@@ -1,0 +1,51 @@
+{% extends 'admin/adminBase.html'%}{%load crispy_forms_tags%}
+{% block 'admin-content' %}
+<div class="contaner">
+    <div class="row">
+        <div class="col-5">
+            <div class="card">
+                <div class="card-title fs-2">{{title|upper}}</div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {%csrf_token%}
+                        {{form|crispy}}
+                        <input type="submit" value="Add phar" class="btn btn-success w-100">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="row">
+                <table class="table border border-2">
+                    <tr>
+                        <th>id</th>
+                        <th>Medicin name</th>
+                        <th>Price</th>
+                        <th>Manufacturing date</th>
+                        <th>Expiry date</th>
+                        <th>Action</th>
+                    </tr>
+                    {%if pharmaceuticl%}
+                        {%for phar in pharmaceuticl%}
+                            <tr>
+                                <td>{{phar.id}}</td>
+                                <td>{{phar.medicine}}</td>
+                                <td>{{phar.price}}</td>
+                                <td>{{phar.manufacturing_date}}</td>
+                                <td>{{phar.expiry_date}}</td>
+                                {%if phar.isAvailable == True %}
+                                    <td><button class="btn btn-info">Available</button></td>
+                                {%else%}
+                                    <td><button class="btn btn-danger">Not available</button></td>
+                                {%endif%}
+                            </tr>
+                        {%endfor%}
+                    {%else%}
+                            <h1 class="display-2 text-secondary">No any Medicin is Available</h1>
+                    {%endif%}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

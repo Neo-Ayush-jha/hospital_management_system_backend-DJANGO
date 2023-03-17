@@ -45,7 +45,11 @@
                         <td>{{report.doctor}}</td>
                         <td>{{report.test_name.test_name}}</td>
                         <td>{{report.test_name.test_price}}</td>
-                        <td><a href="{%url 'viewReport' report.id%}" class="btn btn-danger">{{report.action}}</a>
+                        {%if report.action == True%}
+                            <td><a href="{%url 'viewReport' report.id%}" class="btn btn-info">{{report.action}}</a>
+                        {%else%}
+                            <td><a href="{%url 'viewReport' report.id%}" class="btn btn-danger">{{report.action}}</a>
+                        {%endif%}
                         </td>
                     </tr>
                     {% endfor %}

@@ -3,11 +3,11 @@ from .models import *
 class PatientForm(ModelForm):
     class Meta:
         model=Patient
-        exclude=("room_no","isApproved","dateOfAdmission","dateOfDischarge","doctor","tests",)
+        exclude=("isApproved","dateOfAdmission","dateOfDischarge","doctor","tests",)
 class DoctorForm(ModelForm):
     class Meta:
         model=Doctor
-        exclude=("cableNumber","isApproved","dateOfJoin","salary",)
+        exclude=("isApproved","dateOfJoin","salary",)
 class EditPatientForm(ModelForm):
     class Meta:
         model=Patient
@@ -15,7 +15,7 @@ class EditPatientForm(ModelForm):
 class EditDoctorForm(ModelForm):
     class Meta:
         model=Doctor
-        exclude=("isApproved",)
+        fields="__all__"
 class BillForm(ModelForm):
     class Meta:
         model=Bill
@@ -27,7 +27,7 @@ class ReportForm(ModelForm):
 class EditReportForm(ModelForm):
     class Meta:
         model=Report
-        exclude=("patient","doctor","test_name")
+        exclude=("patient","doctor","test_name","action",)
 class RoomForm(ModelForm):
     class Meta:
         model=Room
@@ -48,3 +48,19 @@ class TestForm(ModelForm):
     class Meta:
         model=Test
         fields="__all__"
+class RoomAuthorisedForm(ModelForm):
+    class Meta:
+        model = RoomAuthorised
+        exclude=("isAvailable",)
+class CabilAuthorisedForm(ModelForm):
+    class Meta:
+        model = CabilAuthorised
+        exclude=("doctor_no",)
+class PharmaceuticlForm(ModelForm):
+    class Meta:
+        model=Pharmaceuticl
+        fields="__all__"
+class MedicineModelForm(ModelForm):
+    class Meta:
+        model=MedicineModel
+        exclude=("patient","doctor","action",)

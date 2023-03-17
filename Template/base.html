@@ -33,7 +33,12 @@
    <!-- owl stylesheets -->
    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" media="screen">
+   
+
+
+
+
 </head>
 <body >
   <!-- header section start -->
@@ -53,23 +58,27 @@
                   <li class="nav-item">
                      <a href="{% url 'health' %}" class=" nav-link text-dark ">Health</a>
                   </li>
-                  {% if request.user.is_authenticated%}
-                  <li class="nav-item">
-                     <a href="{%url 'dashboard'%}" class=" nav-link text-dark ">Admin</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{%url 'logout'%}" class=" nav-link text-dark ">Logout</a>
-                  </li>
-                  {%endif%}
                   <li class="nav-item">
                      <a href="{% url 'newDoctor' %}" class="nav-link text-dark ">Doctor</a>
                   </li>
                   <li class="nav-item">
                      <a href="{% url 'newPatient' %}" class=" nav-link text-dark ">Contact Us</a>
                   </li>
+                  {% if request.user.is_authenticated%}
+                  <li class="nav-item">
+                     <a href="{%url 'dashboard'%}" class=" nav-link text-dark ">Admin</a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{% url 'doctorDashboard' %}" class=" nav-link text-dark ">Doctor dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{%url 'logout'%}" class=" nav-link text-dark ">Logout</a>
+                  </li>
+                  {%else%}
                   <li class="nav-item">
                      <a href="{% url 'login' %}" class=" nav-link text-dark ">Login</a>
                   </li>
+                  {%endif%}
             </div>
          </div>
       </nav>
@@ -132,5 +141,10 @@
  <!-- javascript -->
  <script src="{%static 'js/owl.carousel.js'%}"></script>
  <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+ <script>$('[data-fancybox="preview"]').fancybox({
+   thumbs : {
+     autoStart : true
+   }
+ });</script>
 </body>
 </html>

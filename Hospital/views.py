@@ -63,10 +63,10 @@ def adminHome(req):
     data['newDoctor']=Doctor.objects.filter(isApproved=False).count()
     data['totalTest']=Report.objects.filter(action=True).count()
     data['test']=Report.objects.filter(action=None).count()
-    data['room']=Room.objects.filter(isAvailable=False).count()
-    data['roomAvailable']=Room.objects.filter(isAvailable=True).count()
-    data['cabil']=CABIL.objects.filter(isAvailable=False).count()
-    data['cabilAvailable']=CABIL.objects.filter(isAvailable=True).count()
+    data['room']=Room.objects.all().count()
+    data['notRoomAvailable']=RoomAuthorised.objects.filter(isAvailable=False).count()
+    data['cabil']=CABIL.objects.all().count()
+    data['notCabilAvailable']=CabilAuthorised.objects.filter(isAvailable=False).count()
     return render(req,"Admin/dashboard.html",data)
 
 def login(req):
@@ -104,14 +104,28 @@ def manageOldDoctor(req):
 @login_required
 def viewDoctor(req,id):
     doctor=Doctor.objects.get(pk=id)
-    return render(req,"Admin/Manage/Doctor/SingleDoctor.html",{"doctor":doctor})
+    form=CabilAuthorisedForm(req.POST or None)
+    cabil=CABIL.objects.all()
+    if req.method =="POST":
+        if form.is_valid():
+            cabilNumber=req.POST.get("cabilNumber")
+            form=CabilAuthorised()
+            form.doctor_no=doctor
+            form.cableNumber=CABIL.objects.get(pk=cabilNumber)
+            form.isAvailable=False
+            form.save()
+            return redirect(viewDoctor,id)
+    
+    cabilAprove=CabilAuthorised.objects.get(doctor_no=doctor.id)
+    # cabilAprove=CabilAuthorised.objects.all()
+    return render(req,"Admin/Manage/Doctor/SingleDoctor.html",{"doctor":doctor,"form":form,"cabil":cabil,"cabilAprove":cabilAprove})
 @login_required
 def approveDoctor(req,id):
     doctor=Doctor.objects.get(id=id,isApproved=False)
     doctor.isApproved=True
     doctor.dateOfJoin=datetime.now()
     doctor.save()
-    return redirect(manageOldDoctor)
+    return redirect(approveDoctor,id)
 @login_required
 def deleteDoctor(r,id):
     doctor=Doctor.objects.get(id=id)
@@ -165,6 +179,8 @@ def viewReport(req,id):
     form = EditReportForm(req.POST or None,req.FILES or None,instance=report)
     if req.method=="POST":
         if form.is_valid():
+            form=report
+            form.action=True
             form.save()
             return redirect(viewReport,id)
     return render(req,"Admin/Manage/Patient/report.html",{"form":form,"report":report})
@@ -190,6 +206,7 @@ def roomDetails(req):
             form.save()
             return redirect(roomDetails)
     data['roomDetail']=Room.objects.all()
+    data['roomA']=RoomAuthorised.objects.all()
     return render(req,"Admin/Manage/Other/manageRoom.html",data)
 @login_required
 def editRoomDetails(req,id):
@@ -239,6 +256,107 @@ def tests(req):
     data['report']=Report.objects.all()
     return render(req,"Admin/Manage/other/manageTest.html",data)
 
+
+
+
+@login_required
+def doctorDashboard(req):   
+    data={}
+    data['doctor']=Doctor.objects.get(pk=req.user.id)
+    data['patient']=Patient.objects.all().count()
+    data['room']=Room.objects.all().count()
+    data['notRoomAvailable']=RoomAuthorised.objects.filter(isAvailable=False).count()
+    data['cabil']=CABIL.objects.all().count()
+    data['notCabilAvailable']=CabilAuthorised.objects.filter(isAvailable=False).count()
+    return render(req,"Doctor/dashboard.html",data)
+@login_required
+def managePationD(req):
+    data={}
+    data['title']="Patient"
+    doctor=Doctor.objects.get(id=req.user.id)
+    data['doctor']=Doctor.objects.get(pk=req.user.id)
+    data['patient']=Patient.objects.filter(isApproved=True , doctor = doctor)
+    return render(req,"Doctor/Manage/managePatient.html",data)
+@login_required
+def manageOldPationD(req):
+    data={}
+    data['doctor']=Doctor.objects.get(pk=req.user.id)
+    data['title']="Patient old"
+    data['patient']=Patient.objects.filter(isApproved=False)
+    return render(req,"Doctor/Manage/managePatient.html",data)
+@login_required
+def viewPationD(req,id):
+    patient=Patient.objects.get(pk=id)
+    test=Test.objects.all()
+    doctor=Doctor.objects.get(pk=req.user.id)
+    pharmaceuticl=Pharmaceuticl.objects.all()
+    form = ReportForm(req.POST or None,instance=doctor)
+    formMedicin=MedicineModelForm(req.POST or None,instance=doctor)
+    if req.method=="POST":
+        if form.is_valid():
+            test_name = req.POST.get('test_name')
+            form=Report()
+            form.test_name= Test.objects.get(pk=test_name)
+            form.patient=patient
+            form.doctor=doctor
+            # form.report=req.POST.get('report')
+            form.save()
+            return redirect(viewPationD,id)
+    if req.method=="POST":
+        if formMedicin.is_valid():
+            pharmaceuticl=req.POST.get('pharmaceuticl')
+            formMedicin=MedicineModel()
+            formMedicin.pharmaceuticl=Pharmaceuticl.objects.get(pk=pharmaceuticl)
+            formMedicin.patient=patient
+            formMedicin.doctor=doctor
+            formMedicin.save()
+            return redirect(viewPationD,id)
+    report=Report.objects.all()
+    # pharmaceutic=MedicineModelForm.objects.all()
+
+    return render(req,"Doctor/Manage/SinglePatient.html",{"patient":patient,"form":form,"report":report,'test':test,"doctor":doctor,"formMedicin":formMedicin})
+@login_required
+def doctorProfile(req):
+    doctor=Doctor.objects.get(pk=req.user.id)
+    form=CabilAuthorisedForm(req.POST or None)
+    cabil=CABIL.objects.all()
+    if req.method =="POST":
+        if form.is_valid():
+            cabilNumber=req.POST.get("cabilNumber")
+            form=CabilAuthorised()
+            form.doctor_no=doctor
+            form.cableNumber=CABIL.objects.get(pk=cabilNumber)
+            form.isAvailable=False
+            form.save()
+            return redirect(viewDoctor,id)
+    
+    cabilAprove=CabilAuthorised.objects.get(doctor_no=doctor.id)
+    # cabilAprove=CabilAuthorised.objects.all()
+    return render(req,"doctor/doctorProfile.html",{"doctor":doctor,"form":form,"cabil":cabil,"cabilAprove":cabilAprove})
+@login_required
+def viewReportD(req,id):
+    report=Report.objects.get(pk=id)
+    form = EditReportForm(req.POST or None,req.FILES or None,instance=report)
+    if req.method=="POST":
+        if form.is_valid():
+            form=report
+            form.action=True
+            form.save()
+            return redirect(viewReportD,id)
+    return render(req,"Doctor/Manage/report.html",{"form":form,"report":report})
+
+def medicine(req):
+    form=PharmaceuticlForm(req.POST or None)
+    data={}
+    data['title']="Pharmaceuticl Details"
+    data['form']=form
+    if req.method=="POST":
+        if form.is_valid():
+            form.isAvailable=True
+            form.save()
+            return redirect(medicine)
+    data['pharmaceuticl']=Pharmaceuticl.objects.all()
+    return render(req,"Admin/Manage/other/pharmaceuticl.html",data)
 # def patientReport(req,id):
 #     form = ReportForm(req.POST or None)
 #     data={}

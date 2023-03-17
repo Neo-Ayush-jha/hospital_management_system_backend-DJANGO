@@ -115,12 +115,10 @@ TEST=(
 )
 class Room(models.Model):
     room_no=models.CharField(max_length=12,choices=ROOM_NO)
-    isAvailable=models.BooleanField(default=True)
     def __str__(self):
         return self.room_no    
 class CABIL(models.Model):
     CABIL_NUMBER=models.CharField(max_length=12,choices=CABIL_NUMBER)
-    isAvailable=models.BooleanField(default=True)
     def __str__(self):
         return self.CABIL_NUMBER    
 
@@ -133,6 +131,16 @@ class Test(models.Model):
     def __unicode__(self):
         return self.test_name
 
+class Pharmaceuticl(models.Model):
+    medicine=models.CharField(max_length=200,default=None,blank=True,null=True)
+    price=models.FloatField()
+    manufacturing_date=models.DateField()
+    expiry_date=models.DateField()
+    isbn_number=models.BigIntegerField(default=None,blank=True,null=True)
+    isAvailable=models.BooleanField(default=False)
+    def __str__(self):
+        return self.medicine
+    
 class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     father_name=models.CharField(max_length=150)
@@ -153,7 +161,6 @@ class Doctor(models.Model):
     qualification=models.CharField(max_length=200)
     dateOfJoin=models.DateField(default=None,blank=True,null=True)
     salary = models.IntegerField(default=None,blank=True,null=True,)
-    cableNumber=models.ForeignKey("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
     def __str__(self):
         return self.user.username
     
@@ -172,7 +179,6 @@ class Patient(models.Model):
     pin_code=models.IntegerField()
     nationality=models.CharField(max_length=150,choices=(("Indian","Indian"),("Other","Other")))
     address=models.TextField(default=None,blank=True,null=True,)
-    room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
     p_image=models.ImageField(upload_to="photo/",null=True,blank=True)
     isApproved=models.BooleanField(default=True)
     problem=models.CharField(max_length=120,choices=DISEASES)
@@ -205,3 +211,24 @@ class Report(models.Model):
     action=models.BooleanField(default=None,blank=True,null=True)
     # def __str__(self):
     #     return self.patient
+
+class RoomAuthorised(models.Model):
+    room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    patient_no=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    isAvailable=models.BooleanField(default=True)
+    def __str__(self):
+        return self.room_no
+class CabilAuthorised(models.Model):
+    cableNumber=models.ForeignKey("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    doctor_no=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    isAvailable=models.BooleanField(default=True)
+    def __str__(self):
+        return self.cableNumber.CABIL_NUMBER
+
+class MedicineModel(models.Model):
+    patient=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    pharmaceuticl=models.ForeignKey("Pharmaceuticl",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    action=models.BooleanField(default=True)
+    def __str__(self):
+        return self.patient
