@@ -38,6 +38,20 @@ ROOM_NO=(
     ("119","119"),
     ("120","120"),
 )
+MONTHS = (
+    ("jan","january"),
+    ("feb","feb"),
+    ("march","march"),
+    ("april","april"),
+    ("may","may"),
+    ("june","june"),
+    ("july","july"),
+    ("aug","aug"),
+    ("sep","sep"),
+    ("oct","oct"),
+    ("nov","nov"),
+    ("dec","dec"),
+)
 CABIL_NUMBER=(
     ("1","1"),
     ("2","2"),
@@ -141,6 +155,7 @@ class Pharmaceuticl(models.Model):
     def __str__(self):
         return self.medicine
     
+    
 class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     father_name=models.CharField(max_length=150)
@@ -189,17 +204,6 @@ class Patient(models.Model):
     def __str__(self):
         return self.first_name + " - " + self.last_name
     
-class Bill(models.Model):
-    date=models.DateTimeField(auto_now_add=True)
-    payment_id=models.CharField(max_length=120)
-    patient=models.ForeignKey("Patient",on_delete=models.CASCADE)
-    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE)
-    room=models.ForeignKey("Room",on_delete=models.CASCADE)
-    pathology_fees=models.CharField(max_length=150)
-    doctor_fees=models.CharField(max_length=150)
-    tax=models.CharField(max_length=150)
-    def __str__(self):
-        return self.patient.first_name
 
     
 class Report(models.Model):
@@ -232,3 +236,25 @@ class MedicineModel(models.Model):
     action=models.BooleanField(default=True)
     def __str__(self):
         return self.patient
+        
+class Bill(models.Model):
+    date=models.DateTimeField(auto_now_add=True)
+    payment_id=models.CharField(max_length=120)
+    patient=models.ForeignKey("Patient",on_delete=models.CASCADE)
+    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE)
+    room=models.ForeignKey("Room",on_delete=models.CASCADE)
+    pathology_fees=models.CharField(max_length=150)
+    doctor_fees=models.CharField(max_length=150)
+    tax=models.CharField(max_length=150)
+    def __str__(self):
+        return self.patient.first_name
+
+class Payment(models.Model):
+    doctor = models.ForeignKey("Doctor", on_delete=models.CASCADE)
+    month = models.CharField(max_length=200, choices=MONTHS)
+    date_of_salary = models.DateField(auto_now=False, null=True,blank=True)
+    status = models.BooleanField(default=False)
+    amount = models.IntegerField(default=1000)
+
+    def __str__(self):
+        return self.doctor.user.username + " - " + self.month

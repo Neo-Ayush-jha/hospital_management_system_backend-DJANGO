@@ -78,9 +78,8 @@
                     <td class="border border-dark">{{doctor.isApproved}}</td>
                 </tr>
                 <tr class="border border-dark">
-                    <th>Payment</th>
-                    <td class="border border-dark"><input type="submit" id="pay_btn" value="Payment"
-                            class="btn btn-outline-danger"></td>
+                    <th>Date of joing</th>
+                    <td class="border border-dark">{{doctor.dateOfJoin}}</td>
                     <th>Resume</th>
                     <td class="border border-dark"><input type="submit" id="pay_btn" value="Resume"
                             class="btn btn-outline-primary"></td>
@@ -92,16 +91,31 @@
             <table class="table mt-3">
                 <tr>
                     <th>id</th>
+                    <th>Doctor</th>
                     <th>month</th>
                     <th>amount</th>
                     <th>status</th>
-                    <th>date of payment</th>
-                    <th>action</th>
                 </tr>
-
+                {% for salary in salary %}
+                <tr>
+                    <td>{{salary.id}}</td>
+                    <td>{{salary.doctor.user.username}}</td>
+                    <td>{{salary.month}}</td>
+                    <td>{{salary.amount}}</td>
+                    <td>
+                        {% if salary.status == False %}
+                            <button class="btn btn-danger">{{salary.status}}</button>
+                        {% else %}
+                        <button class="btn btn-info">{{salary.status}}</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
+    <a href="" class="btn btn-info d-print-none w-100" onClick="window.print()"> PRINT MARKSHEET<i class="bi bi-printer-fill ms-3 "></i></a>
+
 </div>
 
 

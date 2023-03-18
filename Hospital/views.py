@@ -60,6 +60,8 @@ def adminHome(req):
     data={}
     data['patient']=Patient.objects.all().count()
     data['doctor']=Doctor.objects.filter(isApproved=True).count()
+    data['d']=Doctor.objects.get(id=req.user.id)
+    print(data)
     data['newDoctor']=Doctor.objects.filter(isApproved=False).count()
     data['totalTest']=Report.objects.filter(action=True).count()
     data['test']=Report.objects.filter(action=None).count()
@@ -68,25 +70,6 @@ def adminHome(req):
     data['cabil']=CABIL.objects.all().count()
     data['notCabilAvailable']=CabilAuthorised.objects.filter(isAvailable=False).count()
     return render(req,"Admin/dashboard.html",data)
-
-def login(req):
-    LoginForm = AuthenticationForm(data=req.POST or None)
-    if req.method =="POST":
-        if LoginForm.is_valid():
-            username = LoginForm.cleaned_data.get('username')
-            password = LoginForm.cleaned_data.get("password")
-            user = authenticate(username = username , password=password)
-            if user is not None:
-                print(user)
-                loginfunction(req,user)
-                return redirect(adminHome)
-            else:
-                return redirect(login)
-    return render(req,"Patient/login.html",{"form":LoginForm})
-@login_required
-def logout(req):
-    logoutfunction(req)
-    return redirect(login)
 
 
 @login_required
@@ -115,17 +98,25 @@ def viewDoctor(req,id):
             form.isAvailable=False
             form.save()
             return redirect(viewDoctor,id)
-    
     cabilAprove=CabilAuthorised.objects.get(doctor_no=doctor.id)
+    salary=Payment.objects.all()
+    # salary=Payment.objects.filter()
     # cabilAprove=CabilAuthorised.objects.all()
-    return render(req,"Admin/Manage/Doctor/SingleDoctor.html",{"doctor":doctor,"form":form,"cabil":cabil,"cabilAprove":cabilAprove})
+    return render(req,"Admin/Manage/Doctor/SingleDoctor.html",{"doctor":doctor,"form":form,"cabil":cabil,"cabilAprove":cabilAprove,"salary":salary})
 @login_required
 def approveDoctor(req,id):
     doctor=Doctor.objects.get(id=id,isApproved=False)
+    currentMonth=datetime.now().month
+    for month in range(currentMonth-1,12):
+        salary=Payment()
+        salary.doctor=doctor
+        salary.month = MONTHS[month][0]
+        salary.amount=25000
+        salary.save()
     doctor.isApproved=True
     doctor.dateOfJoin=datetime.now()
     doctor.save()
-    return redirect(approveDoctor,id)
+    return redirect(viewDoctor,id)
 @login_required
 def deleteDoctor(r,id):
     doctor=Doctor.objects.get(id=id)
@@ -318,6 +309,7 @@ def viewPationD(req,id):
 @login_required
 def doctorProfile(req):
     doctor=Doctor.objects.get(pk=req.user.id)
+    print(doctor)
     form=CabilAuthorisedForm(req.POST or None)
     cabil=CABIL.objects.all()
     if req.method =="POST":
@@ -329,10 +321,10 @@ def doctorProfile(req):
             form.isAvailable=False
             form.save()
             return redirect(viewDoctor,id)
-    
+    salary=Payment.objects.all()
     cabilAprove=CabilAuthorised.objects.get(doctor_no=doctor.id)
     # cabilAprove=CabilAuthorised.objects.all()
-    return render(req,"doctor/doctorProfile.html",{"doctor":doctor,"form":form,"cabil":cabil,"cabilAprove":cabilAprove})
+    return render(req,"doctor/doctorProfile.html",{"doctor":doctor,"form":form,"cabil":cabil,"cabilAprove":cabilAprove,"salary":salary})
 @login_required
 def viewReportD(req,id):
     report=Report.objects.get(pk=id)
@@ -344,7 +336,7 @@ def viewReportD(req,id):
             form.save()
             return redirect(viewReportD,id)
     return render(req,"Doctor/Manage/report.html",{"form":form,"report":report})
-
+@login_required
 def medicine(req):
     form=PharmaceuticlForm(req.POST or None)
     data={}
@@ -357,6 +349,8 @@ def medicine(req):
             return redirect(medicine)
     data['pharmaceuticl']=Pharmaceuticl.objects.all()
     return render(req,"Admin/Manage/other/pharmaceuticl.html",data)
+
+
 # def patientReport(req,id):
 #     form = ReportForm(req.POST or None)
 #     data={}
@@ -379,3 +373,21 @@ def medicine(req):
 #         t.save()
 #         return redirect(managePation)
 #     return render(req,"Admin/Manage/Patient/SinglePatient.html",data)
+def login(req):
+    LoginForm = AuthenticationForm(data=req.POST or None)
+    if req.method =="POST":
+        if LoginForm.is_valid():
+            username = LoginForm.cleaned_data.get('username')
+            password = LoginForm.cleaned_data.get("password")
+            user = authenticate(username = username , password=password)
+            if user is not None:
+                print(user)
+                loginfunction(req,user)
+                return redirect(doctorDashboard)
+            else:
+                return redirect(login)
+    return render(req,"Patient/login.html",{"form":LoginForm})
+@login_required
+def logout(req):
+    logoutfunction(req)
+    return redirect(login)

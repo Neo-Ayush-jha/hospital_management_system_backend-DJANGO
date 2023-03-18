@@ -91,13 +91,28 @@
             <table class="table mt-3">
                 <tr>
                     <th>id</th>
+                    <th>Name</th>
                     <th>month</th>
-                    <th>amount</th>
+                    <th>Amount</th>
                     <th>status</th>
-                    <th>date of payment</th>
-                    <th>action</th>
                 </tr>
-
+                {% for salary in salary %}
+                <tr>
+                    <td>{{salary.id}}</td>
+                    <td>{{salary.doctor.user.username}}</td>
+                    <td>{{salary.month}}</td>
+                    <td>{{salary.amount}}</td>
+                    <td>
+                        {% if salary.status == False %}
+                            <button class="btn btn-danger">{{salary.status}}</button>
+                        {% else %}
+                        <button class="btn btn-info">{{salary.status}}</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- {% if salary.doctor.id == doctor.id %} -->
+                <!-- {% endif %} -->
             </table>
         </div>
     </div>
