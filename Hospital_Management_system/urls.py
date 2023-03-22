@@ -24,7 +24,9 @@ urlpatterns = [
     path("approve-doctor/<int:id>/approve/",approveDoctor,name="approveDoctor"),
     path("single-view-doctor/<int:id>/view/",viewDoctor,name="viewDoctor"),
     path("single-view-patient/<int:id>/view/",viewPation,name="viewPation"),
-    path("doctor/single-view-patient/<int:id>/view/",viewPationD,name="viewPationD"),
+    path("doctor/single-view-patient/<int:id>/",viewPationD,name="viewPationD"),
+    path("doctor/single-view-patient/<int:id>/pharmaceutic/",pharmaceutic,name="pharmaceutic"),
+
     path("single-view-patient-report/<int:id>/",viewReport,name="viewReport"),
     path("delete-old-doctor-details/<int:id>/delete/",deleteDoctor,name="deleteDoctor"),
     path("edit-old-doctor-details/<int:id>/edit/",editDoctor,name="editDoctor"),

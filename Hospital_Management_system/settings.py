@@ -135,3 +135,5 @@ LOGIN_URL= "/login"
 
 CRISPY_ALLOWD_TEMPLATE_PACKS= "bootstrap5"
 CRISPY_TEMPLATE_PACK="bootstrap5"
+
+# AUTH_USER_MODEL='Hospital.User'

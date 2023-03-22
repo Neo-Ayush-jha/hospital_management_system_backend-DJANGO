@@ -70,19 +70,18 @@
             </table>
         </div>
         <div class="col-lg-12 col-sm-12 mx-auto">
-            <div class="row gap-1">
-                <div class="col-lg-5 col-sm-8 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+            <div class="row">
+                <div class="col-lg-6 col-sm-8  border mt-2 border-3 p-3 border-dark mx-auto">
                             <h1>Patient test's list</h1>
                             <form action="" method="post">
                                 {%csrf_token%}
-                                <div class="d-flex gap-5">
                                     {{form|crispy}}
                                     <input type="submit" value="submit" class="btn btn-success mt-4" style="height: 40px;" />
-                                </div>
-                            </form>                        
-                </div>
-                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
-                    <h1>Patient Reports list</h1>
+                            </form>   
+                                          
+                {% comment %} </div>
+                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto"> {% endcomment %}
+                    <h1 class="mt-3">Patient Reports list</h1>
                     <table class="table mt-3 table-sm">
                         <tr>
                             <th>id</th>
@@ -108,18 +107,17 @@
                         {% endfor %}
                     </table>
                 </div>
-            </div>
-            <div class="row gap-1">
-                <div class="col-lg-5 col-sm-8 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+           
+                <div class="col-lg-6 col-sm-8  border mt-2 border-3 p-3 border-dark mx-auto">
                             <h1>Patient Madicin</h1>
-                            <form action="" method="post">
+                            <form action="{%url 'pharmaceutic' patient.id %}" method="post">
                                 {%csrf_token%}
                                     {{formMedicin|crispy}}
                                     <input type="submit" value="Submit Madicin" class="btn btn-success mt-4" style="height: 40px;" />
                             </form>                        
-                </div>
-                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
-                    <h1>Patient  Madicin list</h1>
+                {% comment %} </div>
+                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto"> {% endcomment %}
+                    <h1 class="mt-3">Patient  Madicin list</h1>
                     <table class="table border border-2">
                         <tr>
                             <th>id</th>
@@ -127,13 +125,13 @@
                             <th>Price</th>
                             <th>Action</th>
                         </tr>
-                        {%if pharmaceuticl%}
-                            {%for phar in pharmaceuticl%}
+                        {%if pharmaceutic%}
+                            {%for phar in pharmaceutic%}
                                 <tr>
                                     <td>{{phar.id}}</td>
-                                    <td>{{phar.medicine}}</td>
-                                    <td>{{phar.price}}</td>
-                                    {%if phar.isAvailable == True %}
+                                    <td>{{phar.pharmaceuticl.medicine}}</td>
+                                    <td>{{phar.pharmaceuticl.price}}</td>
+                                    {%if phar.pharmaceuticl.isAvailable == True %}
                                         <td><button class="btn btn-info">Available</button></td>
                                     {%else%}
                                         <td><button class="btn btn-danger">Not available</button></td>

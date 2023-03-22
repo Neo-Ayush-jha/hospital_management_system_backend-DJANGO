@@ -35,19 +35,18 @@
                 <tr class="border border-dark">
                     <th>Cabil number</th>
                     <td class="border border-dark">
-                        {%if cabilAprove.isAvailable == True%}
+                        {%if cabilAprove %}
+                            <h1 class="fst-4 text-primary">{{cabilAprove.cableNumber}}</h1>
+                        {%else%}
                         <form action="" method="post">
                             {%csrf_token%}
-                            <select name="cabilNumber" class="select form-select" id="id_cableNumber">
+                            <select onChange="this.form.submit();" name="cabilNumber" class="select form-select" id="id_cableNumber">
                                 <option value="" selected="">---------</option>
                                 {% for cabil in cabil %}
                                 <option value="{{cabil.id}}">{{cabil.CABIL_NUMBER}}</option>
                                 {%endfor%}
                             </select>
-                            <input type="submit" value="submit" class="btn btn-success">
                         </form>
-                        {%else%}
-                        <h1 class="fst-4 text-primary">{{cabilAprove.cableNumber}}</h1>
                         {%endif%}
                         {{cabil.cabilNumber}}
                     </td>
@@ -97,20 +96,22 @@
                     <th>status</th>
                 </tr>
                 {% for salary in salary %}
-                <tr>
-                    <td>{{salary.id}}</td>
-                    <td>{{salary.doctor.user.username}}</td>
-                    <td>{{salary.month}}</td>
-                    <td>{{salary.amount}}</td>
-                    <td>
-                        {% if salary.status == False %}
-                            <button class="btn btn-danger">{{salary.status}}</button>
-                        {% else %}
-                        <button class="btn btn-info">{{salary.status}}</button>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
+                {% if salary.doctor.id == doctor.id %} 
+                        <tr>
+                            <td>{{salary.id}}</td>
+                            <td>{{salary.doctor.user.username}}</td>
+                            <td>{{salary.month}}</td>
+                            <td>{{salary.amount}}</td>
+                            <td>
+                                {% if salary.status == False %}
+                                    <button class="btn btn-danger">{{salary.status}}</button>
+                                {% else %}
+                                <button class="btn btn-info">{{salary.status}}</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %} 
+                    {% endfor %}
             </table>
         </div>
     </div>

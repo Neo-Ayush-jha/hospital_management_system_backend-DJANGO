@@ -1,6 +1,9 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import User
-
+# class User(AbstractUser):
+#     is_patient = models.BooleanField('patient status', default=False)
+#     is_doctor = models.BooleanField('doctor status', default=False)
 GENDER=(
     ("Mail","Mail"),
     ("Femail","Femail"),
@@ -157,7 +160,7 @@ class Pharmaceuticl(models.Model):
     
     
 class Doctor(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     father_name=models.CharField(max_length=150)
     mother_name=models.CharField(max_length=150)
     age=models.IntegerField()
@@ -180,6 +183,7 @@ class Doctor(models.Model):
         return self.user.username
     
 class Patient(models.Model):
+    # user=models.ForeignKey(User,on_delete=models.CASCADE)
     first_name=models.CharField(max_length=150)
     last_name=models.CharField(max_length=150)
     father_name=models.CharField(max_length=150)
@@ -204,8 +208,7 @@ class Patient(models.Model):
     def __str__(self):
         return self.first_name + " - " + self.last_name
     
-
-    
+      
 class Report(models.Model):
     test_name=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
     patient=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
@@ -222,8 +225,10 @@ class RoomAuthorised(models.Model):
     isAvailable=models.BooleanField(default=True)
     def __str__(self):
         return self.room_no
+    
+    
 class CabilAuthorised(models.Model):
-    cableNumber=models.ForeignKey("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    cableNumber=models.OneToOneField("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
     doctor_no=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
     isAvailable=models.BooleanField(default=True)
     def __str__(self):
@@ -234,9 +239,7 @@ class MedicineModel(models.Model):
     pharmaceuticl=models.ForeignKey("Pharmaceuticl",on_delete=models.CASCADE,default=None,blank=True,null=True)
     doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
     action=models.BooleanField(default=True)
-    def __str__(self):
-        return self.patient
-        
+       
 class Bill(models.Model):
     date=models.DateTimeField(auto_now_add=True)
     payment_id=models.CharField(max_length=120)
