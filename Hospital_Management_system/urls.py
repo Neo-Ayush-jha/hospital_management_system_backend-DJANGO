@@ -14,6 +14,7 @@ urlpatterns = [
     path("admin-home/",adminHome,name="dashboard"),
     path("manage-room/",roomDetails,name="roomDetails"),
     path("manage-cabil/",cabilDetails,name="cabilDetails"),
+    path("manage-cabil/doctor-view/",cabilDetailsD,name="cabilDetailsD"),
     path("manage-test/",tests,name="tests"),
     path("manage-patient/",managePation,name="managePation"),
     path("manage-old-patient/",manageOldPation,name="manageOldPation"),
@@ -38,5 +39,7 @@ urlpatterns = [
     path("doctor/single-view-patient-report/<int:id>/",viewReportD,name="viewReportD"),
     path("manage-pharmaceutical/",medicine,name="medicine"),
     # path("doctor-my-proflie/<int:id>/view/",doctorProfile,name="doctorProfile"),
+    path('staff-view/', StaffView.as_view(),name="StaffView"),
+    path("admin/staff-view/form/",StaffFormView.as_view(),name="StaffFormView"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

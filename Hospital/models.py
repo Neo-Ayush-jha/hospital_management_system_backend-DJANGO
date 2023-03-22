@@ -130,6 +130,14 @@ TEST=(
     ("ECG","ECG"),
     ("X-ray","X-ray"),
 )
+# 22/032023
+STAFF=(
+    ("nurse","nurse"),
+    ("receptionists","receptionists"),
+    ("pherma_staff","pherma_staff"),
+    ("pathology_staff","pathology_staff"),
+    ("clrtks","clrtks"),
+)
 class Room(models.Model):
     room_no=models.CharField(max_length=12,choices=ROOM_NO)
     def __str__(self):
@@ -223,6 +231,8 @@ class RoomAuthorised(models.Model):
     room_no=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
     patient_no=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
     isAvailable=models.BooleanField(default=True)
+    room_fee=models.IntegerField(default=500)
+
     def __str__(self):
         return self.room_no
     
@@ -234,24 +244,57 @@ class CabilAuthorised(models.Model):
     def __str__(self):
         return self.cableNumber.CABIL_NUMBER
 
+# 22/032023
+class Staff(models.Model):
+    staff_name=models.CharField(max_length=150)
+    staff_post=models.CharField(max_length=20,choices=STAFF)
+    rf_code= models.CharField(max_length=100,default=None,blank=True,null=True,unique=True)
+    staff_payment=models.IntegerField(default=1000)
+    def __str__(self):
+        return self.staff_name
+    
 class MedicineModel(models.Model):
     patient=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
     pharmaceuticl=models.ForeignKey("Pharmaceuticl",on_delete=models.CASCADE,default=None,blank=True,null=True)
     doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE,default=None,blank=True,null=True)
     action=models.BooleanField(default=True)
-       
+    # 22/032023
+    qty = models.IntegerField(default=1)
+    def __str__(self):
+        return self.patient.first_name +"-"+ self.patient.last_name +"  -   "+self.pharmaceuticl.medicine
+    def get_price(self):
+        return self.pharmaceuticl.price*self.qty
+    
 class Bill(models.Model):
     date=models.DateTimeField(auto_now_add=True)
-    payment_id=models.CharField(max_length=120)
+    # payment_id=models.CharField(max_length=120)
     patient=models.ForeignKey("Patient",on_delete=models.CASCADE)
-    doctor=models.ForeignKey("Doctor",on_delete=models.CASCADE)
-    room=models.ForeignKey("Room",on_delete=models.CASCADE)
-    pathology_fees=models.CharField(max_length=150)
-    doctor_fees=models.CharField(max_length=150)
+    staff=models.ForeignKey("Staff",on_delete=models.CASCADE)
+    room=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    madicine=models.ForeignKey("MedicineModel",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    report=models.ForeignKey("Report",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    doctor_fee=models.IntegerField(default=1000)
     tax=models.CharField(max_length=150)
     def __str__(self):
         return self.patient.first_name
-
+    
+    def extra_price(self):
+        total=0
+        for bi in self.madicine.all():
+            total += bi.get_price()
+        if self.report:
+            for re in self.report:
+                total+=re.report()
+        return total
+    
+    def total_price(self):
+        total=0
+        total+=self.extra_price()
+        if self.room:
+            total+=self.room.room_fee
+        total+=self.doctor_fee
+        return total
+    
 class Payment(models.Model):
     doctor = models.ForeignKey("Doctor", on_delete=models.CASCADE)
     month = models.CharField(max_length=200, choices=MONTHS)

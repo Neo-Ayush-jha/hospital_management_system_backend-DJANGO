@@ -1,0 +1,43 @@
+{% extends 'admin/adminBase.html'%}{%load crispy_forms_tags%}
+{% block 'admin-content' %}
+    <div class="contaner">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <!-- <div class="card-title fs-1">{{title|upper}}</div> -->
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {%csrf_token%}
+                            {{form.as_p}}
+                            <input type="submit" value="Add room" class="btn btn-success w-100">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-10 border border-2">
+                        <table class="table">
+                            <tr>
+                                <th>Id</th>
+                                <th>Staff name</th>
+                                <th>Staff position</th>
+                                <th>Staff payment</th>
+                                <th>Action</th>
+                            </tr>
+                            {% for staff in object_list %}
+                                <tr>
+                                    <td>{{staff.id}}</td>
+                                    <td>{{staff.staff_name}}</td>
+                                    <td>{{staff.staff_post}}</td>
+                                    <td>{{staff.staff_payment}}</td>
+                                    <td><a href="" class="btn btn-primary">Active</a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

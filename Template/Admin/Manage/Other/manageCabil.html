@@ -9,7 +9,7 @@
                     <form action="" method="post">
                         {%csrf_token%}
                         {{form.as_p}}
-                        <input type="submit" value="Add cabil" class="btn btn-success w-100">
+                        <input type="submit" value="Add Cabin" class="btn btn-success w-100">
                     </form>
                 </div>
             </div>
@@ -39,14 +39,14 @@
         </div>
         <div class="col-12">
             <div class="row">
-                <h2>Reserved Cabil</h2>
+                <h2>Reserved Cabin</h2>
                 {%for room in cab%}
                 <div class="col-3 px-0 ms-1 mt-2">
                     <div class="card border border-success">
                         <div class="card-body text-center">
                             <table class=" mx-0 px-0">
                                 <tr>
-                                    <th>Cabil number</th>
+                                    <th>Cabin number</th>
                                     <td><a href="{%url 'editCabilDetails' room.id%}" class=" fs-3">:
                                             {{room.cableNumber}}</a></td>
                                 </tr>

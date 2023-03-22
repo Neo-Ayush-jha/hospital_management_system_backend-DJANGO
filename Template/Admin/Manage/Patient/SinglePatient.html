@@ -1,126 +1,148 @@
-{% extends 'admin/adminBase.html'%}{%load crispy_forms_tags%} {% block 'admin-content' %}
-<div class="contaner">
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 border mt-2 border-3 p-3 border-dark mx-auto">
-            <div class="row border-bottom border-3 border-dark">
-                <div class="col-8 border-end">
-                    <h1 class="fs-1">View patient</h1>
-                </div>
-                <div class="col-4">
-                    {%if patient.isApproved == True %}
-                    <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
-                    {%endif%}
-                    <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
-                </div>
-            </div>
-
-            <table class="table mt-3">
-                <tr class="border border-dark">
-                    <th>Full name</th>
-                    <td class="border border-dark">
-                        {{patient.first_name}}{{patient.last_name}}
-                    </td>
-                    <td colspan="2" class="border border-dark text-center" rowspan="4">
-                        <img src="{{patient.p_image.url}}" style="height: 215px" class="rounded-circle" alt="" />
-                    </td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>Father name</th>
-                    <td class="border border-dark">{{patient.father_name}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>Mother name</th>
-                    <td class="border border-dark">{{patient.mother_name}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>Blood group</th>
-                    <td class="border border-dark">{{patient.blood_group}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>Gender</th>
-                    <td class="border border-dark">{{patient.gender}}</td>
-                    <th>Pin Code</th>
-                    <td class="border border-dark">{{patient.pin_code}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>DOB</th>
-                    <td class="border border-dark">{{patient.dob}}</td>
-                    <th>Contact</th>
-                    <td class="border border-dark">{{patient.contact}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>City</th>
-                    <td class="border border-dark">{{patient.city}}</td>
-                    <th>State</th>
-                    <td class="border border-dark">{{patient.state}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>Address</th>
-                    <td class="border border-dark">{{patient.address}}</td>
-
-                    <th>Room number</th>
-                    <td class="border border-dark">{{patient.room_no}}</td>
-                </tr>
-                <tr class="border border-dark">
-                    <th>Symptoms</th>
-                    <td class="border border-dark text-danger fs-4">
-                        {{patient.problem}}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-lg-12 col-sm-12 mx-auto">
-            <div class="row gap-1">
-                <div class="col-lg-6 col-sm-8 ">
-                    <div class="row">
-                        <div class="col-lg-12 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
-                            <h1>Patient test's list</h1>
-                            <form action="" method="post">
-                                {%csrf_token%}
-                                <div class="d-flex gap-5">
-                                    {{form|crispy}}
-                                    <input type="submit" value="submit" class="btn btn-success mt-4" style="height: 40px;" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-lg-12 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
-                            <h1>Patient test's list</h1>
-                            
-                        </div>
+{%load crispy_forms_tags%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <title>{% block 'title' %}{% endblock %}  | Hospital Management System</title>
+    <!-- basic -->
+</head>
+<body>
+    <div class="contaner">
+        <div class="row">
+            <div class="col-lg-10 col-sm-11 border mt-2 border-3 p-3 border-dark mx-auto">
+                <div class="row border-bottom border-3 border-dark">
+                    <div class="col-8 border-end">
+                        <h1 class="fs-1">Hospital Management System</h1>
+                    </div>
+                    <div class="col-4">
+                        {%if patient.isApproved == True %}
+                        <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
+                        {%endif%}
+                        <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
                     </div>
                 </div>
-                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
-                    <h1>Patient Reports list</h1>
-                    <table class="table mt-3 table-sm">
-                        <tr>
-                            <th>id</th>
-                            <th>Test name</th>
-                            <th>Doctor</th>
-                            <th>Test fee</th>
-                            <th>action</th>
-                        </tr>
-                        {% for report in report %}
-                            {%if patient.id == report.patient.id%}
-                                <tr> 
-                                    <td>{{report.id}}</td>
-                                    <td>{{report.test_name.test_name}}</td>
-                                    <td>{{report.doctor}}</td>
-                                    <td>{{report.test_name.test_price}}</td>
-                                    {%if report.action == None%}
-                                        <td><a href="{%url 'viewReport' report.id%}" class="btn btn-danger">{{report.action}}</a></td>
-                                    {%else%}
-                                        <td><a href="{%url 'viewReport' report.id%}" class="btn btn-info">{{report.action}}</a></td>
+    
+                <table class="table mt-3">
+                    <tr class="border border-dark">
+                        <th>Full name</th>
+                        <td class="border border-dark">
+                            {{patient.first_name}}{{patient.last_name}}
+                        </td>
+                        <td colspan="2" class="border border-dark text-center" rowspan="4">
+                            <img src="{{patient.p_image.url}}" style="height: 215px" class="rounded-circle" alt="" />
+                        </td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Father name</th>
+                        <td class="border border-dark">{{patient.father_name}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Mother name</th>
+                        <td class="border border-dark">{{patient.mother_name}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Blood group</th>
+                        <td class="border border-dark">{{patient.blood_group}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Gender</th>
+                        <td class="border border-dark">{{patient.gender}}</td>
+                        <th>Pin Code</th>
+                        <td class="border border-dark">{{patient.pin_code}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>DOB</th>
+                        <td class="border border-dark">{{patient.dob}}</td>
+                        <th>Contact</th>
+                        <td class="border border-dark">{{patient.contact}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>City</th>
+                        <td class="border border-dark">{{patient.city}}</td>
+                        <th>State</th>
+                        <td class="border border-dark">{{patient.state}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Address</th>
+                        <td class="border border-dark">{{patient.address}}</td>
+    
+                        <th>Room number</th>
+                        <td class="border border-dark">{{patient.room_no}}</td>
+                    </tr>
+                    <tr class="border border-dark">
+                        <th>Symptoms</th>
+                        <td class="border border-dark text-danger fs-4">
+                            {{patient.problem}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-10 col-sm-11 mx-auto">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 border mt-2 border-3 p-3 border-dark mx-auto">
+                        <h1>Patient Reports list</h1>
+                        <table class="table mt-3 table-sm">
+                            <tr>
+                                <th>id</th>
+                                <th>Test name</th>
+                                <th>Doctor</th>
+                                <th>Test fee</th>
+                                <th>action</th>
+                            </tr>
+                            {% for report in report %}
+                                {%if patient.id == report.patient.id%}
+                                    <tr> 
+                                        <td>{{report.id}}</td>
+                                        <td>{{report.test_name.test_name}}</td>
+                                        <td>{{report.doctor}}</td>
+                                        <td>(₹ {{report.test_name.test_price}})</td>
+                                        {%if report.action == None%}
+                                            <td><a href="{%url 'viewReport' report.id%}" class="btn btn-danger">{{report.action}}</a></td>
+                                        {%else%}
+                                            <td><a href="{%url 'viewReport' report.id%}" class="btn btn-info">{{report.action}}</a></td>
+                                        {%endif%}
+                                    </tr>
+                                {%endif%}
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 border mt-2 border-3 p-3 border-dark mx-auto">
+                        <h1 class="mt-3">Patient  Madicin list</h1>
+                        <table class="table border border-2">
+                            <tr>
+                                <th>id</th>
+                                <th>Medicin name</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                            {%if pharmaceutic%}
+                                {%for phar in pharmaceutic%}
+                                    {%if patient.id == phar.patient.id%}
+                                        <tr>
+                                            <td>{{phar.id}}</td>
+                                            <td>{{phar.pharmaceuticl.medicine}}</td>
+                                            <td>(₹{{phar.pharmaceuticl.price}})</td>
+                                            {%if phar.pharmaceuticl.isAvailable == True %}
+                                                <td><button class="btn btn-info">Available</button></td>
+                                            {%else%}
+                                                <td><button class="btn btn-danger">Not available</button></td>
+                                            {%endif%}
+                                        </tr>
                                     {%endif%}
-                                </tr>
+                                {%endfor%}
+                            {%else%}
+                                <tr><td><h1 class="display-5 text-secondary">No any Medicin is Available</h1></td></tr>
                             {%endif%}
-                        {% endfor %}
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        <a href="" class="btn btn-info d-print-none w-100" onClick="window.print()"> PRINT MARKSHEET<i class="bi bi-printer-fill ms-3 "></i></a>
     </div>
-    <a href="" class="btn btn-info d-print-none w-100" onClick="window.print()"> PRINT MARKSHEET<i class="bi bi-printer-fill ms-3 "></i></a>
-</div>
-
-{% endblock 'admin-content' %}
-                           
+</body>
+</html>

@@ -7,6 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login as loginfunction , logout as logoutfunction
+from django.views.generic import ListView,FormView,DeleteView,CreateView,UpdateView,View
 
 # ---------------------------------->>>HOME<<<-----------------------------------------#
 def home(req):
@@ -174,33 +175,24 @@ def manageOldPation(req):
 def viewPation(req,id):
     patient=Patient.objects.get(pk=id)
     test=Test.objects.all()
-    doctor=Doctor.objects.get(user=req.user.id)
-    form = ReportForm(req.POST or None)
-    if req.method=="POST":
-        print(req.POST.get('test_name'))
-        if form.is_valid():
-            test_name = req.POST.get('test_name')
-            form=Report()
-            form.test_name= Test.objects.get(pk=test_name)
-            form.patient=patient
-            form.doctor=doctor
-            # form.report=req.POST.get('report')
-            form.save()
-            return redirect(viewPation,id)
+    pharmaceutic=MedicineModel.objects.all()
     report=Report.objects.all()
-    data={"patient":patient,"form":form,"report":report,'test':test}
+    data={"patient":patient,"report":report,'test':test,"pharmaceutic":pharmaceutic}
     return render(req,"Admin/Manage/Patient/SinglePatient.html",data)
 @login_required
 def viewReport(req,id):
     report=Report.objects.get(pk=id)
     form = EditReportForm(req.POST or None,req.FILES or None,instance=report)
-    if req.method=="POST":
-        if form.is_valid():
-            form=report
-            form.action=True
-            form.save()
-            return redirect(viewReport,id)
-    return render(req,"Admin/Manage/Patient/report.html",{"form":form,"report":report})
+    doctor=Doctor.objects.filter(user=req.user.id)
+    if doctor.exists():
+        if req.method=="POST":
+            if form.is_valid():
+                form=report
+                form.action=True
+                form.save()
+                return redirect(viewReport,id)
+    data={"form":form,"report":report}
+    return render(req,"Admin/Manage/Patient/report.html",data)
 @login_required
 def editPation(req,id):
     patient=Patient.objects.get(pk=id)
@@ -240,7 +232,7 @@ def editRoomDetails(req,id):
 def cabilDetails(req):
     form = CabilForm(req.POST or None)
     data={}
-    data['title']="Cabil Details"
+    data['title']="Cabin Details"
     data['form']=form
     if req.method=="POST":
         if form.is_valid():
@@ -341,6 +333,7 @@ def pharmaceutic(req,id):
             formMedicin.save()
             return redirect(viewPationD,id)
     data={"patient":patient,"doctor":doctor,"formMedicin":formMedicin}
+    
     return render(req,"Doctor/Manage/SinglePatient.html",data)
 
 @login_required
@@ -390,6 +383,14 @@ def medicine(req):
     data['pharmaceuticl']=Pharmaceuticl.objects.all()
     return render(req,"Admin/Manage/other/pharmaceuticl.html",data)
 
+@login_required
+def cabilDetailsD(req):
+    data={}
+    data['title']="Reserved Cabin"
+    data['cabinDetail']=CABIL.objects.all()
+    if CabilAuthorised:
+        data['cab']=CabilAuthorised.objects.all()
+    return render(req,"Doctor/Manage/manageCabil.html",data)
 
 # def patientReport(req,id):
 #     form = ReportForm(req.POST or None)
@@ -413,3 +414,13 @@ def medicine(req):
 #         t.save()
 #         return redirect(managePation)
 #     return render(req,"Admin/Manage/Patient/SinglePatient.html",data)
+
+
+class StaffView(ListView):
+    model=Staff
+    template_name="./Admin/Manage/Other/staff.html"
+class StaffFormView(View):
+    template_name="./Admin/Manage/Other/staff.html"
+    model=Staff
+    fields="__all__"
+    success_url = "/admin-home"

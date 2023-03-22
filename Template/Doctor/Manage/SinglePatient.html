@@ -115,9 +115,7 @@
                                     {{formMedicin|crispy}}
                                     <input type="submit" value="Submit Madicin" class="btn btn-success mt-4" style="height: 40px;" />
                             </form>                        
-                {% comment %} </div>
-                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto"> {% endcomment %}
-                    <h1 class="mt-3">Patient  Madicin list</h1>
+                <h1 class="mt-3">Patient  Madicin list</h1>
                     <table class="table border border-2">
                         <tr>
                             <th>id</th>
@@ -127,19 +125,21 @@
                         </tr>
                         {%if pharmaceutic%}
                             {%for phar in pharmaceutic%}
-                                <tr>
-                                    <td>{{phar.id}}</td>
-                                    <td>{{phar.pharmaceuticl.medicine}}</td>
-                                    <td>{{phar.pharmaceuticl.price}}</td>
-                                    {%if phar.pharmaceuticl.isAvailable == True %}
-                                        <td><button class="btn btn-info">Available</button></td>
-                                    {%else%}
-                                        <td><button class="btn btn-danger">Not available</button></td>
-                                    {%endif%}
-                                </tr>
+                                {%if patient.id == phar.patient.id%}
+                                    <tr>
+                                        <td>{{phar.id}}</td>
+                                        <td>{{phar.pharmaceuticl.medicine}}</td>
+                                        <td>(₹{{phar.pharmaceuticl.price}})</td>
+                                        {%if phar.pharmaceuticl.isAvailable == True %}
+                                            <td><button class="btn btn-info">Available</button></td>
+                                        {%else%}
+                                            <td><button class="btn btn-danger">Not available</button></td>
+                                        {%endif%}
+                                    </tr>
+                                {%endif%}
                             {%endfor%}
                         {%else%}
-                                <h1 class="display-5 text-secondary">No any Medicin is Available</h1>
+                            <tr><td><h1 class="display-5 text-secondary">No any Medicin is Available</h1></td></tr>
                         {%endif%}
                     </table>
                 </div>
