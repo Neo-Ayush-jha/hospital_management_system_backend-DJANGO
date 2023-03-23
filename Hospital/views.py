@@ -424,3 +424,9 @@ class StaffFormView(View):
     model=Staff
     fields="__all__"
     success_url = "/admin-home"
+
+class BillView(CreateView):
+    model=Bill
+    template_name="./Admin/Manage/Other/bill.html"
+    success_url="/bill-view/form/"
+    fields="__all__"

@@ -40,6 +40,7 @@ urlpatterns = [
     path("manage-pharmaceutical/",medicine,name="medicine"),
     # path("doctor-my-proflie/<int:id>/view/",doctorProfile,name="doctorProfile"),
     path('staff-view/', StaffView.as_view(),name="StaffView"),
-    path("admin/staff-view/form/",StaffFormView.as_view(),name="StaffFormView"),
+    path("staff-view/form/",StaffFormView.as_view(),name="StaffFormView"),
+    path("bill-view/form/",BillView.as_view(),name="BillView"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

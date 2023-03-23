@@ -283,7 +283,7 @@ class Bill(models.Model):
         for bi in self.madicine.all():
             total += bi.get_price()
         if self.report:
-            for re in self.report:
+            for re in self.report.all():
                 total+=re.report()
         return total
     
@@ -293,6 +293,7 @@ class Bill(models.Model):
         if self.room:
             total+=self.room.room_fee
         total+=self.doctor_fee
+        total*0.18
         return total
     
 class Payment(models.Model):
