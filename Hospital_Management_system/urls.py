@@ -27,6 +27,7 @@ urlpatterns = [
     path("single-view-patient/<int:id>/view/",viewPation,name="viewPation"),
     path("doctor/single-view-patient/<int:id>/",viewPationD,name="viewPationD"),
     path("doctor/single-view-patient/<int:id>/pharmaceutic/",pharmaceutic,name="pharmaceutic"),
+
     path("single-view-patient-report/<int:id>/",viewReport,name="viewReport"),
     path("delete-old-doctor-details/<int:id>/delete/",deleteDoctor,name="deleteDoctor"),
     path("edit-old-doctor-details/<int:id>/edit/",editDoctor,name="editDoctor"),

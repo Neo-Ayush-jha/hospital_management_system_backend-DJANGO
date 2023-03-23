@@ -409,7 +409,8 @@ def cabilDetailsD(req):
 #         t.save()
 #         return redirect(managePation)
 #     return render(req,"Admin/Manage/Patient/SinglePatient.html",data)
-@login_required
+
+# @login_required
 class StaffView(CreateView):
     template_name="./Admin/Manage/Other/staff.html"
     model=Staff
@@ -421,7 +422,8 @@ class StaffView(CreateView):
         form=StaffForm
         context={"staff":staff,"form":form}
         return context
-@login_required
+
+# @login_required
 class BillView(CreateView):
     model=Bill
     template_name="./Admin/Manage/Other/bill.html"
