@@ -274,16 +274,16 @@ class Bill(models.Model):
     madicine=models.ForeignKey("MedicineModel",on_delete=models.CASCADE,default=None,blank=True,null=True)
     report=models.ForeignKey("Report",on_delete=models.CASCADE,default=None,blank=True,null=True)
     doctor_fee=models.IntegerField(default=1000)
-    tax=models.CharField(max_length=150)
+    # tax=models.CharField(max_length=150)
     def __str__(self):
         return self.patient.first_name
     
     def extra_price(self):
         total=0
-        for bi in self.madicine.all():
+        for bi in self.madicine:
             total += bi.get_price()
         if self.report:
-            for re in self.report.all():
+            for re in self.report:
                 total+=re.report()
         return total
     
@@ -302,6 +302,5 @@ class Payment(models.Model):
     date_of_salary = models.DateField(auto_now=False, null=True,blank=True)
     status = models.BooleanField(default=False)
     amount = models.IntegerField(default=1000)
-
     def __str__(self):
         return self.doctor.user.username + " - " + self.month

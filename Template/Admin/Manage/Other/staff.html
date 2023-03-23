@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <form action="" method="post">
                             {%csrf_token%}
-                            {{form.as_p}}
+                            {{form|crispy}}
                             <input type="submit" value="Add room" class="btn btn-success w-100">
                         </form>
                     </div>
@@ -25,7 +25,7 @@
                                 <th>Staff payment</th>
                                 <th>Action</th>
                             </tr>
-                            {% for staff in object_list %}
+                            {% for staff in staff %}
                                 <tr>
                                     <td>{{staff.id}}</td>
                                     <td>{{staff.staff_name}}</td>

@@ -64,3 +64,11 @@ class MedicineModelForm(ModelForm):
     class Meta:
         model=MedicineModel
         exclude=("patient","doctor","action",)
+class BillForm(ModelForm):
+    class Meta:
+        model=Bill
+        fields="__all__"
+class StaffForm(ModelForm):
+    class Meta:
+        model=Staff
+        fields="__all__"

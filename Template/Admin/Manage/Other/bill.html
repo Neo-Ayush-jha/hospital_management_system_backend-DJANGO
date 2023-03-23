@@ -16,24 +16,28 @@
             </div>
             <div class="col-8">
                 <div class="row">
-                    <div class="col-10 border border-2">
-                        <table class="table">
+                    <div class="col-12">
+                        <table class="table border border-2">
                             <tr>
-                                <th>Id</th>
-                                <th>Patient name</th>
-                                <th>Staff name</th>
-                                <th>Madicine name</th>
-                                <th>Report</th>
-                                <th>Doctor fee</th>
-                                <th>Action</th>
+                                <th class="border">Id</th>
+                                <th class="border">Patient name</th>
+                                <th class="border">Staff name</th>
+                                <th class="border">Madicine name</th>
+                                <th class="border">Report</th>
+                                <th class="border">Doctor fee</th>
+                                <th class="border">Totall rupees</th>
+                                <th class="border">Action</th>
                             </tr>
                             {% for bill in object_list %}
                               <tr>
-                                <td>{{bill.patient.first_name}} {{bill.patient.last_name}}</td>
-                                <td>{{bill.staff.name}}</td>
-                                <td>{{bill.doctor_fee}}</td>
-                                <td>{{bill.madicine}}</td>
-                                <td><a href="" class="btn btn-danger">Payment</a></td>
+                                <td class="border">{{bill.id}}</td>
+                                <td class="border">{{bill.patient.first_name}} {{bill.patient.last_name}}</td>
+                                <td class="border">{{bill.staff.staff_name}}</td>
+                                <td class="border">{{bill.madicine.pharmaceuticl.medicine}}</td>
+                                <td class="border">{{bill.report.test_name}}</td>
+                                <td class="border">{{bill.doctor_fee}}</td>
+                                <td class="border"></td>
+                                <td class="border"><a href="" class="btn btn-danger">Payment</a></td>
                               </tr>
                             {% endfor %}
                         </table>

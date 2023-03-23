@@ -27,7 +27,6 @@ urlpatterns = [
     path("single-view-patient/<int:id>/view/",viewPation,name="viewPation"),
     path("doctor/single-view-patient/<int:id>/",viewPationD,name="viewPationD"),
     path("doctor/single-view-patient/<int:id>/pharmaceutic/",pharmaceutic,name="pharmaceutic"),
-
     path("single-view-patient-report/<int:id>/",viewReport,name="viewReport"),
     path("delete-old-doctor-details/<int:id>/delete/",deleteDoctor,name="deleteDoctor"),
     path("edit-old-doctor-details/<int:id>/edit/",editDoctor,name="editDoctor"),
@@ -38,9 +37,7 @@ urlpatterns = [
     path("doctor-my-proflie/view/",doctorProfile,name="doctorProfile"),
     path("doctor/single-view-patient-report/<int:id>/",viewReportD,name="viewReportD"),
     path("manage-pharmaceutical/",medicine,name="medicine"),
-    # path("doctor-my-proflie/<int:id>/view/",doctorProfile,name="doctorProfile"),
-    path('staff-view/', StaffView.as_view(),name="StaffView"),
-    path("staff-view/form/",StaffFormView.as_view(),name="StaffFormView"),
+    path("staff-view/form/",StaffView.as_view(),name="StaffView"),
     path("bill-view/form/",BillView.as_view(),name="BillView"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

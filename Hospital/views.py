@@ -90,7 +90,6 @@ def adminHome(req):
     data['notCabilAvailable']=CabilAuthorised.objects.filter(isAvailable=False).count()
     return render(req,"Admin/dashboard.html",data)
 
-
 @login_required
 def manageNewDoctor(req):
     data={}
@@ -118,14 +117,12 @@ def viewDoctor(req,id):
             form.isAvailable=False
             form.save()
             return redirect(viewDoctor,id)
-    # print(doctor.id)
     salary=Payment.objects.all()
     cabin = CabilAuthorised.objects.filter(doctor_no=doctor)
     data = {"doctor":doctor,"cabilAprove":None,"form":form,"cabil":cabil,"salary":salary}
     if cabin.exists():
         cabilAprove=cabin[0]
-        data['cabilAprove'] = cabilAprove
-    
+        data['cabilAprove'] = cabilAprove    
     return render(req,"Admin/Manage/Doctor/SingleDoctor.html",data)
 
     
@@ -266,8 +263,6 @@ def tests(req):
     data['test']=Test.objects.all()
     data['report']=Report.objects.all()
     return render(req,"Admin/Manage/other/manageTest.html",data)
-
-
 
 
 @login_required
@@ -414,19 +409,27 @@ def cabilDetailsD(req):
 #         t.save()
 #         return redirect(managePation)
 #     return render(req,"Admin/Manage/Patient/SinglePatient.html",data)
-
-
-class StaffView(ListView):
-    model=Staff
-    template_name="./Admin/Manage/Other/staff.html"
-class StaffFormView(View):
+@login_required
+class StaffView(CreateView):
     template_name="./Admin/Manage/Other/staff.html"
     model=Staff
     fields="__all__"
     success_url = "/admin-home"
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        staff=Staff.objects.all()
+        form=StaffForm
+        context={"staff":staff,"form":form}
+        return context
+@login_required
 class BillView(CreateView):
     model=Bill
     template_name="./Admin/Manage/Other/bill.html"
     success_url="/bill-view/form/"
     fields="__all__"
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        stud=Bill.objects.all()
+        form=BillForm
+        context ={"object_list":stud,"form":form}
+        return context
