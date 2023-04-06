@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 # class User(AbstractUser):
 #     is_patient = models.BooleanField('patient status', default=False)
 #     is_doctor = models.BooleanField('doctor status', default=False)
@@ -267,24 +269,22 @@ class MedicineModel(models.Model):
     
 class Bill(models.Model):
     date=models.DateTimeField(auto_now_add=True)
-    # payment_id=models.CharField(max_length=120)
-    patient=models.ForeignKey("Patient",on_delete=models.CASCADE)
-    staff=models.ForeignKey("Staff",on_delete=models.CASCADE)
-    room=models.ForeignKey("Room",on_delete=models.CASCADE,default=None,blank=True,null=True)
-    madicine=models.ForeignKey("MedicineModel",on_delete=models.CASCADE,default=None,blank=True,null=True)
-    report=models.ForeignKey("Report",on_delete=models.CASCADE,default=None,blank=True,null=True)
+    patient=models.ForeignKey(Patient,on_delete=models.CASCADE,default=None,blank=True,null=True)
+    staff=models.ForeignKey(Staff,on_delete=models.CASCADE)
+    room=models.ForeignKey(RoomAuthorised,on_delete=models.CASCADE,default=None,blank=True,null=True)
+    madicine=models.ManyToManyField(MedicineModel)
+    report=models.ManyToManyField(Report,default=None,blank=True,null=True)
     doctor_fee=models.IntegerField(default=1000)
-    # tax=models.CharField(max_length=150)
-    def __str__(self):
-        return self.patient.first_name
+    # def __str__(self):
+    #     return self.patient.first_name
     
     def extra_price(self):
         total=0
-        for bi in self.madicine:
+        for bi in self.madicine.all():
             total += bi.get_price()
         if self.report:
-            for re in self.report:
-                total+=re.report()
+            for re in self.report.all():
+                total+=re.test_name.test_price
         return total
     
     def total_price(self):
@@ -304,3 +304,28 @@ class Payment(models.Model):
     amount = models.IntegerField(default=1000)
     def __str__(self):
         return self.doctor.user.username + " - " + self.month
+
+class Attendance(models.Model):
+    Doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    Hour = models.CharField(max_length=1, blank=False)
+    Date = models.DateTimeField(default=timezone.now)
+    Presence = models.BooleanField(default=False, blank=False)
+    def __str__(self):
+        return self.Doctor
+
+class Notification(models.Model):
+    staff_id = models.ForeignKey(Doctor,on_delete=models.CASCADE)
+    message=models.TextField()
+    created_as=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.staff_id.user.username
+
+class Staff_leave(models.Model):
+    staff_id = models.ForeignKey(Doctor,on_delete=models.CASCADE)
+    date=models.CharField(max_length=150)
+    message=models.TextField()
+    status=models.IntegerField(default=0)
+    created_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.staff_id.user.username

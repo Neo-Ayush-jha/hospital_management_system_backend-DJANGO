@@ -30,13 +30,24 @@
                             </tr>
                             {% for bill in object_list %}
                               <tr>
-                                <td class="border">{{bill.id}}</td>
+                                  <td class="border">{{forloop.counter}}</td>
+                                <!-- <td class="border">{{bill.id}}</td> -->
                                 <td class="border">{{bill.patient.first_name}} {{bill.patient.last_name}}</td>
                                 <td class="border">{{bill.staff.staff_name}}</td>
-                                <td class="border">{{bill.madicine.pharmaceuticl.medicine}}</td>
-                                <td class="border">{{bill.report.test_name}}</td>
+                                <td class="border">
+                                    {% for md in bill.madicine.all%}
+                                        <span>{{md.pharmaceuticl.medicine}}</span>
+                                    {% endfor %}
+                                </td>
+                                <td class="border">
+                                    
+                                    {% for re in bill.report.all %}
+                                        <span>{{re.test_name}}</span>
+                                    {% endfor %}
+                                        
+                                </td>
                                 <td class="border">{{bill.doctor_fee}}</td>
-                                <td class="border"></td>
+                                <td class="border">{{bill.total_price}}</td>
                                 <td class="border"><a href="" class="btn btn-danger">Payment</a></td>
                               </tr>
                             {% endfor %}

@@ -96,7 +96,7 @@
                             {% for report in report %}
                                 {%if patient.id == report.patient.id%}
                                     <tr> 
-                                        <td>{{report.id}}</td>
+                                        <td class="border">{{forloop.counter}}</td>
                                         <td>{{report.test_name.test_name}}</td>
                                         <td>{{report.doctor}}</td>
                                         <td>(₹ {{report.test_name.test_price}})</td>
@@ -120,7 +120,8 @@
                                 <th>Action</th>
                             </tr>
                             {%if pharmaceutic%}
-                                {%for phar in pharmaceutic%}
+                                  <td class="border">{{forloop.counter}}</td>
+                                  {%for phar in pharmaceutic%}
                                     {%if patient.id == phar.patient.id%}
                                         <tr>
                                             <td>{{phar.id}}</td>

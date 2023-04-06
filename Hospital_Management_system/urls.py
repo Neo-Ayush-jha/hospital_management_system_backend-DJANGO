@@ -40,5 +40,11 @@ urlpatterns = [
     path("manage-pharmaceutical/",medicine,name="medicine"),
     path("staff-view/form/",StaffView.as_view(),name="StaffView"),
     path("bill-view/form/",BillView.as_view(),name="BillView"),
+    path("notification/",NotificationView.as_view(),name="NotificationView"),
+    path("doctor/notification/",DoctorMessage.as_view(),name="DoctorMessage"),
+    path("staff/leave/",Staff_leaveView.as_view(),name="Staff_leaveView"),
+    path("staff/leave/<int:id>/",staff_leave_approve,name="staff_leave_approve"),
+    path("doctor/leave/",doctor_leaveView,name="doctor_leaveView"),
+    
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

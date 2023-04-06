@@ -1,0 +1,51 @@
+{% extends 'doctor/doctorBase.html'%}{%load crispy_forms_tags%}
+{% block 'doctor-content' %}
+<div class="contaner">
+    <div class="row">
+        <div class="card-title fs-1">{{title|upper}}</div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{%url 'doctor_leaveView' %}" method="post">
+                        {%csrf_token%}
+                        <div class="mb-3">
+                            <input type="date" name="date" placeholder="Date" id="" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="message" id="" cols="30" rows="7" required
+                                placeholder="Enter your leave resion" class="form-control"></textarea>
+                        </div>
+                        <input type="submit" value="Add room" class="btn btn-success w-100">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <table class="table border border-3">
+                <tr>
+                    <th class="border">Leave no.</th>
+                    <th class="border">Name</th>
+                    <th class="border">Leave resion</th>
+                    <th class="border">Action</th>
+                </tr>
+                {% for lev in leave %}
+                <tr>
+                    <td class="border">{{forloop.counter}}</td>
+                    <td class="border">{{lev.staff_id}}</td>
+                    <td class="border">{{lev.message}}</td>
+                    {% if lev.status == 0 %}
+                    <td class="border"><a href=""><button type="button"
+                                class="btn btn-danger">Not approve</button></a></td>
+                    {% else %}
+                    <td class="border"><button type="button" class="btn btn-success">Approve</button></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock 'doctor-content' %}

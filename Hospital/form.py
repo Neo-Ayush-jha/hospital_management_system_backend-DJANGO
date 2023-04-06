@@ -72,3 +72,15 @@ class StaffForm(ModelForm):
     class Meta:
         model=Staff
         fields="__all__"
+class AttendanceForm(ModelForm):
+    class Meta:
+        model=Attendance
+        fields="__all__"
+class NotificationForm(ModelForm):
+    class Meta:
+        model=Notification
+        fields="__all__"
+class Staff_leaveForm(ModelForm):
+    class Meta:
+        model=Staff_leave
+        exclude=("status",)

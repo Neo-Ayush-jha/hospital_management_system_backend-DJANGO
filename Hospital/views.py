@@ -325,6 +325,7 @@ def pharmaceutic(req,id):
             formMedicin.pharmaceuticl=Pharmaceuticl.objects.get(pk=pharmaceuticl)
             formMedicin.patient=patient
             formMedicin.doctor=doctor
+            formMedicin.qty=req.POST.get('qty')
             formMedicin.save()
             return redirect(viewPationD,id)
     data={"patient":patient,"doctor":doctor,"formMedicin":formMedicin}
@@ -435,3 +436,55 @@ class BillView(CreateView):
         form=BillForm
         context ={"object_list":stud,"form":form}
         return context
+
+class NotificationView(CreateView):
+    model=Notification
+    template_name="./Admin/Manage/Other/notification.html"
+    success_url="/notification/"
+    fields="__all__"
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        message=Notification.objects.all()
+        title="Staff Notification"
+        form=NotificationForm
+        context={"object_list":message,"form":form,"title":title}
+        return context
+
+
+class DoctorMessage(ListView):
+    model = Notification
+    template_name="./Doctor/Manage/notification.html"
+    
+class Staff_leaveView(CreateView):
+    model = Staff_leave
+    template_name="./Admin/Manage/Other/staf_life.html"
+    success_url="/staff/leave/"
+    fields="__all__"
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        staff_leave=Staff_leave.objects.all()
+        title="Staff leave"
+        form=Staff_leaveForm
+        context={"object_list":staff_leave,"form":form,"title":title}
+        return context
+def staff_leave_approve(req,id):
+    staff=Staff_leave.objects.get(id=id,status=False)   
+    staff.status=1
+    staff.save()
+    return redirect("/staff/leave/")
+
+def doctor_leaveView(req):
+    doctor=Doctor.objects.get(pk=req.user.id)
+    form=Staff_leaveForm
+    print("hello doctor kjbjkvdbsv",doctor)
+    title="Leave Form"
+    if req.method =="POST":
+        form=Staff_leave()
+        form.staff_id=doctor
+        form.date =req.POST.get('date')
+        form.message =req.POST.get('message')
+        form.save()
+        return redirect(doctor_leaveView)
+    leave=Staff_leave.objects.filter(staff_id = doctor.id)
+    data={"leave":leave,"doctor":doctor,"title":title}
+    return render(req,"Doctor/Form/leave.html",data)
