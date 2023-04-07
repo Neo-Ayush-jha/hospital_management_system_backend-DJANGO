@@ -3,23 +3,17 @@
 <div class="container-flex">
     <div class="container-flex">
         <div class="row">
-            <div class="col-2">
-                <ul class="list-group">
-                    <li class="list-group-item bg-dark active" aria-current="true"><a href="{%url 'doctorDashboard' %}" class="btn w-100 rounded-0 text-light">Doctor Dashboard</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'doctorProfile' %}" class="btn w-100 rounded-0">{{doctor.user}} Profile</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'managePationD'%}" class="btn w-100 rounded-0">Manage patient</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'manageOldPationD'%}" class="btn w-100 rounded-0">Manage old patient</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'roomDetails'%}" class="btn w-100 rounded-0">Manage room</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'cabilDetailsD'%}" class="btn w-100 rounded-0">Doctor's cabin</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'DoctorMessage' %}" class="btn w-100 rounded-0">Message</a></li>
-                    <li class="list-group-item bg-info"><a href="{%url 'doctor_leaveView' %}" class="btn w-100 rounded-0">Leave</a></li>
-                    <li class="list-group-item bg-info"><a href="" class="btn w-100 rounded-0">Manage Staffs</a></li>
-                    <li class="list-group-item bg-info"><a href="" class="btn w-100 rounded-0">Manage Attendance</a></li>
-                    <li class="list-group-item bg-info"><a href="{}" class="btn w-100 rounded-0">Manage Payments</a></li>
-                    <li class="list-group-item bg-info"><a href="" class="btn w-100 rounded-0">Settings</a></li>
-                </ul>
+            <div class="col-3">
+
+                <div id="mySidebar" class="sidebar">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    {% include './side.html' %}
+                  </div>
+                  <div id="main">
+                    <button class="openbtn" onclick="openNav()">☰ Open Manu</button>
+                  </div>
+                
             </div>
-            <div class="col-1"></div>
             <div class="col-8 my-3">
                 {% block 'doctor-content' %}
                 {% endblock %}

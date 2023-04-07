@@ -329,3 +329,11 @@ class Staff_leave(models.Model):
     update_at=models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.staff_id.user.username
+
+class Appointment(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    date = models.DateField(help_text="use MM/DD/YYYY format")
+    def __str__(self):
+        return self.patient.first_name + " - " + self.patient.last_name + " - " + self.doctor.user.username
+    

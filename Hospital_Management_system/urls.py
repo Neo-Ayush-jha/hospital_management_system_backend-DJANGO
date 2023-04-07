@@ -45,6 +45,7 @@ urlpatterns = [
     path("staff/leave/",Staff_leaveView.as_view(),name="Staff_leaveView"),
     path("staff/leave/<int:id>/",staff_leave_approve,name="staff_leave_approve"),
     path("doctor/leave/",doctor_leaveView,name="doctor_leaveView"),
-    
+    path('check/appointment/', appointment, name='appointment'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

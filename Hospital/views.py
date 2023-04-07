@@ -11,7 +11,14 @@ from django.views.generic import ListView,FormView,DeleteView,CreateView,UpdateV
 
 # ---------------------------------->>>HOME<<<-----------------------------------------#
 def home(req):
-    return render(req,"Patient/baseHome.html")
+    appointmentForm=AppointmentForm(req.POST or None)
+    doctor=Doctor.objects.all()
+    if req.method == 'POST':
+        if appointmentForm.is_valid():
+            appointmentForm.save()
+            return redirect(home)
+    data={"doctor":doctor,"form":appointmentForm}
+    return render(req,"Patient/baseHome.html",data)
 def health(req):
     return render(req,"Patient/health.html")
 # ---------------------------------->>>PATIENT<<<-----------------------------------------#
@@ -488,3 +495,13 @@ def doctor_leaveView(req):
     leave=Staff_leave.objects.filter(staff_id = doctor.id)
     data={"leave":leave,"doctor":doctor,"title":title}
     return render(req,"Doctor/Form/leave.html",data)
+
+@login_required
+def appointment(req):
+    doctor=Doctor.objects.get(pk=req.user.id)
+    data={
+        'title':"Appointment ",
+        'appointment': Appointment.objects.filter(doctor = doctor)
+    }
+    
+    return render(req,"Doctor/Manage/appointment.html",data)

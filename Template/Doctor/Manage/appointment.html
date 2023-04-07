@@ -1,0 +1,36 @@
+{% extends 'doctor/doctorBase.html'%}
+{% block 'doctor-content' %}
+    <div class="contaner">
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <h1 class="fs-1">{{title|upper}}</h1>
+            </div>
+            <div class="col-6">
+                <form class="d-flex" action="" method="get" role="search">
+                    <input class="form-control me-2" name="code" type="text" autofocus placeholder="Scan RF code here" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Scan</button>
+                  </form>
+            </div>
+            <div class="col mx-auto">
+                <table class="table border border-2">
+                    <tr>
+                        <th class="border">id</th>
+                        <th class="border">Name</th>
+                        <th class="border">Doctor</th>
+                        <th class="border">Date</th>
+                        <th colspan="3" class="border">Action</th>
+                    </tr>
+                    {% for stu in appointment %}
+                        <tr>
+                            <td class="border">{{stu.id}}</td>
+                            <td class="border">{{stu.patient.first_name}} {{stu.patient.last_name}}</td>
+                            <td class="border">{{stu.doctor}}</td>
+                            <td class="border">{{stu.date}}</td>
+                            <td class="border"><a href="" class="btn btn-success">View</a></td>
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock 'doctor-content' %}

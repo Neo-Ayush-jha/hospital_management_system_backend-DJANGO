@@ -84,3 +84,7 @@ class Staff_leaveForm(ModelForm):
     class Meta:
         model=Staff_leave
         exclude=("status",)
+class AppointmentForm(ModelForm):
+    class Meta:
+        model=Appointment
+        exclude="__all__"
