@@ -72,10 +72,10 @@ class StaffForm(ModelForm):
     class Meta:
         model=Staff
         fields="__all__"
-class AttendanceForm(ModelForm):
-    class Meta:
-        model=Attendance
-        fields="__all__"
+# class AttendanceForm(ModelForm):
+#     class Meta:
+#         model=Attendance
+#         fields="__all__"
 class NotificationForm(ModelForm):
     class Meta:
         model=Notification
@@ -88,3 +88,9 @@ class AppointmentForm(ModelForm):
     class Meta:
         model=Appointment
         exclude="__all__"
+
+
+class Attendanceform(ModelForm):
+    class Meta:
+        model = Attendance
+        fields = "__all__"

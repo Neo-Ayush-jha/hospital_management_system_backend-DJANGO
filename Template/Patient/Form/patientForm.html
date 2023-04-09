@@ -1,11 +1,5 @@
-{% extends 'base.html' %}
-{%load crispy_forms_tags%}
-{% block 'content' %}
-{% load static%}
-<div
-  class="contact_section layout_padding py-0"
-  style="background-image: url('{% static 'contact-bg.png'%}');"
->
+{% extends 'base.html' %}{%load crispy_forms_tags%}{% block 'content' %}{% load static%}
+<div class="contact_section layout_padding py-0" style="background-image: url('{% static 'contact-bg.png'%}');">
   <div class="container">
     <h1 class="contact_taital">What we do</h1>
     <div class="news_section_2">
@@ -23,18 +17,26 @@
             <div class="icon_7"><img src="{% static 'icon-6.png'%}" /></div>
             <h4 class="diabetes_text">Surgical and medical Oncology</h4>
           </div>
+
+          <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol id="info-fill" viewBox="0 0 16 16">
+              <path
+                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </symbol>
+          </svg>
+          <div class="alert alert-success d-flex align-items-center" role="alert">
+            <div>
+              <h1 class="display-4">{% include '../../msg.html' %}</h1>
+            </div>
+          </div>
         </div>
         <div class="col-md-6 py-0 mt-0">
           <div class="contact_box">
             <h1 class="book_text">Book Appoinment</h1>
-            <form action=""  class="py-0" enctype="multipart/form-data" method="post">
+            <form action="" class="py-0" enctype="multipart/form-data" method="post">
               {%csrf_token%}
               {{form|crispy}}
-              <input
-                type="submit"
-                value="Login admin"
-                class="btn btn-success w-100"
-              />
+              <input type="submit" value="Submit" class="btn btn-success w-100" />
             </form>
           </div>
         </div>

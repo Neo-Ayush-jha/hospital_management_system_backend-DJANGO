@@ -167,8 +167,7 @@ class Pharmaceuticl(models.Model):
     isAvailable=models.BooleanField(default=False)
     def __str__(self):
         return self.medicine
-    
-    
+     
 class Doctor(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     father_name=models.CharField(max_length=150)
@@ -217,8 +216,7 @@ class Patient(models.Model):
     tests=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
     def __str__(self):
         return self.first_name + " - " + self.last_name
-    
-      
+        
 class Report(models.Model):
     test_name=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
     patient=models.ForeignKey("Patient",on_delete=models.CASCADE,default=None,blank=True,null=True)
@@ -237,7 +235,6 @@ class RoomAuthorised(models.Model):
 
     def __str__(self):
         return self.room_no
-    
     
 class CabilAuthorised(models.Model):
     cableNumber=models.OneToOneField("CABIL",on_delete=models.CASCADE,default=None,blank=True,null=True)
@@ -305,14 +302,6 @@ class Payment(models.Model):
     def __str__(self):
         return self.doctor.user.username + " - " + self.month
 
-class Attendance(models.Model):
-    Doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    Hour = models.CharField(max_length=1, blank=False)
-    Date = models.DateTimeField(default=timezone.now)
-    Presence = models.BooleanField(default=False, blank=False)
-    def __str__(self):
-        return self.Doctor
-
 class Notification(models.Model):
     staff_id = models.ForeignKey(Doctor,on_delete=models.CASCADE)
     message=models.TextField()
@@ -337,3 +326,11 @@ class Appointment(models.Model):
     def __str__(self):
         return self.patient.first_name + " - " + self.patient.last_name + " - " + self.doctor.user.username
     
+class Attendance(models.Model):
+    Doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default=False, blank=False)
+    end_time = models.DateTimeField(default=False, blank=False)
+    Date = models.DateTimeField(default=timezone.now)
+    is_present = models.BooleanField(default=False, blank=False)
+    def __str__(self):
+        return self.Doctor

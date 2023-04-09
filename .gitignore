@@ -2,3 +2,7 @@
 /db.sqlite3*
 /manage.py*
 /static*
+/venv*
+/server*
+/Hospital/migration*
+/Hospital/__pycache__*

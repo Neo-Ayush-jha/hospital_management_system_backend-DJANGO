@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as msg
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -137,3 +138,14 @@ CRISPY_ALLOWD_TEMPLATE_PACKS= "bootstrap5"
 CRISPY_TEMPLATE_PACK="bootstrap5"
 
 # AUTH_USER_MODEL='Hospital.User'
+
+# -----------------------------------message------------------------------------------>
+MESSAGE_TAGS  = {
+    msg.DEBUG : "alert alert-info",
+    msg.ERROR : "alert alert-danger",
+    msg.SUCCESS : "alert alert-success",
+    msg.WARNING : "alert alert-warning",
+    
+    # msg.DEBUG : "bg-red-400 text-white px-3 rounded py-1",
+}
+

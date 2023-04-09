@@ -1,7 +1,9 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect,HttpResponseRedirect,get_object_or_404
 from .form import * 
 from .models import *
 from datetime import datetime
+from django.utils import timezone
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.files.storage import FileSystemStorage
@@ -22,13 +24,14 @@ def home(req):
 def health(req):
     return render(req,"Patient/health.html")
 # ---------------------------------->>>PATIENT<<<-----------------------------------------#
-def newPatient(req):
-    form = PatientForm(req.POST or None, req.FILES or None)
-    if req.method =="POST":
+def newPatient(r):
+    form = PatientForm(r.POST or None, r.FILES or None)
+    if r.method =="POST":
         if form.is_valid():
             form.save()
-            return redirect(home)
-    return render(req,"Patient/Form/patientForm.html",{'form':form})
+            messages.success(r,"You are added as patient successfully")
+            return redirect(newPatient)
+    return render(r,"Patient/Form/patientForm.html",{'form':form})
 # ---------------------------------->>>DOCTOR<<<-----------------------------------------#
 def newDoctor(req):
     form = DoctorForm(req.POST or None, req.FILES or None)
@@ -60,7 +63,8 @@ def newDoctor(req):
         a.qualification=req.POST.get('qualification')
         a.qualification=req.POST.get('qualification')
         a.save()
-        return redirect(home)
+        messages.success(req,"You are  successfully")
+        return redirect(newDoctor)
     return render(req,"Doctor/Form/doctorForm.html",{'form':form})
 # ---------------------------------->>>ADMIN<<<-----------------------------------------#
 def login(req):
@@ -161,7 +165,6 @@ def editDoctor(req,id):
             form.save()
             return redirect(manageOldDoctor)
     return render(req,"Admin/Edit/Doctor/doctor.html",{'form':form})
-
 
 @login_required
 def managePation(req):
@@ -274,15 +277,22 @@ def tests(req):
 
 @login_required
 def doctorDashboard(req):   
-    data={}
-    data['doctor']=Doctor.objects.get(pk=req.user.id)
-    data['patient']=Patient.objects.all().count()
-    data['room']=Room.objects.all().count()
-    data['notRoomAvailable']=RoomAuthorised.objects.filter(isAvailable=False).count()
-    data['cabil']=CABIL.objects.all().count()
-    data['notCabilAvailable']=CabilAuthorised.objects.filter(isAvailable=False).count()
+    doctor=Doctor.objects.get(pk=req.user.id)
+    patient=Patient.objects.all().count()
+    room=Room.objects.all().count()
+    notRoomAvailable=RoomAuthorised.objects.filter(isAvailable=False).count()
+    cabil=CABIL.objects.all().count()
+    notCabilAvailable=CabilAuthorised.objects.filter(isAvailable=False).count()    
+
+    print("Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore illum hic est? Quas quis aliquid ullam expedita voluptatibus praesentium enim architecto nesciunt et magni, quod qui totam quae delectus? Illo!")
+    data={
+        "doctor":doctor,"patient":patient,"room":room,"notRoomAvailable":notRoomAvailable,"cabil":cabil,"notCabilAvailable":notCabilAvailable,
+    }
+    
     return render(req,"Doctor/dashboard.html",data)
 @login_required
+
+
 def managePationD(req):
     data={}
     data['title']="Patient"
@@ -457,7 +467,6 @@ class NotificationView(CreateView):
         context={"object_list":message,"form":form,"title":title}
         return context
 
-
 class DoctorMessage(ListView):
     model = Notification
     template_name="./Doctor/Manage/notification.html"
@@ -474,6 +483,7 @@ class Staff_leaveView(CreateView):
         form=Staff_leaveForm
         context={"object_list":staff_leave,"form":form,"title":title}
         return context
+
 def staff_leave_approve(req,id):
     staff=Staff_leave.objects.get(id=id,status=False)   
     staff.status=1
@@ -505,3 +515,17 @@ def appointment(req):
     }
     
     return render(req,"Doctor/Manage/appointment.html",data)
+
+@login_required
+def mark_attendance(req):
+    doctor=Doctor.objects.filter(isApproved=True)
+    title="Doctor Attendance"
+    form=Attendanceform(req.POST or None)
+    current_time = timezone.now()
+    if req.method=="POST":
+        if form.is_valid():
+            form.save()
+            return redirect(mark_attendance)
+    attendence=Attendance.objects.all()
+    data={"form":form,"doctor":doctor,"object_list":attendence,"title":title}
+    return render(req,"Admin/Manage/Other/attendance.html",data)

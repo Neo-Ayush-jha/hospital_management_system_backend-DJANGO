@@ -1,0 +1,36 @@
+{% extends 'doctor/doctorBase.html'%}{%load crispy_forms_tags%}
+{% block 'doctor-content' %}
+<div class="contaner">
+    <div class="row">
+        <div class="card-title fs-1">{{title|upper}}</div>
+        <div class="col-4">
+            <div class="card">
+                <h1>Mark Attendance</h1>
+                <div class="card-body">
+                    {% if message %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit">Mark Attendance</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <table class="table border border-3">
+                <tr>
+                    <th class="border">Leave no.</th>
+                    <th class="border">Name</th>
+                    <th class="border">Leave resion</th>
+                    <th class="border">Action</th>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock 'doctor-content' %}
