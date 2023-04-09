@@ -1,0 +1,45 @@
+{% extends 'doctor/doctorBase.html'%}
+{% block 'doctor-content' %}
+<div class="contaner">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-title fs-1 px-4">{{title|upper}}</div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card border border-success">
+                <div class="card-body text-center">
+                    <table class="table border border-2">
+                        <tr>
+                            <th class="border">Id</th>
+                            <th class="border">Doctor name</th>
+                            <th class="border">Date</th>
+                            <th class="border">Start time</th>
+                            <th class="border">Ending time</th>
+                            <th class="border">Action</th>
+                        </tr>
+                        {% for attendence in object_list %}
+                        <tr>
+                            <td class="border">{{forloop.counter}}</td>
+                            <td class="border">{{attendence.Doctor.user.username}}</td>
+                            <td class="border">{{attendence.Date}}</td>
+                            <td class="border">{{attendence.start_time}}</td>
+                            <td class="border">{{attendence.end_time}}</td>
+                            <td class="border">
+                                {% if attendence.is_present == False %}
+                                <a href="" class="btn btn-danger">Absent</a>
+                                {% else %}
+                                <a href="" class="btn btn-success">Present</a>
+                                {%endif%}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock 'doctor-content' %}

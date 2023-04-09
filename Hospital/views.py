@@ -529,3 +529,11 @@ def mark_attendance(req):
     attendence=Attendance.objects.all()
     data={"form":form,"doctor":doctor,"object_list":attendence,"title":title}
     return render(req,"Admin/Manage/Other/attendance.html",data)
+
+@login_required
+def manage_attendance(req):
+    doctor=Doctor.objects.get(pk=req.user.id)
+    attendence=Attendance.objects.filter(Doctor=doctor)
+    title="Doctor Attendance"
+    data={"object_list":attendence,"title":title}
+    return render(req,"Doctor/Manage/manage_attendance.html",data)

@@ -11,32 +11,32 @@
                     <button class="btn btn-outline-success" type="submit">Scan</button>
                   </form>
             </div>
-            <div class="col mx-auto">
-                <table class="table border border-2">
+            <div class="col mx-auto lh-1">
+                <table class="table border border-2 lh-1">
                     <tr>
-                        <th class="border">id</th>
-                        <th class="border">Name</th>
-                        <th class="border">Father name</th>
-                        <th class="border">Mother name</th>
-                        <th class="border">DOB</th>
-                        <th class="border">Room no.</th>
-                        <th class="border">Contact</th>
-                        <th class="border">Gender</th>
-                        <th class="border">Address</th>
+                        <th class="border lh-1">id</th>
+                        <th class="border lh-1">Name</th>
+                        <th class="border lh-1">Father name</th>
+                        <th class="border lh-1">Mother name</th>
+                        <th class="border lh-1">DOB</th>
+                        <th class="border lh-1">Room no.</th>
+                        <th class="border lh-1">Contact</th>
+                        <th class="border lh-1">Gender</th>
+                        <th class="border lh-1">Address</th>
                         <th colspan="3" class="border">Action</th>
                     </tr>
                     {% for stu in patient %}
                         <tr>
-                            <td class="border">{{stu.id}}</td>
-                            <td class="border">{{stu.first_name}} {{stu.last_name}}</td>
-                            <td class="border">{{stu.father_name}}</td>
-                            <td class="border">{{stu.mother_name}}</td>
-                            <td class="border">{{stu.dob}} </td>
-                            <td class="border">{{stu.room_no}}</td>
-                            <td class="border">{{stu.contact}}</td>
-                            <td class="border">{{stu.gender}}</td>
-                            <td class="border">{{stu.address}}</td>
-                            <td class="border"><a href="{%url 'viewPationD' stu.id%}" class="btn btn-success">View</a></td>
+                            <td class="border lh-1">{{stu.id}}</td>
+                            <td class="border lh-1">{{stu.first_name}} {{stu.last_name}}</td>
+                            <td class="border lh-1">{{stu.father_name}}</td>
+                            <td class="border lh-1">{{stu.mother_name}}</td>
+                            <td class="border lh-1">{{stu.dob}} </td>
+                            <td class="border lh-1">{{stu.room_no}}</td>
+                            <td class="border lh-1">{{stu.contact}}</td>
+                            <td class="border lh-1">{{stu.gender}}</td>
+                            <td class="border lh-1">{{stu.address}}</td>
+                            <td class="border lh-1"><a href="{%url 'viewPationD' stu.id%}" class="btn btn-success">View</a></td>
                         </tr>
                     {%endfor%}
                 </table>

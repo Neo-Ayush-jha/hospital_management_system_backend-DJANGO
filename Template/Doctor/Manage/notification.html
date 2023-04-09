@@ -5,23 +5,23 @@
             <div class="row my-0 py-0 border-bottom border-3 border-dark">
                 <h1 class="fs-2 py-0 my-0">Notification list</h1>
             </div>
-            <table class="table">
-                <tr>
-                    <th>Id</th>
-                    <th>Staff post</th>
-                    <th>Staff name</th>
-                    <th>Message</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
+            <table class="table px-sm-0 mx-sm-0">
+                <tr class="px-sm-0 mx-sm-0 lh-sm-1">
+                    <th class="border lh-sm-1">Id</th>
+                    <th class="border lh-sm-1">Staff post</th>
+                    <th class="border lh-sm-1">Staff name</th>
+                    <th class="border lh-sm-1">Message</th>
+                    <th class="border lh-sm-1">Date</th>
+                    <th class="border lh-sm-1">Action</th>
+                </tr class="px-sm-0 mx-sm-0 lh-sm-1">
                 {% for staff in object_list %}
                     <tr>
-                        <td>{{staff.id}}</td>
-                        <td class="text-danger">doctor</td>
-                        <td>{{staff.staff_id}}</td>
-                        <td>{{staff.message}}</td>
-                        <td>{{staff.created_as}}</td>
-                        <td><a href="" class="btn btn-primary">Active</a></td>
+                        <td class="border lh-sm-1">{{staff.id}}</td>
+                        <td class="border lh-sm-1" class="text-danger">doctor</td>
+                        <td class="border lh-sm-1">{{staff.staff_id}}</td>
+                        <td class="border lh-sm-1">{{staff.message}}</td>
+                        <td class="border lh-sm-1">{{staff.created_as}}</td>
+                        <td class="border lh-sm-1"><a href="" class="btn btn-primary">Active</a></td>
                     </tr>
                 {% endfor %}
             </table>
