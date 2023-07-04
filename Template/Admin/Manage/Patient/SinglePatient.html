@@ -20,9 +20,9 @@
                     </div>
                     <div class="col-4">
                         {%if patient.isApproved == True %}
-                        <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
+                        <a href="{%url 'approveDoctor' patient.user.id%}" class="btn btn-success">Approve</a>
                         {%endif%}
-                        <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
+                        <a href="{%url 'editPation' patient.user.id%}" class="btn btn-info">Edit</a>
                     </div>
                 </div>
     

@@ -3,9 +3,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-# class User(AbstractUser):
-#     is_patient = models.BooleanField('patient status', default=False)
-#     is_doctor = models.BooleanField('doctor status', default=False)
+class User(AbstractUser):
+    is_admin = models.BooleanField(default=False)
+    is_patient = models.BooleanField(default=False)
+    is_doctor = models.BooleanField(default=False)
 GENDER=(
     ("Mail","Mail"),
     ("Femail","Femail"),
@@ -138,7 +139,7 @@ STAFF=(
     ("receptionists","receptionists"),
     ("pherma_staff","pherma_staff"),
     ("pathology_staff","pathology_staff"),
-    ("clrtks","clrtks"),
+    ("clerk","clerk"),
 )
 class Room(models.Model):
     room_no=models.CharField(max_length=12,choices=ROOM_NO)
@@ -169,7 +170,9 @@ class Pharmaceuticl(models.Model):
         return self.medicine
      
 class Doctor(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='doctor')
+    first_name=models.CharField(max_length=150)
+    last_name=models.CharField(max_length=150)
     father_name=models.CharField(max_length=150)
     mother_name=models.CharField(max_length=150)
     age=models.IntegerField()
@@ -181,7 +184,6 @@ class Doctor(models.Model):
     state=models.CharField(max_length=150,choices=(("Bihar","Bihar"),("Punjab","Punjab")))
     pin_code=models.IntegerField()
     nationality=models.CharField(max_length=150,choices=(("Indian","Indian"),("Other","Other")))
-    address=models.TextField(default=None,blank=True,null=True,)
     d_image=models.ImageField(upload_to="photo/",null=True,blank=True)
     isApproved=models.BooleanField(default=False)
     spacility=models.CharField(max_length=120,choices=DISEASES)
@@ -190,9 +192,11 @@ class Doctor(models.Model):
     salary = models.IntegerField(default=None,blank=True,null=True,)
     def __str__(self):
         return self.user.username
+    def address(self):
+        return self.city + ', ' + self.state + ', ' + self.nationality
     
 class Patient(models.Model):
-    # user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='student')
     first_name=models.CharField(max_length=150)
     last_name=models.CharField(max_length=150)
     father_name=models.CharField(max_length=150)
@@ -216,6 +220,8 @@ class Patient(models.Model):
     tests=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
     def __str__(self):
         return self.first_name + " - " + self.last_name
+    def address(self):
+        return self.city + ', ' + self.state + ', ' + self.nationality
         
 class Report(models.Model):
     test_name=models.ForeignKey("Test",on_delete=models.CASCADE,default=None,blank=True,null=True)
@@ -330,7 +336,7 @@ class Attendance(models.Model):
     Doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=False, blank=False)
     end_time = models.DateTimeField(default=False, blank=False)
-    Date = models.DateTimeField(default=timezone.now)
+    Date = models.DateTimeField(auto_now_add=True)
     is_present = models.BooleanField(default=False, blank=False)
     def __str__(self):
-        return self.Doctor
+        return self.Doctor.user.username

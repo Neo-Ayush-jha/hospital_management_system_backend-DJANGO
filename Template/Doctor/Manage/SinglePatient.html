@@ -8,9 +8,9 @@
                 </div>
                 <div class="col-4">
                     {%if patient.isApproved == True %}
-                    <a href="{%url 'approveDoctor' patient.id%}" class="btn btn-success">Approve</a>
+                    <a href="{%url 'approveDoctor' patient.user.id%}" class="btn btn-success">Approve</a>
                     {%endif%}
-                    <a href="{%url 'editPation' patient.id%}" class="btn btn-info">Edit</a>
+                    <a href="{%url 'editPation' patient.user.id%}" class="btn btn-info">Edit</a>
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                 </tr>
                 <tr class="border border-dark">
                     <th>Address</th>
-                    <td class="border border-dark">{{patient.address}}</td>
+                    <td class="border border-dark">{{patient.address}},{{patient.pin_code}}</td>
 
                     <th>Room number</th>
                     <td class="border border-dark">{{patient.room_no}}</td>
@@ -110,7 +110,7 @@
            
                 <div class="col-lg-6 col-sm-8  border mt-2 border-3 p-3 border-dark mx-auto">
                             <h1>Patient Madicin</h1>
-                            <form action="{%url 'pharmaceutic' patient.id %}" method="post">
+                            <form action="{%url 'pharmaceutic' patient.user.id %}" method="post">
                                 {%csrf_token%}
                                     {{formMedicin|crispy}}
                                     <input type="submit" value="Submit Madicin" class="btn btn-success mt-4" style="height: 40px;" />

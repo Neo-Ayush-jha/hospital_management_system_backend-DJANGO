@@ -48,16 +48,16 @@
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: #111;
+        background-color: #0dcaf0;
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
       }
   
       .sidebar a {
-        padding: 8px 8px 8px 32px;
+        padding: 0px 0px 0px 0px;
         text-decoration: none;
-        font-size: 25px;
+        font-size: 18px;
         color: #0c0c0c;
         display: block;
         transition: 0.3s;
@@ -135,15 +135,22 @@
                      <a href="{% url 'newPatient' %}" class=" nav-link text-dark fs-6">Contact Us</a>
                   </li>
                   {% if request.user.is_authenticated%}
-                  <li class="nav-item">
-                     <a href="{%url 'dashboard'%}" class=" nav-link text-dark ">Admin</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{% url 'doctorDashboard' %}" class=" nav-link text-dark fs-6">Doctor dashboard</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{%url 'logout'%}" class=" nav-link text-dark ">Logout</a>
-                  </li>
+                     {% if user.is_admin == True %}
+                        <li class="nav-item">
+                           <a href="{%url 'dashboard'%}" class=" nav-link text-dark ">Admin</a>
+                        </li>
+                     {% elif user.is_doctor == True %}
+                        <li class="nav-item">
+                           <a href="{% url 'doctorDashboard' %}" class=" nav-link text-dark fs-6">Doctor dashboard</a>
+                        </li>
+                     {% elif user.is_patient == True %}
+                        <li class="nav-item">
+                           <a href="" class=" nav-link text-dark fs-6">Patient dashboard</a>
+                        </li>
+                     {% endif %}
+                     <li class="nav-item">
+                        <a href="{%url 'logout'%}" class=" nav-link text-dark ">Logout</a>
+                     </li>
                   {%else%}
                   <li class="nav-item">
                      <a href="{% url 'login' %}" class=" nav-link text-dark ">Login</a>
@@ -217,8 +224,8 @@
    }
  });
    function openNav() {
-     document.getElementById("mySidebar").style.width = "350px";
-     document.getElementById("main").style.marginLeft = "350px";
+     document.getElementById("mySidebar").style.width = "275px";
+     document.getElementById("main").style.marginLeft = "0";
    }
 
    function closeNav() {

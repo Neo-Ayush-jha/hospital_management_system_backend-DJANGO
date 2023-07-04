@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import * 
+admin.site.register(User)
 admin.site.register(Doctor)
 admin.site.register(Patient)
 admin.site.register(Room)
@@ -14,4 +15,5 @@ admin.site.register(Payment)
 admin.site.register(Attendance)
 admin.site.register(Notification)
 admin.site.register(Staff_leave)
+admin.site.register(Staff)
 admin.site.register(Appointment)

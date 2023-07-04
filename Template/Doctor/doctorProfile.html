@@ -9,10 +9,10 @@
                 </div>
                 <div class="col-4">
                     {%if doctor.isApproved == False %}
-                    <a href="{%url 'approveDoctor' doctor.id%}" class="btn btn-success">Approve</a>
+                    <a href="" class="btn btn-primary">Your request is Send.</a>
+                    {%else%}
+                    <a href="" class="btn btn-success">Your know member of our hospital.</a>
                     {%endif%}
-                    <a href="{%url 'deleteDoctor' doctor.id%}" class="btn btn-danger">Delete</a>
-                    <a href="{%url 'editDoctor' doctor.id%}" class="btn btn-info">Edit</a>
                 </div>
             </div>
 
@@ -36,17 +36,9 @@
                     <th>Cabil number</th>
                     <td class="border border-dark">
                         {%if cabilAprove %}
-                            <h1 class="fst-4 text-primary">{{cabilAprove.cableNumber}}</h1>
+                        <h1 class="fst-4 text-primary">{{cabilAprove.cableNumber}}</h1>
                         {%else%}
-                        <form action="" method="post">
-                            {%csrf_token%}
-                            <select onChange="this.form.submit();" name="cabilNumber" class="select form-select" id="id_cableNumber">
-                                <option value="" selected="">---------</option>
-                                {% for cabil in cabil %}
-                                <option value="{{cabil.id}}">{{cabil.CABIL_NUMBER}}</option>
-                                {%endfor%}
-                            </select>
-                        </form>
+                        <h1 class="fst-4 text-danger items-center flex text-center">No any cabin is alloted</h1>
                         {%endif%}
                         {{cabil.cabilNumber}}
                     </td>
@@ -71,7 +63,7 @@
                 </tr>
                 <tr class="border border-dark">
                     <th>Address</th>
-                    <td class="border border-dark">{{doctor.address}}</td>
+                    <td class="border border-dark">{{doctor.address}},{{doctor.pin_code}}</td>
 
                     <th>Approve</th>
                     <td class="border border-dark">{{doctor.isApproved}}</td>
@@ -96,26 +88,27 @@
                     <th>status</th>
                 </tr>
                 {% for salary in salary %}
-                {% if salary.doctor.id == doctor.id %} 
-                        <tr>
-                            <td>{{salary.id}}</td>
-                            <td>{{salary.doctor.user.username}}</td>
-                            <td>{{salary.month}}</td>
-                            <td>{{salary.amount}}</td>
-                            <td>
-                                {% if salary.status == False %}
-                                    <button class="btn btn-danger">{{salary.status}}</button>
-                                {% else %}
-                                <button class="btn btn-info">{{salary.status}}</button>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endif %} 
-                    {% endfor %}
+                {% if salary.doctor.user == doctor.user %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{salary.doctor.user.username}}</td>
+                    <td>{{salary.month}}</td>
+                    <td>{{salary.amount}}</td>
+                    <td>
+                        {% if salary.status == False %}
+                        <button class="btn btn-danger">{{salary.status}}</button>
+                        {% else %}
+                        <button class="btn btn-info">{{salary.status}}</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
             </table>
         </div>
     </div>
-    <a href="" class="btn btn-info d-print-none w-100" onClick="window.print()"> PRINT MARKSHEET<i class="bi bi-printer-fill ms-3 "></i></a>
+    <a href="" class="btn btn-info d-print-none w-100" onClick="window.print()"> PRINT MARKSHEET<i
+            class="bi bi-printer-fill ms-3 "></i></a>
 
 </div>
 

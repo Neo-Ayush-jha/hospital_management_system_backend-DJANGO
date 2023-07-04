@@ -80,7 +80,7 @@
                 </tr>
                 <tr class="border border-dark">
                     <th>Address</th>
-                    <td class="border border-dark">{{doctor.address}}</td>
+                    <td class="border border-dark">{{doctor.address}},{{doctor.pin_code}}</td>
 
                     <th>Approve</th>
                     <td class="border border-dark">{{doctor.isApproved}}</td>
@@ -105,9 +105,9 @@
                     <th>status</th>
                 </tr>
                 {% for salary in salary %}
-                {% if salary.doctor.id == doctor.id %}
+                {% if salary.doctor.user == doctor.user %}
                 <tr>
-                    <td>{{salary.id}}</td>
+                    <td>{{forloop.counter}}</td>
                     <td>{{salary.doctor.user.username}}</td>
                     <td>{{salary.month}}</td>
                     <td>{{salary.amount}}</td>

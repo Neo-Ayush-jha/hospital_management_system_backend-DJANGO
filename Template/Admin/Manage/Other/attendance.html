@@ -7,10 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     <form action="" method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken"
-                            value="u9KEPrIPSG1YEwnb4OudwcHjrZxpZVmcKuLCyneIo0vz7EutG24S2zhuZef1XnrZ">
-
-
+                       {%csrf_token%}
                         <div id="div_id_Doctor" class="mb-3"> <label for="id_Doctor" class="form-label requiredField">
                                 Doctor<span class="asteriskField">*</span> </label> <select name="Doctor"
                                 class="select form-select" required="" id="id_Doctor">

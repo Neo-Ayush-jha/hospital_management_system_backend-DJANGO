@@ -27,7 +27,7 @@
                     </tr>
                     {% for stu in patient %}
                         <tr>
-                            <td class="border lh-1">{{stu.id}}</td>
+                            <td class="border lh-1">{{forloop.counter}}</td>
                             <td class="border lh-1">{{stu.first_name}} {{stu.last_name}}</td>
                             <td class="border lh-1">{{stu.father_name}}</td>
                             <td class="border lh-1">{{stu.mother_name}}</td>
@@ -35,8 +35,8 @@
                             <td class="border lh-1">{{stu.room_no}}</td>
                             <td class="border lh-1">{{stu.contact}}</td>
                             <td class="border lh-1">{{stu.gender}}</td>
-                            <td class="border lh-1">{{stu.address}}</td>
-                            <td class="border lh-1"><a href="{%url 'viewPationD' stu.id%}" class="btn btn-success">View</a></td>
+                            <td class="border lh-1">{{stu.address}},{{stu.pin_code}}</td>
+                            <td class="border lh-1"><a href="{%url 'viewPationD' stu.user.id%}" class="btn btn-success">View</a></td>
                         </tr>
                     {%endfor%}
                 </table>

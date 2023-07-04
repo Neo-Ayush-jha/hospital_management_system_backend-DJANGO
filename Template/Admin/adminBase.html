@@ -2,11 +2,11 @@
 {% block 'content' %}
 <div class="container-flex">
     <div class="container-flex">
-        <div class="row">
-            <div class="col-3">
+        <div class="row mx-auto ">
+            <div class="col-lg-3 col-sm-2 d-print-none">
 
                 <div id="mySidebar" class="sidebar">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <a href="javascript:void(0)" class="closebtn text-light" onclick="closeNav()">×</a>
                     {% include './side.html' %}
                   </div>
                   <div id="main">
@@ -14,7 +14,7 @@
                   </div>
                 
             </div>
-            <div class="col-8 my-3">
+           <div class="col-lg-8 col-sm-10 my-3 mx-auto">
                 {% block 'admin-content' %}
                 {% endblock %}
             </div>

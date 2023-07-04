@@ -27,7 +27,7 @@
                     </tr>
                     {% for stu in doctor %}
                         <tr>
-                            <td>{{stu.user.id}}</td>
+                            <td>{{forloop.counter}}</td>
                             <td>{{stu.user.username}}</td>
                             <td>{{stu.father_name}}</td>
                             <td>{{stu.mother_name}}</td>

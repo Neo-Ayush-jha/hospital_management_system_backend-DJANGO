@@ -7,10 +7,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",home,name="home"),
     path("health/",health,name="health"),
-    path("new-patient/",newPatient,name="newPatient"),
+    path("new-patient/",NewPatient.as_view(),name="newPatient"),
     path("logout/",logout,name="logout"),
-    path("login/",login,name="login"),
-    path("newDoctor/",newDoctor,name="newDoctor"),
+    path("login/",LoginView.as_view(),name="login"),
+    path("newDoctor/",NewDoctor.as_view(),name="newDoctor"),
     path("admin-home/",adminHome,name="dashboard"),
     path("manage-room/",roomDetails,name="roomDetails"),
     path("manage-cabil/",cabilDetails,name="cabilDetails"),
@@ -48,7 +48,5 @@ urlpatterns = [
     path('check/appointment/', appointment, name='appointment'),
     path('make/attendance/', mark_attendance, name='mark_attendance'),
     path('view/attendance/', manage_attendance, name='manage_attendance'),
-
-
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

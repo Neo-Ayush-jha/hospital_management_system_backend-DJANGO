@@ -9,7 +9,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login as loginfunction , logout as logoutfunction
+from django.contrib.auth import login
+
 from django.views.generic import ListView,FormView,DeleteView,CreateView,UpdateView,View
+from django.urls import reverse
+from django.contrib.auth import views as auth_views
 
 # ---------------------------------->>>HOME<<<-----------------------------------------#
 def home(req):
@@ -24,67 +28,67 @@ def home(req):
 def health(req):
     return render(req,"Patient/health.html")
 # ---------------------------------->>>PATIENT<<<-----------------------------------------#
-def newPatient(r):
-    form = PatientForm(r.POST or None, r.FILES or None)
-    if r.method =="POST":
-        if form.is_valid():
-            form.save()
-            messages.success(r,"You are added as patient successfully")
-            return redirect(newPatient)
-    return render(r,"Patient/Form/patientForm.html",{'form':form})
-# ---------------------------------->>>DOCTOR<<<-----------------------------------------#
-def newDoctor(req):
-    form = DoctorForm(req.POST or None, req.FILES or None)
-    if req.method == "POST":
-        u = User()
-        u.email=req.POST.get('email')
-        u.username=req.POST.get('username')
-        u.set_password(req.POST.get('password'))
-        u.is_active =True
-        u.is_staff=True
-        u.save()
 
-        a=Doctor()
-        a.user=u
-        a.father_name=req.POST.get('father_name')
-        a.mother_name=req.POST.get('mother_name')
-        a.age=req.POST.get('age')
-        a.dob=req.POST.get('dob')
-        a.blood_group=req.POST.get('blood_group')
-        a.contact=req.POST.get('contact')
-        a.city=req.POST.get('city')
-        a.state=req.POST.get('state')
-        a.gender=req.POST.get('gender')
-        a.pin_code=req.POST.get('pin_code')
-        a.nationality=req.POST.get('nationality')
-        a.address=req.POST.get('address')
-        a.d_image=req.FILES.get("d_image")
-        a.spacility=req.POST.get('spacility')
-        a.qualification=req.POST.get('qualification')
-        a.qualification=req.POST.get('qualification')
-        a.save()
-        messages.success(req,"You are  successfully")
-        return redirect(newDoctor)
-    return render(req,"Doctor/Form/doctorForm.html",{'form':form})
+class NewPatient(CreateView):
+    model = User
+    form_class=PatientForm
+    template_name="Patient/Form/patientForm.html"
+    def  get_context_data(self,**kwargs):
+        kwargs['user_type']='patient'
+        return super().get_context_data(**kwargs)
+    def form_valid(self,form):
+        user=form.save()
+        login(self.request, user)
+        return redirect('newPatient')
+# ---------------------------------->>>DOCTOR<<<-----------------------------------------#
+class NewDoctor(CreateView):
+    model = User
+    form_class = DoctorForm
+    template_name = 'Doctor/Form/doctorForm.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'doctor'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('newDoctor')
+    
+# def newDoctor(request):
+#     if request.method == 'POST':
+#         form = DoctorForm(request.POST or None, request.FILES or None)
+#         if form.is_valid():
+#             user = form.save()
+#             return redirect("newDoctor")
+#     else:
+#         form = DoctorForm()
+#     return render(request, 'Doctor/Form/doctorForm.html', {'form': form, 'user_type': 'doctor'})
 # ---------------------------------->>>ADMIN<<<-----------------------------------------#
-def login(req):
-    LoginForm = AuthenticationForm(data=req.POST or None)
-    if req.method =="POST":
-        if LoginForm.is_valid():
-            username = LoginForm.cleaned_data.get('username')
-            password = LoginForm.cleaned_data.get("password")
-            user = authenticate(username = username , password=password)
-            if user is not None:
-                print(user)
-                loginfunction(req,user)
-                return redirect(doctorDashboard)
+class LoginView(auth_views.LoginView):
+    form_class = LoginForm
+    template_name = 'Patient/login.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_authenticated:
+            if user.is_patient:
+                return reverse("home")
+            elif user.is_doctor:
+                return reverse('doctorDashboard')
             else:
-                return redirect(login)
-    return render(req,"Patient/login.html",{"form":LoginForm})
+                return reverse('dashboard')
+        else:
+            return reverse('login')
+
+    # return render(req,"Patient/login.html",{"form":LoginForm})
 @login_required
 def logout(req):
     logoutfunction(req)
-    return redirect(login)
+    return redirect("login")
 @login_required
 def adminHome(req):
     data={}
@@ -139,7 +143,7 @@ def viewDoctor(req,id):
     
 @login_required
 def approveDoctor(req,id):
-    doctor=Doctor.objects.get(id=id,isApproved=False)
+    doctor=Doctor.objects.get(pk=id,isApproved=False)
     currentMonth=datetime.now().month
     for month in range(currentMonth-1,12):
         salary=Payment()
@@ -153,7 +157,7 @@ def approveDoctor(req,id):
     return redirect(viewDoctor,id)
 @login_required
 def deleteDoctor(r,id):
-    doctor=Doctor.objects.get(id=id)
+    doctor=Doctor.objects.get(pk=id)
     doctor.delete()
     return redirect(manageNewDoctor)
 @login_required
@@ -171,6 +175,7 @@ def managePation(req):
     data={}
     data['title']="Patient"
     data['patient']=Patient.objects.filter(isApproved=True)
+    
     return render(req,"Admin/Manage/Patient/managePatient.html",data)
 @login_required
 def manageOldPation(req):
@@ -191,13 +196,19 @@ def viewReport(req,id):
     report=Report.objects.get(pk=id)
     form = EditReportForm(req.POST or None,req.FILES or None,instance=report)
     doctor=Doctor.objects.filter(user=req.user.id)
-    if doctor.exists():
-        if req.method=="POST":
-            if form.is_valid():
-                form=report
-                form.action=True
-                form.save()
-                return redirect(viewReport,id)
+    # if doctor.exists():
+    #     if req.method=="POST":
+    #         if form.is_valid():
+    #             form=report
+    #             form.action=True
+    #             form.save()
+    #             return redirect(viewReport,id)
+    if req.method=="POST":
+        if form.is_valid():
+            form=report
+            form.action=True
+            form.save()
+            return redirect(viewReport,id)
     data={"form":form,"report":report}
     return render(req,"Admin/Manage/Patient/report.html",data)
 @login_required
@@ -296,7 +307,7 @@ def doctorDashboard(req):
 def managePationD(req):
     data={}
     data['title']="Patient"
-    doctor=Doctor.objects.get(id=req.user.id)
+    doctor=Doctor.objects.get(pk=req.user.id)
     data['doctor']=Doctor.objects.get(pk=req.user.id)
     data['patient']=Patient.objects.filter(isApproved=True , doctor = doctor)
     return render(req,"Doctor/Manage/managePatient.html",data)
@@ -502,7 +513,7 @@ def doctor_leaveView(req):
         form.message =req.POST.get('message')
         form.save()
         return redirect(doctor_leaveView)
-    leave=Staff_leave.objects.filter(staff_id = doctor.id)
+    leave=Staff_leave.objects.filter(staff_id = doctor.user.id)
     data={"leave":leave,"doctor":doctor,"title":title}
     return render(req,"Doctor/Form/leave.html",data)
 
