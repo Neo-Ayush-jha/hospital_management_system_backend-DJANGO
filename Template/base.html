@@ -145,7 +145,7 @@
                         </li>
                      {% elif user.is_patient == True %}
                         <li class="nav-item">
-                           <a href="" class=" nav-link text-dark fs-6">Patient dashboard</a>
+                           <a href="{%url 'patientDashboard'%}" class=" nav-link text-dark fs-6">Patient dashboard</a>
                         </li>
                      {% endif %}
                      <li class="nav-item">

@@ -1,0 +1,44 @@
+{% extends 'patient/patientBase.html'%}
+{% block 'patient-content' %}
+{%load crispy_forms_tags%}
+<div class="contaner">
+    <div class="row">
+        
+        <div class="col-lg-12 col-sm-12 mx-auto">
+            <div class="row">
+                <div class="col-lg-8 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+                    <h1>{{patient.first_name}} {{patient.last_name}} Reports list</h1>
+                    <table class="table mt-3 table-sm">
+                        <tr>
+                            <th>id</th>
+                            <th>Test name</th>
+                            <th>Doctor</th>
+                            <th>Test fee</th>
+                            <th>action</th>
+                        </tr>
+                        {% for report in report %}
+                        {%if patient.user.id  == report.patient.user.id %}
+                        <tr>
+                            <td class="border">{{forloop.counter}}</td>
+                            <td>{{report.test_name.test_name}}</td>
+                            <td>{{report.doctor}}</td>
+                            <td>(₹ {{report.test_name.test_price}})</td>
+                            {%if report.action == None%}
+                            <td><a href="{%url 'patientVieReport' report.id%}"
+                                    class="btn btn-danger">{{report.action}}</a></td>
+                            {%else%}
+                            <td><a href="{%url 'patientVieReport' report.id%}"
+                                    class="btn btn-info">{{report.action}}</a></td>
+                            {%endif%}
+                        </tr>
+                        {%endif%}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="" class="btn btn-info d-print-none w-100 mt-5" onClick="window.print()"> PRINT MARKSHEET<i
+            class="bi bi-printer-fill ms-3 "></i></a>
+</div>
+{%endblock%}

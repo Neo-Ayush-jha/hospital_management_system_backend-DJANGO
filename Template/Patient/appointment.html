@@ -1,0 +1,22 @@
+{% extends 'patient/patientBase.html'%}
+{% block 'patient-content' %}
+{%load crispy_forms_tags%}
+<div class="container-flex">
+    <div class="container-flex">
+        <div class="row mx-auto ">
+            <div class="col-lg-8 col-sm-10">
+
+                <div class="contact_box">
+                    <h1 class="book_text">Book Appoinment</h1>
+                    <form action="" method="post">
+                        {%csrf_token%}
+                        {{form|crispy}}
+                        <div class="send_bt"><input type="submit" value="SEND" class="btn btn-info"></div>
+                  </form>
+                 </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+{% endblock %}

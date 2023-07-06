@@ -1,0 +1,45 @@
+{% extends 'patient/patientBase.html'%}
+{% block 'patient-content' %}
+{%load crispy_forms_tags%}
+<div class="contaner">
+    <div class="row">
+        <div class="col-lg-8 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto">
+            <h1 class="mt-3">{{patient.first_name}} {{patient.last_name}} Madicin list</h1>
+            <table class="table border border-2">
+                <tr>
+                    <th>id</th>
+                    <th>Medicin name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                {%if pharmaceutic%}
+                {%for phar in pharmaceutic%}
+                {%if patient.user.id  == phar.patient.user.id %}
+                <tr>
+                    <td>{{phar.id}}</td>
+                    <td>{{phar.pharmaceuticl.medicine}}</td>
+                    <td>(₹{{phar.pharmaceuticl.price}})</td>
+                    {%if phar.pharmaceuticl.isAvailable == True %}
+                    <td><button class="btn btn-info">Available</button></td>
+                    {%else%}
+                    <td><button class="btn btn-danger">Not available</button></td>
+                    {%endif%}
+                </tr>
+                {%endif%}
+                {%endfor%}
+                {%else%}
+                <tr>
+                    <td>
+                        <h1 class="display-5 text-secondary">No any Medicin is Available</h1>
+                    </td>
+                </tr>
+                {%endif%}
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<a href="" class="btn btn-info d-print-none w-100 mt-5" onClick="window.print()"> PRINT MARKSHEET<i
+        class="bi bi-printer-fill ms-3 "></i></a>
+</div>
+{%endblock%}

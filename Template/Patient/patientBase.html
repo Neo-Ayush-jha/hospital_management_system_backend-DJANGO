@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% block 'content' %}
+<div class="container-flex">
+    <div class="container-flex">
+        <div class="row mx-auto ">
+            <div class="col-lg-3 col-sm-2 d-print-none">
+
+                <div id="mySidebar" class="sidebar">
+                    <a href="javascript:void(0)" class="closebtn text-light" onclick="closeNav()">×</a>
+                    {% include './side.html' %}
+                  </div>
+                  <div id="main">
+                    <button class="openbtn" onclick="openNav()">☰ Open Manu</button>
+                  </div>
+                
+            </div>
+            <div class="col-lg-8 col-sm-10 my-3 mx-auto">
+                {% block 'patient-content' %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

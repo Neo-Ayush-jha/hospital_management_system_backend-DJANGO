@@ -1,16 +1,17 @@
-{% extends 'doctor/doctorBase.html'%}{%load crispy_forms_tags%} {% block 'doctor-content' %}
+{% extends 'patient/patientBase.html'%}
+{% block 'patient-content' %}
+{%load crispy_forms_tags%}
 <div class="contaner">
     <div class="row">
         <div class="col-lg-12 col-sm-12 border mt-2 border-3 p-3 border-dark mx-auto">
             <div class="row border-bottom border-3 border-dark">
                 <div class="col-8 border-end">
-                    <h1 class="fs-1">View patient</h1>
+                    <h1 class="fs-1">Hospital Management System</h1>
                 </div>
                 <div class="col-4">
                     {%if patient.isApproved == True %}
-                    <a href="{%url 'approveDoctor' patient.user.id%}" class="btn btn-success">Approve</a>
+                    <a href="" class="btn btn-info">{{patient.user.username}}</a>
                     {%endif%}
-                    <a href="{%url 'editPation' patient.user.id%}" class="btn btn-info">Edit</a>
                 </div>
             </div>
 
@@ -21,7 +22,7 @@
                         {{patient.first_name}}{{patient.last_name}}
                     </td>
                     <td colspan="2" class="border border-dark text-center" rowspan="4">
-                        <img src="{{patient.p_image.url}}" style="height: 215px" class="rounded-circle" alt="" />
+                        <img src="{{patient.p_image.url}}" style="height: 215px" class="rounded-pill" alt="" />
                     </td>
                 </tr>
                 <tr class="border border-dark">
@@ -56,7 +57,7 @@
                 </tr>
                 <tr class="border border-dark">
                     <th>Address</th>
-                    <td class="border border-dark">{{patient.address}},{{patient.pin_code}}</td>
+                    <td class="border border-dark">{{patient.address}}</td>
 
                     <th>Room number</th>
                     <td class="border border-dark">{{patient.room_no}}</td>
@@ -71,17 +72,8 @@
         </div>
         <div class="col-lg-12 col-sm-12 mx-auto">
             <div class="row">
-                <div class="col-lg-6 col-sm-8  border mt-2 border-3 p-3 border-dark mx-auto">
-                            <h1>Patient test's list</h1>
-                            <form action="" method="post">
-                                {%csrf_token%}
-                                    {{form|crispy}}
-                                    <input type="submit" value="submit" class="btn btn-success mt-4" style="height: 40px;" />
-                            </form>   
-                                          
-                {% comment %} </div>
-                <div class="col-lg-5 col-sm-8 border mt-2 border-3 p-3 border-dark mx-auto"> {% endcomment %}
-                    <h1 class="mt-3">Patient Reports list</h1>
+                <div class="col-lg-6 col-sm-6 border mt-2 border-3 p-3 border-dark mx-auto">
+                    <h1>Patient Reports list</h1>
                     <table class="table mt-3 table-sm">
                         <tr>
                             <th>id</th>
@@ -91,31 +83,26 @@
                             <th>action</th>
                         </tr>
                         {% for report in report %}
-                            {%if patient.user.id == report.patient.user.id%}
-                                <tr> 
-                                    <td>{{report.id}}</td>
-                                    <td>{{report.test_name.test_name}}</td>
-                                    <td>{{report.doctor}}</td>
-                                    <td>{{report.test_name.test_price}}</td>
-                                    {%if report.action == None%}
-                                        <td><a href="{%url 'viewReportD' report.id%}" class="btn btn-danger">{{report.action}}</a></td>
-                                    {%else%}
-                                        <td><a href="{%url 'viewReportD' report.id%}" class="btn btn-info">{{report.action}}</a></td>
-                                    {%endif%}
-                                </tr>
+                        {%if patient.user.id  == report.patient.user.id %}
+                        <tr>
+                            <td class="border">{{forloop.counter}}</td>
+                            <td>{{report.test_name.test_name}}</td>
+                            <td>{{report.doctor}}</td>
+                            <td>(₹ {{report.test_name.test_price}})</td>
+                            {%if report.action == None%}
+                            <td><a href="{%url 'patientVieReport' report.id%}"
+                                    class="btn btn-danger">{{report.action}}</a></td>
+                            {%else%}
+                            <td><a href="{%url 'patientVieReport' report.id%}"
+                                    class="btn btn-info">{{report.action}}</a></td>
                             {%endif%}
+                        </tr>
+                        {%endif%}
                         {% endfor %}
                     </table>
                 </div>
-           
-                <div class="col-lg-6 col-sm-8  border mt-2 border-3 p-3 border-dark mx-auto">
-                            <h1>Patient Madicin</h1>
-                            <form action="{%url 'pharmaceutic' patient.user.id %}" method="post">
-                                {%csrf_token%}
-                                    {{formMedicin|crispy}}
-                                    <input type="submit" value="Submit Madicin" class="btn btn-success mt-4" style="height: 40px;" />
-                            </form>                        
-                <h1 class="mt-3">Patient  Madicin list</h1>
+                <div class="col-lg-6 col-sm-6 border mt-2 border-3 p-3 border-dark mx-auto">
+                    <h1 class="mt-3">Patient Madicin list</h1>
                     <table class="table border border-2">
                         <tr>
                             <th>id</th>
@@ -146,8 +133,7 @@
             </div>
         </div>
     </div>
-    <a href="" class="btn btn-info d-print-none w-100" onClick="window.print()"> PRINT MARKSHEET<i class="bi bi-printer-fill ms-3 "></i></a>
+    <a href="" class="btn btn-info d-print-none w-100 mt-5" onClick="window.print()"> PRINT MARKSHEET<i
+            class="bi bi-printer-fill ms-3 "></i></a>
 </div>
-
-{% endblock 'doctor-content' %}
-                           
+{%endblock%}

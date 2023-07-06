@@ -295,7 +295,6 @@ def doctorDashboard(req):
     cabil=CABIL.objects.all().count()
     notCabilAvailable=CabilAuthorised.objects.filter(isAvailable=False).count()    
 
-    print("Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore illum hic est? Quas quis aliquid ullam expedita voluptatibus praesentium enim architecto nesciunt et magni, quod qui totam quae delectus? Illo!")
     data={
         "doctor":doctor,"patient":patient,"room":room,"notRoomAvailable":notRoomAvailable,"cabil":cabil,"notCabilAvailable":notCabilAvailable,
     }
@@ -548,3 +547,58 @@ def manage_attendance(req):
     title="Doctor Attendance"
     data={"object_list":attendence,"title":title}
     return render(req,"Doctor/Manage/manage_attendance.html",data)
+
+@login_required
+def patientDashboard(req):
+    data={
+        'patient':Patient.objects.get(pk=req.user.id),
+        'report':Report.objects.all(),
+        'pharmaceutic':MedicineModel.objects.all()
+    }
+    return render(req,"Patient/dashboard.html",data)
+
+@login_required
+def patientReportList(req):
+    data={
+        'patient':Patient.objects.get(pk=req.user.id),
+        'report':Report.objects.all(),
+        'pharmaceutic':MedicineModel.objects.all()
+    }
+    return render(req,"Patient/reportList.html",data)
+@login_required
+def patientMedicineList(req):
+    data={
+        'patient':Patient.objects.get(pk=req.user.id),
+        'report':Report.objects.all(),
+        'pharmaceutic':MedicineModel.objects.all()
+    }
+    return render(req,"Patient/patientMedicineList.html",data)
+@login_required
+def patientVieReport(req,id):
+    data={
+        "report":Report.objects.get(pk=id),
+    }
+    return render(req,"Patient/report.html",data)
+
+@login_required
+def patientAppointement(req):
+    appointmentForm=AppointmentForm(req.POST or None)
+    doctor=Doctor.objects.all()
+    if req.method == 'POST':
+        # appointment=Appointment()
+        # doctor=Doctor.objects.get(user=req.user.id)
+        # patient=Patient.objects.get(pk=req.user.id)
+        # appointment.doctor=doctor
+        # appointment.patient=patient
+        # appointment.date=req.POST.get("date")
+        if appointmentForm.is_valid():
+            appointmentForm.save()
+            return redirect(home)
+
+    data={
+        'title':"Patient Appointment page",
+        'patient':Patient.objects.get(pk=req.user.id),
+        'doctor':doctor,
+        "form":appointmentForm
+    }
+    return render(req,"Patient/appointment.html",data)

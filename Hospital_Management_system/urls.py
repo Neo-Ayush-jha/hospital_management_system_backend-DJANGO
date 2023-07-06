@@ -48,5 +48,10 @@ urlpatterns = [
     path('check/appointment/', appointment, name='appointment'),
     path('make/attendance/', mark_attendance, name='mark_attendance'),
     path('view/attendance/', manage_attendance, name='manage_attendance'),
+    path('patient/dashboard/',patientDashboard,name="patientDashboard"),
+    path('patient/report/list/',patientReportList,name="patientReportList"),
+    path('patient/medicine/list/',patientMedicineList,name="patientMedicineList"),
+    path('patient/appointement/',patientAppointement,name="patientAppointement"),
+    path("patient/single-view-patient-report/<int:id>/",patientVieReport,name="patientVieReport"),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

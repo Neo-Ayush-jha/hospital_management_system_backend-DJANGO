@@ -1,0 +1,64 @@
+{% extends 'patient/patientBase.html'%}
+{% block 'patient-content' %}
+{%load crispy_forms_tags%}
+<div class="contaner">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 border mt-2 border-3 p-3 border-dark mx-auto">
+            <div class="row my-0 py-0 border-bottom border-3 border-dark">
+                            <h1 class="fs-2 py-0 my-0">Patient Reports list <span class="mx-5"></span></h1>
+            </div>
+            <table class="table mt-3">
+                <tr class="border border-dark">
+                    <th>Full name</th>
+                    <td class="border border-dark">
+                        {{report.patient.first_name}} {{report.patient.last_name}}
+                    </td>
+                    <td colspan="2" class="border border-dark text-center" rowspan="5">
+                        <img src="{{report.patient.p_image.url}}" style="height: 215px" class="rounded-circle" alt="" />
+                    </td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Blood group</th>
+                    <td class="border border-dark">{{report.patient.blood_group}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Age</th>
+                    <td class="border border-dark">{{report.patient.age}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Contact</th>
+                    <td class="border border-dark">{{report.patient.contact}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Doctor name</th>
+                    <td class="border border-dark">{{report.doctor}}</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Test name</th>
+                    <td class="border border-dark fs-4 text-danger">{{report.test_name}}</td>
+                    <th>Test price</th>
+                    <td class="border border-dark">(₹ {{report.test_name.test_price}})</td>
+                </tr>
+                <tr class="border border-dark">
+                    <th>Reports</th>
+                    <td class="border border-dark col-lg-6 col-sm-10">
+                        {%if report.report_image%}
+                        <a href="{{report.report_image.url}}" data-fancybox="preview" data-width="1500" data-height="1000"><img src="{{report.report_image.url}}" style="height: 300px;"/></a>
+                        {%else%}
+                            None
+                        {%endif%}
+                    </td>
+                    <td  class="border border-dark text-decoration-underline fw-bolder col-lg-6 col-sm-10" colspan="2">
+                        {%if report.report %}
+                            <p class=" ">{{report.report}}</p>
+                        {%else%}
+                            <p class=" ">Report is not available</p>
+                        {%endif%}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}
