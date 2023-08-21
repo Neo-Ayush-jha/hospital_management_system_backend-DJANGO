@@ -1,60 +1,123 @@
 {% extends 'admin/adminBase.html'%}{%load crispy_forms_tags%}
 {% block 'admin-content' %}
-    <div class="contaner">
-        <div class="row">
-            <div class="col-4">
-                <div class="card">
-                    <!-- <div class="card-title fs-1">{{title|upper}}</div> -->
-                    <div class="card-body">
-                        <form action="" method="post">
-                            {%csrf_token%}
-                            {{form|crispy}}
-                            <input type="submit" value="Add room" class="btn btn-success w-100">
-                        </form>
-                    </div>
+<div class="contaner">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <!-- <div class="card-title fs-1">{{title|upper}}</div> -->
+                {%csrf_token%}
+                <div class="card-body">
+                    <form action="" method="post">
+                        {{form|crispy}}
+                        <input type="submit" value="Add room" class="btn btn-success w-100">
+                    </form>
                 </div>
             </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-12">
-                        <table class="table border border-2">
-                            <tr>
-                                <th class="border">Id</th>
-                                <th class="border">Patient name</th>
-                                <th class="border">Staff name</th>
-                                <th class="border">Madicine name</th>
-                                <th class="border">Report</th>
-                                <th class="border">Doctor fee</th>
-                                <th class="border">Totall rupees</th>
-                                <th class="border">Action</th>
-                            </tr>
-                            {% for bill in object_list %}
-                              <tr>
-                                  <td class="border">{{forloop.counter}}</td>
-                                <!-- <td class="border">{{bill.id}}</td> -->
-                                <td class="border">{{bill.patient.first_name}} {{bill.patient.last_name}}</td>
-                                <td class="border">{{bill.staff.staff_name}}</td>
-                                <td class="border">
-                                    {% for md in bill.madicine.all%}
-                                        <span>{{md.pharmaceuticl.medicine}}</span>
-                                    {% endfor %}
-                                </td>
-                                <td class="border">
-                                    
-                                    {% for re in bill.report.all %}
-                                        <span>{{re.test_name}}</span>
-                                    {% endfor %}
-                                        
-                                </td>
-                                <td class="border">{{bill.doctor_fee}}</td>
-                                <td class="border">{{bill.total_price}}</td>
-                                <td class="border"><a href="" class="btn btn-danger">Payment</a></td>
-                              </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <table class="table border border-2">
+                        <tr>
+                            <th class="border">Id</th>
+                            <th class="border">Patient name</th>
+                            <th class="border">More details</th>
+                            <th class="border">Totall rupees</th>
+                            <th class="border">Action</th>
+                        </tr>
+                        {% for bill in object_list %}
+                        <tr>
+                            <td class="border">{{forloop.counter}}</td>
+                            <!-- <td class="border">{{bill.id}}</td> -->
+                            <td class="border">{{bill.patient.first_name}} {{bill.patient.last_name}}</td>
+
+                            <td class="border"><a href="" type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                                    data-bs-target="#staticBackdrop" data-record-id="{{ bill.id }}">
+                                    More details
+                                </a>
+                            </td>
+                            <!-- Modal -->
+                            <div class="modal fade modal-xl" id="staticBackdrop" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nurgo Hospital Bill </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row  border-bottom">
+                                                <div class="col-4">
+                                                    <p class="fw-bold text-dark"> Patient name</p>
+                                                </div>
+                                                <div class="col-8"><span class="text-dark fw-light">{{bill.patient.first_name}} {{bill.patient.last_name}}</span></div>
+                                            </div>
+                                            <div class="row border-bottom">
+                                                <div class="col-4">
+                                                    <p class="fw-bold text-dark"> Report</p>
+                                                </div>
+                                                <div class="col-8">
+                                                    <span class="text-dark fw-light">
+                                                        {% for re in bill.report.all %}
+                                                        <span>{{forloop.counter}}.){{re.test_name}}</span><br>
+                                                    {% endfor %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row border-bottom">
+                                                <div class="col-4">
+                                                    <p class="fw-bold text-dark"> Medicine name</p>
+                                                </div>
+                                                <div class="col-8">
+                                                    <span class="text-dark fw-light">
+                                                        {% for md in bill.madicine.all%}
+                                                        <span>{{forloop.counter}}.){{md.pharmaceuticl.medicine}}</span><br>
+                                                        {% endfor %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row border-bottom">
+                                                <div class="col-4">
+                                                    <p class="fw-bold text-dark"> Doctor fee </p>
+                                                </div>
+                                                <div class="col-8">
+                                                    <span class="text-dark fw-light">
+                                                        {{bill.doctor_fee}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row border-bottom">
+                                                <div class="col-4">
+                                                    <p class="fw-bold text-dark"> Total Price </p>
+                                                </div>
+                                                <div class="col-8">
+                                                    <span class="text-dark fw-light">
+                                                        {{bill.total_price}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger">Print</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            
+                            <td class="border">{{bill.total_price}}</td>
+                            <td class="border"><a href="" class="btn btn-danger">Payment</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
