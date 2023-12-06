@@ -1,238 +1,232 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    <title>{% block 'title' %}{% endblock %}  | Hospital Management System</title>
-    <!-- basic -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- mobile metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <!-- site metas -->
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- bootstrap css -->
-   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
-   <!-- style css -->
-   <link rel="stylesheet" href="{% static 'css/style.css'%}">
-   <!-- Responsive-->
-   <link rel="stylesheet" href="{% static 'css/responsive.css'%}">
-   <!-- fevicon -->
-   <link rel="icon" href="{% static 'fevicon.png'%}" type="{%static 'gif'%}" />
-   <!-- Scrollbar Custom CSS -->
-   <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css'%}">
-   <!-- Tweaks for older IEs-->
-   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-   <!-- owl stylesheets -->
-   <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
-   <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" media="screen">
-   
-   <style>
-      body {
-        font-family: "Lato", sans-serif;
-      }
-  
-      .sidebar {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #0dcaf0;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 60px;
-      }
-  
-      .sidebar a {
-        padding: 0px 0px 0px 0px;
-        text-decoration: none;
-        font-size: 18px;
-        color: #0c0c0c;
-        display: block;
-        transition: 0.3s;
-      }
-  
-      .sidebar a:hover {
-        color: #f1f1f1;
-      }
-  
-      .sidebar .closebtn {
-        position: absolute;
-        top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-      }
-  
-      .openbtn {
-        font-size: 20px;
-        cursor: pointer;
-        background-color: #111;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-      }
-  
-      .openbtn:hover {
-        background-color: #444;
-      }
-  
-      .modal-backdrop.show {
-        opacity: .5;
-        width: 10px;
-      }
-  
-      #main {
-        transition: margin-left .5s;
-        padding: 16px;
-      }
-  
-      /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-      @media screen and (max-height: 450px) {
-        .sidebar {
-          padding-top: 15px;
-        }
-  
-        .sidebar a {
-          font-size: 18px;
-        }
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+  </script>
+  <title>Sevayatan | {% block 'title' %}{% endblock %}</title>
+  <!-- basic -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <!-- site metas -->
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="{% static 'icon-5.png'%}">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+  <!-- style css -->
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+  <!-- Responsive-->
+  <link rel="stylesheet" href="{% static 'css/responsive.css'%}">
+  <!-- fevicon -->
+  <link rel="icon" href="{% static 'fevicon.png'%}" type="{%static 'gif'%}" />
+  <!-- Scrollbar Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css'%}">
+  <!-- Tweaks for older IEs-->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+  <!-- owl stylesheets -->
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"
+    media="screen">
+  <style>{% include './style.css' %}</style>
 </head>
-<body >
+
+<body class="light-mode">
+
   <!-- header section start -->
-   <div class="container-fluid" style="background-image: url('{% static 'banner-bg.png'%}');">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         <div class="logo"><a href="{% url 'home' %}"><img src="     {%static 'logo.png'%}"></a>
-         </div>
-         <button class="navbar-toggler text-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon text-secondary"></span>
-            </button>
-         <div class="collapse navbar-collapse justify-between  text-center" id="navbarSupportedContent" style="text-align: right;margin:left;">
-            <div class="navbar-nav  ms-auto py-0">
-               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                     <a href="{%url 'home'%}" class=" nav-link text-dark active">Home</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{% url 'health' %}" class=" nav-link text-dark ">Health</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{% url 'newDoctor' %}" class="nav-link text-dark ">Doctor</a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="{% url 'newPatient' %}" class=" nav-link text-dark fs-6">Contact Us</a>
-                  </li>
-                  {% if request.user.is_authenticated%}
-                     {% if user.is_admin == True %}
-                        <li class="nav-item">
-                           <a href="{%url 'dashboard'%}" class=" nav-link text-dark ">Admin</a>
-                        </li>
-                     {% elif user.is_doctor == True %}
-                        <li class="nav-item">
-                           <a href="{% url 'doctorDashboard' %}" class=" nav-link text-dark fs-6">Doctor dashboard</a>
-                        </li>
-                     {% elif user.is_patient == True %}
-                        <li class="nav-item">
-                           <a href="{%url 'patientDashboard'%}" class=" nav-link text-dark fs-6">Patient dashboard</a>
-                        </li>
-                     {% endif %}
-                     <li class="nav-item">
-                        <a href="{%url 'logout'%}" class=" nav-link text-dark ">Logout</a>
-                     </li>
-                  {%else%}
-                  <li class="nav-item">
-                     <a href="{% url 'login' %}" class=" nav-link text-dark ">Login</a>
-                  </li>
-                  {%endif%}
-            </div>
-         </div>
-      </nav>
-   </div>
-</div>
-    {% block 'content' %}
-    {% endblock %}
-    <!-- footer section start -->
-   <div class="footer_section layout_padding">
+  <div class="container-fluid" style="background-image: url('{% static 'banner-bg.png'%}');">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="logo"><a href="{% url 'home' %}">
+          <div class="loading"><img src="{% static 'icon-5.png'%}" alt="">
+            <svg width="64px" height="48px"> 
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+              <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+            </svg> <span class="fs-3 fw-bold text-info">Sevayatan</span>
+          </div>
+        </a>
+      </div>
+      <button class="navbar-toggler text-secondary" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon text-secondary"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-between  text-center" id="navbarSupportedContent"
+        style="text-align: right;margin:left;">
+        <div class="navbar-nav  ms-auto py-0">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a href="{%url 'home'%}" class=" nav-link text-dark active">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'health' %}" class=" nav-link text-dark ">Health</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'newDoctor' %}" class="nav-link text-dark ">Doctor</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'newPatient' %}" class=" nav-link text-dark fs-6">Contact Us</a>
+            </li>
+            {% if request.user.is_authenticated%}
+            {% if user.is_admin == True %}
+            <li class="nav-item">
+              <a href="{%url 'dashboard'%}" class=" nav-link text-dark ">Admin</a>
+            </li>
+            {% elif user.is_doctor == True %}
+            <li class="nav-item">
+              <a href="{% url 'doctorDashboard' %}" class=" nav-link text-dark fs-6">Doctor dashboard</a>
+            </li>
+            {% elif user.is_patient == True %}
+            <li class="nav-item">
+              <a href="{%url 'patientDashboard'%}" class=" nav-link text-dark fs-6">Patient dashboard</a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <input type="checkbox" id="checkbox">
+              <a href="{%url 'logout'%}" for="checkbox" class="switch">
+                <div class="powersign"></div>
+              </a>
+            </li>
+            {%else%}
+            <li class="nav-item">
+                <input type="checkbox" id="checkbox">
+                <a href="{%url 'login'%}" for="checkbox" class="switch">
+                  <div class="powersign"></div>
+                </a>
+            </li>
+            {%endif%}
+            <li class="nav-item ms-3">
+              <button class="btn btn-outline-dark" id="mode-toggle"><i class="bi bi-sun-fill mode-toggle"></i></button>
+            </li>
+        </div>
+      </div>
+    </nav>
+  </div>
+  </div>
+  {% block 'content' %}
+  {% endblock %}
+  <!-- footer section start -->
+  <div class="footer_section layout_padding">
     <div class="container">
-       <div class="row">
-          <div class="col-lg-3 col-sm-6">
-             <div class="footer_logo"><a href="{% url 'home' %}"><img src="{%static 'footer-logo.png'%}"></a></div>
-             <h1 class="adderss_text">Contact Us</h1>
-             <div class="map_icon"><a href="github.com/Neo-Ayush-jha"><i class="bi bi-github text light px-0 fs-3"></i><span class="paddlin_left_0 text-light"> Neo-Ayush-jha</span></a></div>
-             <div class="map_icon"><img src="{%static 'call-icon.png'%}"><span class="paddlin_left_0">+91 91 1768 5337</span></div>
-             <div class="map_icon"><img src="{%static 'mail-icon.png'%}"><span class="paddlin_left_0">ayush91176@gmail.com</span></div>
+      <div class="row">
+        <div class="col-lg-3 col-sm-6">
+          <div class="footer_logo"><a href="{% url 'home' %}"><img src="{%static 'footer-logo.png'%}"></a></div>
+          <h1 class="adderss_text">Contact Us</h1>
+          <div class="map_icon"><a href="github.com/Neo-Ayush-jha"><i
+                class="bi bi-github text light px-0 fs-3"></i><span class="paddlin_left_0 text-light">
+                Neo-Ayush-jha</span></a></div>
+          <div class="map_icon"><img src="{%static 'call-icon.png'%}"><span class="paddlin_left_0">+91 91 1768
+              5337</span></div>
+          <div class="map_icon"><img src="{%static 'mail-icon.png'%}"><span
+              class="paddlin_left_0">ayush91176@gmail.com</span></div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <h1 class="adderss_text">Doctors</h1>
+          <div class="hiphop_text_1">There are many variations of passages of Lorem Ipsum available, but the majority
+            have suffered alteration in some form, by injected humour,</div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <h1 class="adderss_text">Useful Links</h1>
+          <div class="Useful_text">There are many variations of passages of Lorem Ipsum available, but the majority have
+            suffered ,</div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <h1 class="adderss_text">Newsletter</h1>
+          <input type="text" class="Enter_text" placeholder="Enter your Emil" name="Enter your Emil">
+          <div class="subscribe_bt"><a href="#">Subscribe</a></div>
+          <div class="social_icon">
+            <ul>
+              <li><a href="https://www.facebook.com/ayushkumar.jha.3760"><img src="{% static 'fb-icon.png'%}"></a></li>
+              <li><a href="https://www.twitter.com/AyushKu011101"><img src="{% static 'twitter-icon.png'%}"></a></li>
+              <li><a href="https://www.linkedin.com/in/ayush-kumar-jha-273a99248"><img
+                    src="{% static 'linkedin-icon.png'%}"></a></li>
+              <li><a href="https://instagram.com/__ay_ush__jha_?igshid=ZDdkNTZiNTM="><img
+                    src="{% static 'instagram-icon.png'%}"></a></li>
+            </ul>
           </div>
-          <div class="col-lg-3 col-sm-6">
-             <h1 class="adderss_text">Doctors</h1>
-             <div class="hiphop_text_1">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour,</div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-             <h1 class="adderss_text">Useful Links</h1>
-             <div class="Useful_text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered ,</div>
-          </div>
-          <div class="col-lg-3 col-sm-6">
-             <h1 class="adderss_text">Newsletter</h1>
-             <input type="text" class="Enter_text" placeholder="Enter your Emil" name="Enter your Emil">
-             <div class="subscribe_bt"><a href="#">Subscribe</a></div>
-             <div class="social_icon">
-                <ul>
-                   <li><a href="https://www.facebook.com/ayushkumar.jha.3760"><img src="{% static 'fb-icon.png'%}"></a></li>
-                   <li><a href="https://www.twitter.com/AyushKu011101"><img src="{% static 'twitter-icon.png'%}"></a></li>
-                   <li><a href="https://www.linkedin.com/in/ayush-kumar-jha-273a99248"><img src="{% static 'linkedin-icon.png'%}"></a></li>
-                   <li><a href="https://instagram.com/__ay_ush__jha_?igshid=ZDdkNTZiNTM="><img src="{% static 'instagram-icon.png'%}"></a></li>
-                </ul>
-             </div>
-          </div>
-       </div>
+        </div>
+      </div>
     </div>
- </div>
- <!-- footer section end -->
- <!-- copyright section start -->
- <div class="copyright_section">
+  </div>
+  <!-- footer section end -->
+  <!-- copyright section start -->
+  <div class="copyright_section">
     <div class="container">
-       <p class="copyright_text">For developin using <a href="https://github.com/Neo-Ayush-jha">Django, python html,css and bootstrap template Codex</a></p>
+      <p class="copyright_text">For developin using <a href="https://github.com/Neo-Ayush-jha">Django, python html,css
+          and bootstrap template Codex</a></p>
     </div>
- </div>
- <!-- copyright section end -->
- <!-- Javascript files-->
- <script src="{% static 'js/jquery.min.js'}%"></script>
+  </div>
+  <!-- copyright section end -->
+  <!-- Javascript files-->
+  <script src="{% static 'js/jquery.min.js'}%"></script>
  <script src="{% static 'js/popper.min.js'%}"></script>
- <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
- <script src="{% static 'js/jquery-3.0.0.min.j'%}s"></script>
- <script src="{%static 'js/plugin.js'%}"></script>
- <!-- sidebar -->
- <script src="{%static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
- <script src="{%static 'js/custom.js'%}"></script>
- <!-- javascript -->
- <script src="{%static 'js/owl.carousel.js'%}"></script>
- <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
- <script>$('[data-fancybox="preview"]').fancybox({
-   thumbs : {
-     autoStart : true
-   }
- });
-   function openNav() {
-     document.getElementById("mySidebar").style.width = "275px";
-     document.getElementById("main").style.marginLeft = "0";
-   }
+  <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'js/jquery-3.0.0.min.j'%}s"></script>
+  <script src="{%static 'js/plugin.js'%}"></script>
+  <!-- sidebar -->
+  <script src="{%static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
+  <script src="{%static 'js/custom.js'%}"></script>
+  <!-- javascript -->
+  <script src="{%static 'js/owl.carousel.js'%}"></script>
+  <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+  <script>
+    $('[data-fancybox="preview"]').fancybox({
+      thumbs: {
+        autoStart: true
+      }
+    });
 
-   function closeNav() {
-     document.getElementById("mySidebar").style.width = "0";
-     document.getElementById("main").style.marginLeft = "0";
-   }
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "275px";
+      document.getElementById("main").style.marginLeft = "0";
+    }
 
- </script>
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+
+<!-- toggling -->
+  <script>
+    const body = document.body;
+    const toggleButton = document.getElementById('mode-toggle');
+    let isDarkMode = false;
+
+    // Function to toggle between light and dark mode
+    function toggleMode() {
+      if (isDarkMode) {
+        body.classList.remove('dark-mode');
+        toggleButton.innerHTML = '<i class="bi bi-sun-fill"></i>';
+        body.classList.remove("dark-mode");
+      } else {
+        body.classList.add('dark-mode');
+        toggleButton.innerHTML = '<i class="bi bi-moon-fill"></i>';
+        body.classList.add("dark-mode");
+      }
+      isDarkMode = !isDarkMode;
+      var elements = document.querySelectorAll('.list-group-item');
+
+      elements.forEach(function (element) {
+        element.classList.toggle('light-text');
+      });
+    }
+
+    // Add a click event listener to the toggle button
+    toggleButton.addEventListener('click', toggleMode);
+  </script>
 </body>
+
 </html>

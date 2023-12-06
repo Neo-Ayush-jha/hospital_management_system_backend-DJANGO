@@ -53,5 +53,9 @@ urlpatterns = [
     path('patient/medicine/list/',patientMedicineList,name="patientMedicineList"),
     path('patient/appointement/',patientAppointement,name="patientAppointement"),
     path("patient/single-view-patient-report/<int:id>/",patientVieReport,name="patientVieReport"),
+    path('appointment-confirmation/', appontmentConfermation, name='appointment_confirmation'),
+
+    # path('create_payment/', create_payment, name='create_payment'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

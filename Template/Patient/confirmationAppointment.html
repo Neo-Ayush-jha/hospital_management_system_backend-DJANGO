@@ -1,0 +1,33 @@
+{% extends 'patient/patientBase.html'%}
+{% block 'patient-content' %}
+{%load crispy_forms_tags%}
+<div class="container">
+    <div class="row">
+        <h1 class="Display-3 text-center">`<span class="text-danger">{{ patient.first_name }}
+                {{patient.last_name }}</span>` Your Appointment Confirmation</h1>
+        {% for appointments in appointment %}
+
+        {% if appointments.patient == patient %}
+        <div class="col-xl-4 col-sm-6 col-md-6 mt-5">
+            <div class="" style="border-radius: 47px;background: #e0e0e0;box-shadow:  18px 18px 44px #b5b5b5,-18px -18px 44px #ffffff;">
+                <div class="card-header">
+                    <h5 class="card-title text-center py-0 fs-5">Appointment Confirmation</h5>
+                </div>
+
+                <div class="card-body">
+                    <p class="card-text"><strong>Doctor:</strong> {{ appointments.doctor.first_name }}
+                        {{ appointments.doctor.last_name }}</p>
+                    <p class="card-text"><strong>Appointment Date:</strong> {{ appointments.date }}</p>
+                    <p class="card-text"><strong>Start Time:</strong> {{ appointments.start }}</p>
+                    <p class="card-text"><strong>End Time:</strong> {{ appointments.end }}</p>
+                    <a href="" class="btn btn-success rounded-lg  w-50 text-center ms-5">Chat</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% endfor %}
+    </div>
+</div>
+{% endblock  %}
+

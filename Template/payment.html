@@ -1,0 +1,35 @@
+<!-- payment.html
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <button id="rzp-button">Pay Now</button>
+
+    <script>
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": "{{ amount }}",
+            "name": "Your Company Name",
+            "description": "Payment for XYZ",
+            "order_id": "{{ order_id }}",
+            "handler": function(response) {
+                // Handle successful payment
+                alert('Payment successful. Payment ID: ' + response.razorpay_payment_id);
+            },
+            "prefill": {
+                "name": "Your Name",
+                "email": "your@example.com"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+        var rzp = new Razorpay(options);
+        document.getElementById('rzp-button').onclick = function () {
+            rzp.open();
+        };
+    </script>
+</body>
+</html> -->

@@ -4,18 +4,28 @@
 <div class="container-flex">
     <div class="container-flex">
         <div class="row mx-auto ">
-            <div class="col-lg-8 col-sm-10">
+            <div class="col-lg-8 col-sm-10 my-5">
 
-                <div class="contact_box">
-                    <h1 class="book_text">Book Appoinment</h1>
-                    <form action="" method="post">
-                        {%csrf_token%}
-                        {{form|crispy}}
-                        <div class="send_bt"><input type="submit" value="SEND" class="btn btn-info"></div>
-                  </form>
-                 </div>
+                <div class="contact_box subscribe">
+                    <p class="book_text">Book Appoinment</p>
+                    <form method="post" enctype="multipart/form-data" class="mb-3">
+                        {% csrf_token %}
+                        <div class="row  pt-5">
+                            <div class="mb-3 col-6">
+                                <label for="">Appoinment Date</label>
+                                <input type="date" name="date" id="" class="form-control subscribe-input">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="">Appoinment starting time </label>
+                                <input type="time" name="start" id="" class="form-control subscribe-input">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-info  text-center submit-btn">
+                            TAKE APPOINTMENT
+                        </button>
+                    </form>
+                </div>
             </div>
-           
         </div>
     </div>
 </div>

@@ -319,7 +319,7 @@ class Staff_leaveForm(ModelForm):
 class AppointmentForm(ModelForm):
     class Meta:
         model=Appointment
-        exclude="__all__"
+        fields=['date','start']
 
 
 class Attendanceform(ModelForm):

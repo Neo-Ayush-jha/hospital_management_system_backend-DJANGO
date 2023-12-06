@@ -1,0 +1,621 @@
+    body {
+      font-family: "Lato", sans-serif;
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #0dcaf0;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 0px 0px 0px 0px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #0c0c0c;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #f1f1f1;
+    }
+
+    .sidebar .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    .openbtn {
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+    }
+
+    .openbtn:hover {
+      background-color: #444;
+    }
+
+    .modal-backdrop.show {
+      opacity: .5;
+      width: 10px;
+    }
+
+    #main {
+      transition: margin-left .5s;
+      padding: 16px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+      .sidebar {
+        padding-top: 15px;
+      }
+
+      .sidebar a {
+        font-size: 18px;
+      }
+    }
+
+    .card {
+      width: 450px;
+      height: fit-content;
+      background-color: white;
+      box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 17px 17px 27px 27px;
+    }
+
+    .title {
+      width: 100%;
+      height: 50px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      border-bottom: 1px solid #f1f1f1;
+      font-weight: 700;
+      font-size: 13px;
+      color: #47484b;
+    }
+
+    .title::after {
+      content: '';
+      width: 8ch;
+      height: 1px;
+      position: absolute;
+      bottom: -1px;
+      background-color: #47484b;
+    }
+
+    .comments {
+      display: grid;
+      grid-template-columns: 35px 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .comment-react {
+      width: 35px;
+      height: fit-content;
+      display: grid;
+      grid-template-columns: auto;
+      margin: 0;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
+
+    .comment-react button {
+      width: 35px;
+      height: 35px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      border: 0;
+      outline: none;
+    }
+
+    .comment-react button:after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      left: -2.5px;
+      top: -2.5px;
+      background-color: #f5356e;
+      border-radius: 50%;
+      z-index: 0;
+      transform: scale(0);
+    }
+
+    .comment-react button svg {
+      position: relative;
+      z-index: 9;
+    }
+
+    .comment-react button:hover:after {
+      animation: ripple 0.6s ease-in-out forwards;
+    }
+
+    .comment-react button:hover svg {
+      fill: #f5356e;
+    }
+
+    .comment-react button:hover svg path {
+      stroke: #f5356e;
+      fill: #f5356e;
+    }
+
+    .comment-react hr {
+      width: 80%;
+      height: 1px;
+      background-color: #dfe1e6;
+      margin: auto;
+      border: 0;
+    }
+
+    .comment-react span {
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: #707277;
+    }
+
+    .comment-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .comment-container .user {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 10px;
+    }
+
+    .comment-container .user .user-pic {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f1f1f1;
+      border-radius: 50%;
+    }
+
+    .comment-container .user .user-pic:after {
+      content: '';
+      width: 9px;
+      height: 9px;
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      border-radius: 50%;
+      background-color: #0fc45a;
+      border: 2px solid #ffffff;
+    }
+
+    .comment-container .user .user-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .comment-container .user .user-info span {
+      font-weight: 700;
+      font-size: 12px;
+      color: #47484b;
+    }
+
+    .comment-container .user .user-info p {
+      font-weight: 600;
+      font-size: 10px;
+      color: #acaeb4;
+    }
+
+    .comment-container .comment-content {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      color: #5f6064;
+    }
+
+    .text-box {
+      width: 100%;
+      height: fit-content;
+      background-color: #f1f1f1;
+      padding: 8px;
+    }
+
+    .text-box .box-container {
+      background-color: #ffffff;
+      border-radius: 8px 8px 21px 21px;
+      padding: 8px;
+    }
+
+    .text-box textarea {
+      width: 100%;
+      height: 40px;
+      resize: none;
+      border: 0;
+      border-radius: 6px;
+      padding: 12px 12px 10px 12px;
+      font-size: 13px;
+      outline: none;
+      caret-color: #0a84ff;
+    }
+
+    .text-box .formatting {
+      display: grid;
+      grid-template-columns: auto auto auto auto auto 1fr;
+    }
+
+    .text-box .formatting button {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      border-radius: 50%;
+      border: 0;
+      outline: none;
+    }
+
+    .text-box .formatting button:hover {
+      background-color: #f1f1f1;
+    }
+
+    .text-box .formatting .send {
+      width: 30px;
+      height: 30px;
+      background-color: #0a84ff;
+      margin: 0 0 0 auto;
+    }
+
+    .text-box .formatting .send:hover {
+      background-color: #026eda;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+
+    .loading svg polyline {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .loading svg polyline#back {
+      fill: none;
+      stroke: gray;
+    }
+
+    .loading svg polyline#front {
+      fill: none;
+      stroke: red;
+      stroke-dasharray: 48, 144;
+      stroke-dashoffset: 192;
+      animation: dash_682 1.4s linear infinite;
+    }
+
+    @keyframes dash_682 {
+      72.5% {
+        opacity: 0;
+      }
+
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .subscribe {
+      position: relative;
+
+      padding: 20px;
+      background-color: #FFF;
+      border-radius: 4px;
+      color: #333;
+      box-shadow: 0px 0px 60px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .subscribe:after {
+      position: absolute;
+      content: "";
+      right: -10px;
+      bottom: 18px;
+      width: 0;
+      height: 0;
+      border-left: 0px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #1a044e;
+    }
+
+    .subscribe p {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      line-height: 28px;
+    }
+
+    .subscribe input {
+      position: absolute;
+      bottom: 30px;
+      border: none;
+      border-bottom: 1px solid #d4d4d4;
+      padding: 10px;
+      width: 82%;
+      background: transparent;
+      transition: all .25s ease;
+    }
+
+    .subscribe input:focus {
+      outline: none;
+      border-bottom: 1px solid #0d095e;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 'sans-serif';
+    }
+
+    .subscribe .submit-btn {
+      position: absolute;
+      border-radius: 30px;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      background-color: #0f0092;
+      color: #FFF;
+      padding: 12px 25px;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      right: -10px;
+      bottom: -20px;
+      cursor: pointer;
+      transition: all .25s ease;
+      box-shadow: -5px 6px 20px 0px rgba(26, 26, 26, 0.4);
+    }
+
+    .subscribe .submit-btn:hover {
+      background-color: #07013d;
+      box-shadow: -5px 6px 20px 0px rgba(88, 88, 88, 0.569);
+    }
+
+    #checkbox {
+      display: none;
+    }
+
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      background-color: rgb(99, 99, 99);
+      border-radius: 50%;
+      z-index: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgb(126, 126, 126);
+      box-shadow: 0px 0px 3px rgb(2, 2, 2) inset;
+    }
+
+    .powersign {
+      position: relative;
+      width: 50%;
+      height: 50%;
+      border: 4px solid rgb(48, 48, 48);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .powersign::before {
+      content: "";
+      width: 8px;
+      height: 100%;
+      background-color: rgb(99, 99, 99);
+      position: absolute;
+      top: -60%;
+      z-index: 2;
+    }
+
+    .powersign::after {
+      content: "";
+      width: 4px;
+      height: 100%;
+      background-color: rgb(48, 48, 48);
+      position: absolute;
+      top: -60%;
+      z-index: 3;
+    }
+
+    #checkbox:checked+.switch .powersign {
+      border: 4px solid rgb(255, 255, 255);
+      box-shadow: 0px 0px 10px rgb(151, 243, 255),
+        0px 0px 5px rgb(151, 243, 255) inset;
+    }
+
+    #checkbox:checked+.switch .powersign::after {
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0px 0px 5px rgb(151, 243, 255);
+    }
+
+    #checkbox:checked+.switch {
+      box-shadow: 0px 0px 1px rgb(151, 243, 255) inset,
+        0px 0px 2px rgb(151, 243, 255) inset,
+        0px 0px 10px rgb(151, 243, 255) inset,
+        0px 0px 40px rgb(151, 243, 255),
+        0px 0px 100px rgb(151, 243, 255),
+        0px 0px 5px rgb(151, 243, 255);
+      border: 2px solid rgb(255, 255, 255);
+      background-color: rgb(146, 180, 184);
+    }
+
+    #checkbox:checked+.switch .powersign::before {
+      background-color: rgb(146, 180, 184);
+    }
+
+    .switch1 {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #73C0FC;
+  transition: .4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  left: 2px;
+  bottom: 2px;
+  z-index: 2;
+  background-color: #e8e8e8;
+  transition: .4s;
+}
+
+.sun svg {
+  position: absolute;
+  top: 6px;
+  left: 36px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.moon svg {
+  fill: #73C0FC;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+/* .switch:hover */.sun svg {
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+ 
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* .switch:hover */.moon svg {
+  animation: tilt 5s linear infinite;
+}
+
+@keyframes tilt {
+ 
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.input:checked + .slider {
+  background-color: #183153;
+}
+
+.input:focus + .slider {
+  box-shadow: 0 0 1px #183153;
+}
+
+.input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+body.light-mode {
+  /* background-color: #ddd; */
+  background: #fff;
+
+  color: black;
+}
+
+body.dark-mode {
+  /* background-color: rgb(63, 62, 62); */
+  background:  rgb(105, 103, 103);
+  color: white !important;
+}
+
+mode-toggle.light-mode {
+  background-color: #17a2b8;
+}
+
+mode-toggle.dark-mode {
+  background-color: #17a2b8;
+}

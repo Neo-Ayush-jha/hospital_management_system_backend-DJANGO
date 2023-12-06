@@ -1,8 +1,15 @@
 ## hospital_management_system_backend-DJANGO
-# Hospital Management System Web Application
+# Sevayatan
 
 # Introduction:
 The Hospital Management System is a comprehensive web application designed to streamline the operations of a hospital or healthcare facility. This system provides different panels, including Patients, Doctors, Pharmacy, Pathology, Counter, and Reception, to efficiently manage various aspects of patient care and administration. Through this application, patients can define their symptoms, receive doctor appointments, undergo tests, and purchase medicines within the hospital premises. This project showcases my ability to develop and implement an integrated system for hospital management.
+
+
+
+"Seva" means "service" in Sanskrit and represents the act of selfless service, which is highly valued in Hindu culture.
+"Yatan" can be translated as "center" or "place," signifying a center or place of service.
+"Sevayatan" conveys the idea of a hospital as a place of service and care in the context of Hindu culture. However, please ensure that this name is appropriate and culturally sensitive in your specific context.
+
 
 # Features and Functionalities:
 
