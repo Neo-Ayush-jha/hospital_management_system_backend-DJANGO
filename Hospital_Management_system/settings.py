@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,10 +141,12 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # -----------------------login or logout --------------------------->
 LOGIN_URL= "/login"
+STATIC_URL = 'static/'
 
 
 CRISPY_ALLOWD_TEMPLATE_PACKS= "bootstrap5"
 CRISPY_TEMPLATE_PACK="bootstrap5"
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # -----------------------------------message------------------------------------------>
@@ -160,3 +163,66 @@ MESSAGE_TAGS  = {
 
 RAZORPAY_API_KEY = os.environ.get("razorpayKey"),
 RAZORPAY_API_SECRET = os.environ.get("razorpaySecret"),
+
+
+JAZZMIN_SETTINGS = {
+    'APP_NAME':'Blogs',
+    "site_title": "Sevayatan",
+    "site_header": "Sevayatan PVT LTD",
+    "site_brand": "Sevayatan PVT LTD",
+    "site_logo": "icon-5.png",
+    "login_logo": "",
+    "site_logo_classes": "",
+    "site_icon": "icon-5.png",
+    "welcome_sign": "Welcome to the Sevayatan PVT LTD",
+    "copyright": "Ayush kumar",
+     "topmenu_links": [
+
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+        {"name": "Support", "url": "http://127.0.0.1:8000/", "new_window": True},
+
+        {"model": "user.User"},        
+    ],
+    "usermenu_links": [
+        {"name": "Contact number", "url": os.environ.get('TEL_NUMBER'), "new_window": True, "icon": "fas fa-phone-alt"},
+        {"name": "Git Hub", "url": os.environ.get('URL_LINK'), "new_window": True ,"icon":"fab fa-github"},
+        {"model": "user.user"}
+    ],
+    "show_sidebar": True,
+
+    "navigation_expanded": True,
+    "show_ui_builder": True,
+}
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": True,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": True,
+    "brand_colour": "brand-info",
+    "accent": "accent-warning",
+    "navbar": "navbar-dark",
+    "no_navbar_border": True,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": True,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "superhero",
+    "dark_mode_theme": "cyborg",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": False
+}
